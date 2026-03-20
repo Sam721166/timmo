@@ -43,14 +43,14 @@ function Clock() {
 
 
         <div className='flex items-baseline-last justify-center  mb-10'>
-            <div className=' break-all  p-10 flex  w-330' > 
+            <div className=' break-all  p-10 flex  w-auto ' > 
                 
-                <p className='text-white font-gothic leading-none text-[280px]  '>{hours}:</p>
-                <p className='text-white font-gothic leading-none text-[280px] '>{minutes}</p>
+                <p className='text-white font-gothic leading-none text-[300px]  '>{hours}:</p>
+                <p className='text-white font-gothic leading-none text-[300px] '>{minutes}</p>
 
             </div>
 
-            <div className=' break-all   -ml-55' > 
+            <div className=' break-all   ' > 
                 <p className='text-neutral-400 font-gothic leading-none text-3xl'>{ampm}</p>
             </div>
         </div>

@@ -32,7 +32,7 @@ function Sidebar() {
 
   const logoutHandler = async () => {
     try{
-        const res = await axios.post("http://localhost:3000/api/user/logout")
+        const res = await axios.post("/api/user/logout")
         if(res?.data?.success){ 
             localStorage.removeItem("token");
             toast.success(res?.data?.msg)
@@ -52,7 +52,7 @@ function Sidebar() {
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:3000/api/user/me",
+          "/api/user/me",
           {
             headers: {
               Authorization: `Bearer ${token}`

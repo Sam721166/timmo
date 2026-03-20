@@ -26,3 +26,16 @@
   --font-instrumental:  "Instrument Serif", serif;
   --font-inter: "Inter", sans-serif;
 }
+
+
+
+
+/* hide scroll bar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE + Edge */
+  scrollbar-width: none;     /* Firefox */
+}

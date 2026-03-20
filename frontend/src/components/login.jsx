@@ -7,7 +7,7 @@ function Login() {
 
     const navigate = useNavigate()
 
-    const [login, setLogin] = useState(false)
+    const [login, setLogin] = useState(true)
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
@@ -23,7 +23,7 @@ function Login() {
         if(login){
             // login
             try{
-                const res = await axios.post("http://localhost:3000/api/user/login", {email, password}, {withCredentials: true} )
+                const res = await axios.post("/api/user/login", {email, password}, {withCredentials: true} )
                 if(res?.data?.success){
                     localStorage.setItem("token", res?.data?.token);
                     toast.success(res?.data?.msg)
@@ -40,7 +40,7 @@ function Login() {
         } else{
             // sign up
             try{
-                const res = await axios.post("http://localhost:3000/api/user/signup", {name, email, password}, {withCredentials: true})
+                const res = await axios.post("/api/user/signup", {name, email, password}, {withCredentials: true})
                 if(res?.data?.success){
                     toast.success(res?.data?.msg)
                     setLogin(true)
