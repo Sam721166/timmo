@@ -45,8 +45,8 @@ function Clock() {
         <div className='flex items-baseline-last justify-center  mb-10'>
             <div className=' break-all  p-10 flex  w-auto ' > 
                 
-                <p className='text-white font-gothic leading-none text-[300px]  '>{hours}:</p>
-                <p className='text-white font-gothic leading-none text-[300px] '>{minutes}</p>
+                <p className='text-white font-gothic leading-none text-[290px]  '>{hours}:</p>
+                <p className='text-white font-gothic leading-none text-[290px] '>{minutes}</p>
 
             </div>
 

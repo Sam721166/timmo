@@ -2,6 +2,8 @@ import express from "express"
 const app = express()
 import userRouter from "./routes/userRouter.js"
 import todoRouter from "./routes/todoRouter.js"
+import stopwatchRouter from "./routes/stopwatchRouter.js" 
+// import countdownRouter from "./routes/countdownRouter.js"
 import cors from "cors"
 
 import dotenv from "dotenv"
@@ -24,6 +26,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter)
 app.use("/api/todo", todoRouter)
+app.use("/api/stopwatch", stopwatchRouter)
+// app.use("/api/countdown", countdownRouter)
 
 app.listen(3000, (req, res) => {
     console.log("server is running on port 3000");
