@@ -3,26 +3,15 @@ import mongoose from "mongoose";
 const countdownSchema = mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-        required: true,
-        unique: true
+        ref: "user"
     },
-    initialDurationSec: {
+    totalTime: {
         type: Number,
-        default: 0
+        required: true
     },
-    remainingTimeSec: {
-        type: Number,
-        default: 0
-    },
-    isRunning: {
-        type: Boolean,
-        default: false
-    },
-    lastStartTime: {
-        type: Number // Date.now()
+    date: {
+        type: String
     }
-    
 }, {timestamps: true})
 
 export default mongoose.model("countdown", countdownSchema)

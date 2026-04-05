@@ -63,7 +63,7 @@ function Stopwatch() {
         setIsRunning(false);
 
         let finalTime = elapsedTime;
-
+        
         if (startTime) {
             finalTime += Date.now() - startTime;
         }

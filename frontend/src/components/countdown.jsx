@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { RiResetLeftLine } from "react-icons/ri";
 import { FaPause } from "react-icons/fa6";
 import { FaPlay } from "react-icons/fa";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Countdown() {
 
@@ -14,13 +16,46 @@ function Countdown() {
   const [hasStarted, setHasStarted] = useState(false);
 
 
+
+  const [initialTime, setInitialTime] = useState(0)
+  const [isSaved, setIsSaved] = useState(false)
+
+
+
+  const saveCountdown = async () => {
+    const timeUsed = initialTime - time;
+
+    if (timeUsed <= 0) {
+      toast.error("Run timer for at least 1 second");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "/api/countdown/save", { totalTime: timeUsed }, { withCredentials: true }
+      );
+
+      toast.success(res?.data?.msg);
+
+    } catch (err) {
+      console.log(err);
+      toast.error("Error saving countdown");
+    }
+  };
+
+
+  
+  
+ 
+
+
   // sync input with timer before starting
-    useEffect(() => {
-        if (!isRunning && !hasStarted) {
-            const total = hours * 3600 + minutes * 60 + seconds;
-            setTime(total);
-        }
-    }, [hours, minutes, seconds, isRunning, hasStarted]);
+  useEffect(() => {
+      if (!isRunning && !hasStarted) {
+          const total = hours * 3600 + minutes * 60 + seconds;
+          setTime(total);
+      }
+  }, [hours, minutes, seconds, isRunning, hasStarted]);
 
 
   useEffect(() => {
@@ -33,28 +68,52 @@ function Countdown() {
       }, 1000);
     }
 
-    if (time === 0) {
+     if (time === 0 && hasStarted && !isSaved) {
       setIsRunning(false);
+      saveCountdown(); 
+      setIsSaved(true)
     }
 
     return () => clearInterval(interval);
+  }, [isRunning, time, hasStarted, isSaved]);
 
-  }, [isRunning, time]);
 
 
-    const start = () => {
-        setHasStarted(true);
-        setIsRunning(true);
-    };
+  const start = () => {
 
-  const pause = () => setIsRunning(false);
+    if(!hasStarted){
+      setInitialTime(time)
+      setIsSaved(false);
+    }
 
-    const reset = () => {
-        setIsRunning(false);
-        setHasStarted(false);
-        const total = hours * 3600 + minutes * 60 + seconds;
-        setTime(total);
-    };
+    setHasStarted(true);
+    setIsRunning(true);
+    
+  };
+
+
+  const pause = () => {
+    
+    setIsRunning(false);
+
+
+  }
+
+
+  const reset = async () => {
+    
+    if(hasStarted && !isSaved){
+      setIsSaved(true); 
+      await saveCountdown();
+    }
+    
+    setIsRunning(false);
+    setHasStarted(false);
+
+    const total = hours * 3600 + minutes * 60 + seconds;
+    setTime(total);
+  };
+
 
 
   // convert seconds → display
