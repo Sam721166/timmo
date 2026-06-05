@@ -109,7 +109,7 @@ function HeatmapCalendar({
         )}
       </CardHeader>
 
-      <CardContent className="overflow-x-auto p-5">
+      <CardContent className="overflow-x-auto p-5 flex justify-center">
         <div className="min-w-max">
           <div className="mb-2 ml-10 grid auto-cols-[14px] grid-flow-col gap-1">
             {weeks.map((week, index) => {
