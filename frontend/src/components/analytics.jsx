@@ -128,7 +128,7 @@ function Analytics() {
         scrollbarColor: "gray transparent",
       }} >
 
-      <div className='mx-auto flex w-full max-w-7xl flex-col gap-5'>
+      <div className='mx-auto flex w-full max-w-7xl flex-col gap-5 pt-6 md:pt-0'>
 
 
         <div className='flex flex-col gap-2 border-b border-white/10 pb-5'>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { HiOutlineHome } from "react-icons/hi2";
 import { FaChartColumn } from "react-icons/fa6";
 import { FaRegChartBar } from "react-icons/fa";
@@ -88,20 +88,47 @@ function Sidebar() {
   }, []);
 
 
+
+  const sidebarRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+            sidebar &&
+            sidebarRef.current &&
+            !sidebarRef.current.contains(event.target)
+            ) {
+            setSidebar(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [sidebar]);
+
   return (
     <div>
 
-      <div onClick={handleSidebar} className={` cursor-pointer group  absolute text-neutral-400 z-10 mt-5.5  transition-all duration-300   ${sidebar ? "ml-50" : "ml-5 "}`}> 
+      <div onClick={handleSidebar} className={` cursor-pointer group  absolute text-neutral-400 z-60 mt-5.5  transition-all duration-300    ${sidebar ? "ml-50" : "ml-5 "}`}> 
             {sidebar ? (
               <TbLayoutSidebarLeftCollapseFilled
                 className={`text-2xl hover:text-white transition-all duration-100 group-hover:text-white `}
               />
             ) : (
-              <TbLayoutSidebarRightCollapseFilled className="text-2xl hover:text-white transition-all duration-100 group-hover:text-white " />
+              <TbLayoutSidebarRightCollapseFilled className="text-2xl hover:text-white transition-all duration-100 group-hover:text-white  " />
             )}
         </div>
 
-        <div className={`${sidebar ? "-ml-none" : "-ml-60"} transition-all duration-300  h-screen w-60 bg-neutral-900/98 text-neutral-400 px-3 py-5 flex flex-col  border-r-neutral-700/40 border-y-0 border-l-0 border`}>
+        <div ref={sidebarRef} className={`${sidebar ?  "translate-x-0" : "-translate-x-full"}
+        transition-transform duration-300
+        h-screen w-60 bg-neutral-900/98
+        text-neutral-400 px-3 py-5 flex flex-col
+        border-r border-neutral-700/40
+        fixed left-0 top-0 z-50
+        lg:relative} transition-all duration-300  h-screen w-60 bg-neutral-900/98 text-neutral-400 px-3 py-5 flex flex-col  border-r-neutral-700/40 border-y-0 border-l-0 border`}>
                     
             <div className=" flex justify-between items-center w-full border-b-neutral-700/40 border-x-0 border-t-0 border-2 pb-3 px-3 ">
 

@@ -51,7 +51,7 @@ function Clock() {
             </div>
 
             <div className=' break-all   ' > 
-                <p className='text-neutral-400 font-gothic leading-none text-3xl'>{ampm}</p>
+                <p className='text-neutral-400 font-gothic leading-none text-2xl -ml-7 sm:-ml-0 sm:text-3xl'>{ampm}</p>
             </div>
         </div>
 

@@ -129,13 +129,13 @@ function Task() {
 
   return (
 
-    <div className='overflow-hidden flex'>
+    <div className='overflow-hidden flex w-full'>
 
 
-        <div className=' text-neutral-400 w-full h-auto bg-amber-200 z-33 '>
+        <div className='text-neutral-400 w-full h-auto bg-neutral-900 z-33 block sm:hidden'>
 
-            <div onClick={handleSidebar} className='bg-neutral-700/50  rounded-md flex justify-center items-center p-0.5 cursor-pointer hover:text-white transition-all duration-100 absolute z-11 right-6 top-4.5 mr-3'>
-                <MdEditNote className='text-2xl ' />  
+            <div onClick={handleSidebar} className='bg-neutral-700/50 rounded-md flex justify-center items-center p-1 cursor-pointer hover:text-white transition-all duration-100 absolute z-11 right-4 top-4'>
+                <MdEditNote className='text-xl' />  
             </div>
 
         </div>
@@ -143,7 +143,7 @@ function Task() {
 
         {
            sidebar ? 
-            <div className={`h-screen bg-neutral-900/98 text-neutral-400 px-3 py-3 absolute flex flex-col   p-3    right-0 border border-y-0 border-r-0 border-l-neutral-700/50 -ml-none opacity-100 w-95  transition-all z-10 duration-300 `}>
+            <div className={`h-screen bg-neutral-900/98 text-neutral-400 px-3 py-3 absolute sm:relative flex flex-col p-3 right-0 sm:right-auto border border-y-0 border-r-0 sm:border-r border-l-neutral-700/50 sm:border-l-0 sm:border-r-neutral-700/50 opacity-100 w-80 sm:w-96 transition-all z-10 duration-300 `}>
 
             <div className='flex items-center justify-between  border-2 border-neutral-700/40 border-x-0 border-t-0'>
                 <p className='font-poppins font-semibold  text-2xl text-neutral-400 pb-3 px-3 pt-1'>Tasks</p>
@@ -154,11 +154,11 @@ function Task() {
             
 
             <form onSubmit={handleSubmit} className=''>
-                <div className='flex flex-row  items-center justify-center mt-5 mb-5 border-2 border-neutral-600/50 rounded-lg focus-within:border-2 focus-within:border-neutral-600 transition-all duration-100'>
+                <div className='flex flex-row items-center justify-center mt-5 mb-5 border-2 border-neutral-600/50 rounded-lg focus-within:border-2 focus-within:border-neutral-600 transition-all duration-100'>
                     
-                    <button type='submit' className='size-9 hover:bg-neutral-700/50 text-white rounded-md  cursor-pointer active:scale-98 transition-all duration-100 text-2xl justify-center items-center -ml-6 '>+</button>
+                    <button type='submit' className='size-9 hover:bg-neutral-700/50 text-white rounded-md cursor-pointer active:scale-98 transition-all duration-100 text-2xl justify-center items-center flex-shrink-0'>+</button>
                 
-                    <input onChange={(e) => setTodo(e.target.value)} value={todo} type='text' className='outline-0 rounded-md w-73 h-11  px-3 font-poppins text-lg placeholder:text-neutral-500 -ml-2' placeholder='Add tasks' />
+                    <input onChange={(e) => setTodo(e.target.value)} value={todo} type='text' className='outline-0 rounded-md flex-1 h-11 px-3 font-poppins text-sm sm:text-lg placeholder:text-neutral-500 min-w-0' placeholder='Add tasks' />
 
                 </div>
             </form>
@@ -172,22 +172,22 @@ function Task() {
                     <p className='text-center text-neutral-500 mt-5'>No todos yet</p>
                 ) : (
                     todos.map((t) => (
-                        <div onClick={() => handleToggleTodo(t._id, t.completed)} key={t._id} className='flex gap-2  justify-between px-5 pt-2 pb-3 border-b border-neutral-700/30 '>
-                            <div className='flex gap-3 items-center flex-1'>
+                        <div onClick={() => handleToggleTodo(t._id, t.completed)} key={t._id} className='flex gap-2 justify-between px-3 sm:px-5 pt-2 pb-3 border-b border-neutral-700/30'>
+                            <div className='flex gap-3 items-center flex-1 min-w-0'>
                                 <button 
                                     onClick={() => handleToggleTodo(t._id, t.completed)}
-                                    className='rounded-sm cursor-pointer transition-all duration-100 text-2xl hover:text-neutral-400'>
+                                    className='rounded-sm cursor-pointer transition-all duration-100 text-xl sm:text-2xl hover:text-neutral-400 flex-shrink-0'>
                                     {t.completed ? (
                                         <MdCheckBox className='text-green-600' />
                                     ) : (
                                         <MdCheckBoxOutlineBlank className='text-neutral-500' />
                                     )}
                                 </button>
-                                <p className={`font-poppins ${t.completed ? 'line-through text-neutral-600' : 'text-neutral-300'}`}>{t.text}</p> 
+                                <p className={`font-poppins text-sm sm:text-base truncate ${t.completed ? 'line-through text-neutral-600' : 'text-neutral-300'}`}>{t.text}</p> 
                             </div>
                             <button 
                                 onClick={() => handleDeleteTodo(t._id)}
-                                className='text-red-600/40 text-xl w-7 h-7 rounded-full ml-2 cursor-pointer active:scale-98 transition-all duration-100 justify-center items-center hover:bg-red-500/10 flex hover:text-red-500'>
+                                className='text-red-600/40 text-lg sm:text-xl w-7 h-7 rounded-full cursor-pointer active:scale-98 transition-all duration-100 justify-center items-center hover:bg-red-500/10 flex hover:text-red-500 flex-shrink-0'>
                                 <p className='pb-0.5'><RxCross2 /></p>
                             </button>
                         </div>

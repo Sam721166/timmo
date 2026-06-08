@@ -124,16 +124,16 @@ function Countdown() {
 
 
   return (
-    <div className="bg-neutral-900 p-5 w-screen h-screen text-white justify-start pt-35 flex flex-col items-center">
+    <div className="bg-neutral-900 p-4 sm:p-5 w-screen h-screen text-white justify-center flex flex-col items-center overflow-y-auto">
 
       {/* Timer Display */}
-      <p className="text-[200px] font-gothic">
+      <p className="text-[55px] sm:text-6xl md:text-8xl lg:text-9xl xl:text-[200px] font-gothic font-bold text-center">
         {displayHours}:{displayMinutes}:{displaySeconds}
       </p>
 
 
       {/* Time Inputs */}
-      <div className="flex gap-4 mt-6">
+      <div className="flex gap-2 sm:gap-4 mt-6 flex-wrap justify-center px-2">
 
         <input
           type="number"
@@ -144,7 +144,7 @@ function Countdown() {
           onChange={(e) =>
             setHours(Math.min(12, Math.max(0, Number(e.target.value))))
           }
-          className="w-16 text-white px-2 bg-neutral-800 rounded"
+          className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
 
         <input
@@ -159,7 +159,7 @@ function Countdown() {
               Math.min(59, Math.max(0, Number(e.target.value)))
             )
           }
-          className="w-16 text-white px-2 bg-neutral-800 rounded"
+          className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
 
         <input
@@ -174,33 +174,33 @@ function Countdown() {
               Math.min(59, Math.max(0, Number(e.target.value)))
             )
           }
-          className="w-16 text-white px-2 bg-neutral-800 rounded"
+          className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
 
       </div>
 
 
       {/* Buttons */}
-      <div className="flex gap-6 mt-8">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 mt-8 justify-center flex-wrap px-2">
 
             
             {
                 isRunning ? (
-                     <button onClick={pause} className='rounded-md bg-neutral-800 w-40 h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center  text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
-                        <FaPause className='mr-2 text-[21px]' />
+                     <button onClick={pause} className='rounded-md bg-neutral-800 w-50 sm:w-40 h-12 sm:h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center text-lg sm:text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
+                        <FaPause className='mr-2 text-lg sm:text-[21px]' />
                         Pause
                     </button>
                 ) : (
-                    <button onClick={start} className='rounded-md bg-neutral-800 w-40 h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center  text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
-                        <FaPlay className='mr-2 text-[16px]' />
+                    <button onClick={start} className='rounded-md bg-neutral-800 w-50 sm:w-40 h-12 sm:h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center text-lg sm:text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
+                        <FaPlay className='mr-2 text-base sm:text-[16px]' />
                         Start
                     </button>
                 )
             }
 
 
-            <button onClick={reset} className='rounded-md bg-neutral-800 w-40 h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
-                <RiResetLeftLine className='mr-2 text-[20px]' />
+            <button onClick={reset} className='rounded-md bg-neutral-800 w-50 sm:w-40 h-12 sm:h-11 font-poppins active:scale-98 cursor-pointer hover:bg-neutral-700/60 transition-all duration-100 flex items-center justify-center text-lg sm:text-xl border-2 border-neutral-700/60 hover:border-neutral-600/60'>
+                <RiResetLeftLine className='mr-2 text-lg sm:text-[20px]' />
                 Reset
             </button>
 
