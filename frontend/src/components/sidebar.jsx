@@ -29,7 +29,24 @@ function Sidebar() {
     setSidebar(!sidebar);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+        if (window.innerWidth < 1024) {
+        setSidebar(false);
+        } else {
+        setSidebar(true);
+        }
+    };
 
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
+
+    
   const logoutHandler = async () => {
     try{
         const res = await axios.post("/api/user/logout")

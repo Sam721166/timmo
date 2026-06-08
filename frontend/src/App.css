@@ -40,6 +40,7 @@
   scrollbar-width: none;     /* Firefox */
 }
 
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Inter Variable', sans-serif;
