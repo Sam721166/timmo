@@ -137,6 +137,12 @@ function Countdown() {
 
         <input
           type="number"
+          step="1"
+          onKeyDown={(e) => {
+            if (e.key === "." || e.key === ",") {
+              e.preventDefault();
+            }
+          }}
           min="0"
           disabled={isRunning}
           placeholder="hh"
@@ -149,6 +155,11 @@ function Countdown() {
 
         <input
           type="number"
+          onKeyDown={(e) => {
+            if (e.key === "." || e.key === ",") {
+              e.preventDefault();
+            }
+          }}
           min="0"
           disabled={isRunning}
           max="59"
@@ -164,6 +175,11 @@ function Countdown() {
 
         <input
           type="number"
+          onKeyDown={(e) => {
+            if (e.key === "." || e.key === ",") {
+              e.preventDefault();
+            }
+          }}
           min="0"
           disabled={isRunning}
           max="59"
