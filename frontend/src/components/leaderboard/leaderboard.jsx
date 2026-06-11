@@ -12,9 +12,9 @@ function Leaderboard() {
     }} >
         <div className='w-7xl min-w-0 h-full flex gap-2 flex-col ' >
             
-            <div className='flex flex-col gap-2 border-b border-white/10 pb-5  h-15 w-7xl '>
+            <div className='flex flex-col gap-2 border-b border-white/10 pb-5  h-12 w-7xl '>
                 <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end pb-9'>
-                    <h1 className='font-poppins text-3xl font-semibold tracking-normal text-white sm:text-4xl'>
+                    <h1 className='font-poppins text-2xl font-semibold tracking-normal text-white sm:text-4xl'>
                         Leaderboard
                     </h1>
                 </div>
@@ -23,9 +23,9 @@ function Leaderboard() {
             </div>
 
 
-            <div className='w-250 flex justify-between items-center gap-3 mt-2 '>
-                <div className=' border-2 border-white/10 rounded-lg w-35 h-10.5 cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center'>
-                    <p className='font-poppins tracking-tight px-3 py-1 border border-white/20 rounded-sm w-33 bg-white/10 '>Last 24 hours</p>
+            <div className='w-250 flex justify-between items-center gap-3  '>
+                <div className=' border-2 border-white/10 rounded-lg w-35 h-10 cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center'>
+                    <p className='font-poppins tracking-tight px-3 py-1  rounded-sm w-33 bg-white/10 '>Last 24 hours</p>
                 </div>
 
                 <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center'>
@@ -36,8 +36,32 @@ function Leaderboard() {
             </div>
 
 
-            <div>
+            <div className=' rounded-md w-250 h-50 border-2 border-white/5 pl-7  mt-2 font-poppins flex '>
                 
+                <div className='flex flex-col gap-3 h-full justify-center '>
+                    <p className='text-2xl font-semibold tracking-tight w-100 '>
+                        <span className='mr-2 text-amber-300 text-2xl'>
+                            Nigga 
+                        </span>
+                         is grinding like hell… and you’re still waiting for her reply.
+                    </p>
+                    <p className='text-neutral-500 text-xs tracking-tight'>
+                        Showing top 100 users. 
+                        <span> • Your rank: #1</span>
+                    </p>
+                </div>
+
+                <div className=' overflow-hidden w-full rounded-sm h-full'>
+                    <img src="hero.webp" alt="hero ui" className='rounded-sm -mt-14 '
+                        style={{
+                            WebkitMaskImage:
+                                "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
+                            maskImage:
+                                "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
+                        }}
+                    />
+                </div>
+
             </div>
 
             
