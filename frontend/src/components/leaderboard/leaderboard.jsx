@@ -36,7 +36,9 @@ function Leaderboard() {
             </div>
 
 
-
+            <div>
+                
+            </div>
 
             
             <div className='w-full h-full bg-neutral-900 '>
