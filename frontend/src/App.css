@@ -164,3 +164,47 @@
     @apply font-sans;
   }
 }
+
+
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(250, 204, 21, 0.4);
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 13px rgba(250, 204, 21, 1);
+    box-shadow: 0 0 13px rgba(250, 204, 21, 1);
+  }
+}
+
+
+@keyframes silverGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(212,212,216,0.15),
+      0 0 10px rgba(212,212,216,0.05);
+  }
+
+  50% {
+    box-shadow:
+      0 0 15px rgba(212,212,216,0.35),
+      0 0 10px rgba(212,212,216,0.15);
+  }
+}
+
+
+@keyframes bronzeGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(251,146,60,0.15),
+      0 0 10px rgba(251,146,60,0.05);
+  }
+
+  50% {
+    box-shadow:
+      0 0 15px rgba(251,146,60,0.35),
+      0 0 10px rgba(251,146,60,0.15);
+  }
+}
