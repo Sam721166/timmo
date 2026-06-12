@@ -45,7 +45,7 @@ function Leaderboard() {
                     <div className='flex flex-col gap-3 h-full justify-center pl-7 '>
                         <p className='text-2xl font-semibold tracking-tight w-100 '>
                             <span className='mr-2  text-amber-300 '>
-                                Ram 
+                                Nigga 
                             </span>
                             is grinding like hell… and you’re still waiting for her reply.
                         </p>

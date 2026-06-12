@@ -5,7 +5,7 @@ function Sidecard() {
   return (
     <div className='h-auto font-poppins rounded-md w-85 -mr-20 min-w-0 mt-15 px-3 py-3 border-2 border-white/10 bg-whit flex flex-col gap-3 bg-white/2'>
 
-      <div className='rounded-md  w-full h-40 p-3 flex flex-col items-center justify-center gap-2 bg-neutral-900'>
+      <div className='rounded-md  w-full h-41 p-3 flex flex-col items-center justify-center gap-2 bg-neutral-900 border-2 border-white/5'>
         <div>
             <div className='size-15 rounded-full bg-white/20 flex justify-center items-center font-semibold text-3xl'>
               <p>N</p>
