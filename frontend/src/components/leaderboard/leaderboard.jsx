@@ -101,8 +101,8 @@ function Leaderboard() {
                                     style={{
                                         animation: 'glow 3s ease-in-out infinite'
                                     }}>
-                                        <span>🥇</span>
-                                        <span className=' mr-1 '>1</span>
+                                        <span></span>
+                                        <span className=''>1</span>
                                     </div>
                 
                                     {/* User */}
@@ -145,8 +145,8 @@ function Leaderboard() {
                                     style={{
                                         animation: 'silverGlow 3s ease-in-out infinite'
                                     }}>
-                                        <span>🥈</span>
-                                        <span className='mr-1'>2</span>
+                                        <span></span>
+                                        <span className=''>2</span>
                                     </div>
                 
                                     {/* User */}
@@ -190,8 +190,8 @@ function Leaderboard() {
                                     style={{
                                         animation: 'bronzeGlow 3s ease-in-out infinite'
                                     }}>
-                                        <span>🥉</span>
-                                        <span className='mr-1'>3</span>
+                                        <span></span>
+                                        <span className=''>3</span>
                                     </div>
                 
                                     {/* User */}
