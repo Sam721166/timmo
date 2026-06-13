@@ -22,5 +22,10 @@ const leaderboardSchema = mongoose.Schema({
 
 }, { timestamps: true });
 
+leaderboardSchema.index({
+    lastActiveDate: 1,
+    todayTime: -1,
+    streak: -1
+});
 
 export default mongoose.model("leaderboard", leaderboardSchema)

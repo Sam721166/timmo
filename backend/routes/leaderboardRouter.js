@@ -9,12 +9,13 @@ import { localDateKey } from "../utils/localDate.js";
 
 leaderboardRoute.get("/", async (req, res) => {
     try{
+        const today = localDateKey()
         
         const topUsers = await leaderboardModel
             .find()
             .sort({ 
                 todayTime: -1,
-                streak: -1
+                streak: -1,
             })
             .limit(100)
             .populate("userId", "name");
@@ -23,7 +24,10 @@ leaderboardRoute.get("/", async (req, res) => {
             rank: index + 1,
             userId: user.userId?._id,
             name: user.userId?.name,
-            todayTime: user.todayTime,
+            todayTime:
+                user.lastActiveDate === today
+                    ? user.todayTime
+                    : 0,
             streak: user.streak
         }))
         
@@ -79,23 +83,24 @@ leaderboardRoute.get("/me", async (req, res) => {
 
 
         if (!me) {
-        me = await leaderboardModel.create({
-            userId: user._id,
-            todayTime: 0,
-            streak: 0,
-            lastActiveDate: localDateKey()
-        });
-        
-}
+            me = await leaderboardModel.create({
+                userId: user._id,
+                todayTime: 0,
+                streak: 0,
+                lastActiveDate: localDateKey()
+            });
+        }
 
 
-if (me.todayTime !== todayTime) {
-    me.todayTime = todayTime;
-    await me.save();
-}
+    if (me.todayTime !== todayTime) {
+        me.todayTime = todayTime;
+        await me.save();
+    }
 
 
     const rank = await leaderboardModel.countDocuments({
+
+
         $or: [
             { todayTime: { $gt: me.todayTime } },
 
@@ -140,6 +145,7 @@ if (me.todayTime !== todayTime) {
         streak: me.streak
     });
 });
+
 
 
 export default leaderboardRoute

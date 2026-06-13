@@ -350,7 +350,7 @@ function Leaderboard() {
             </div>
 
             <div className='flex justify-center items-start'>
-                <Sidecard me={me} />
+                <Sidecard me={me}  />
             </div>
         </div>
         

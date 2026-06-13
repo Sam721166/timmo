@@ -5,7 +5,7 @@ import { MdArrowOutward } from "react-icons/md";
 
 
 
-function Sidecard({ me }) {
+function Sidecard({ me, avatarColor }) {
 
   const formatTime = (seconds) => {
   const hours = Math.floor(seconds / 3600);
@@ -24,6 +24,18 @@ function Sidecard({ me }) {
   };
   
 
+    const getAvatarColor = (name = "") => {
+      let hash = 0;
+
+      for (let i = 0; i < name.length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      }
+
+      const hue = hash % 360;
+
+      return `hsla(${hue}, 70%, 60%, 0.25)`; // low opacity
+    };
+  
 
 
   return (
@@ -31,7 +43,11 @@ function Sidecard({ me }) {
 
       <div className='rounded-md  w-full h-41 p-3 flex flex-col items-center justify-center gap-2 bg-neutral-900 border-2 border-white/5 overflow-hidden truncate'>
         <div>
-            <div className='size-15 rounded-full bg-white/20 flex justify-center items-center font-semibold text-4xl'>
+            <div className='size-15 rounded-full  flex justify-center items-center font-semibold text-4xl'
+              style={{
+                backgroundColor: getAvatarColor(me?.name)
+              }}
+            >
               <p>{me?.name[0]?.toUpperCase()}</p>
             </div>
         </div>

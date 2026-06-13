@@ -53,17 +53,16 @@ stopwatchRouter.post("/save", async (req, res) => {
             leaderboardUser = await leaderboardModel.create({
                 userId: user._id,
                 todayTime: totalTime,
-                totalTime,
                 streak: 1,
                 lastActiveDate: today
             });
         } else {
 
-            leaderboardUser.todayTime += totalTime;
-            leaderboardUser.totalTime += totalTime;
 
             if (leaderboardUser.lastActiveDate !== today) {
-
+                
+                leaderboardUser.todayTime = 0;
+                
                 const yesterday = localDateKey(
                     new Date(Date.now() - 86400000)
                 );
@@ -76,6 +75,8 @@ stopwatchRouter.post("/save", async (req, res) => {
 
                 leaderboardUser.lastActiveDate = today;
             }
+
+            leaderboardUser.todayTime += totalTime;
 
             await leaderboardUser.save();
         }           
