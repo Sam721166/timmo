@@ -268,6 +268,42 @@ function Settings() {
 
           <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
             <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
+                <p className='font-poppins text-xl'>Fullscreen Mode</p>
+                <p className='font-poppins text-sm text-neutral-500 max-w-60 tracking-tight'>Toggle the app's full screen state.</p>
+
+            </div>
+
+            <div className='rounded-md border-2 border-white/5 w-full min-w-0 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5'>
+                  <div className='flex min-w-0 flex-col gap-2'>
+                    <p className='font-poppins flex items-center gap-2'>Fullscreen Shortcut <span className='px-2 py-0.5 rounded-full bg-neutral-700 text-xs text-neutral-300 '>Desktop</span></p>
+                    <p className='text-sm text-neutral-500 font-poppins tracking-tight'>Press the <kbd className='px-1.5 py-0.5 rounded bg-neutral-700 border border-neutral-600 font-mono text-xs text-white'>F</kbd> key on your keyboard to enter or exit fullscreen.</p>
+                  </div>
+
+                  <div>
+                    <button
+                      onClick={() => {
+                        if (!document.fullscreenElement) {
+                          document.documentElement.requestFullscreen().catch((err) => {
+                            console.error("Error attempting to enable fullscreen mode:", err);
+                          });
+                        } else {
+                          if (document.exitFullscreen) {
+                            document.exitFullscreen();
+                          }
+                        }
+                      }}
+                      className='px-4 py-2 bg-white text-black font-poppins font-medium rounded-md hover:bg-neutral-200 transition-colors duration-200 cursor-pointer'
+                    >
+                      Toggle Fullscreen
+                    </button>
+                  </div>
+            </div>
+            
+          </div>
+
+
+          <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
+            <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
                 <p className='font-poppins text-xl'>Appearance</p>
                 <p className='font-poppins text-sm text-neutral-500 max-w-55 tracking-tight'>Customize the look and feel of the app.</p>
 
