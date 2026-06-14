@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://timmo-backend.onrender.com"
+      "destination": "https://timmo-backend.onrender.com/api/:path*"
     }
   ]
 }
