@@ -105,7 +105,7 @@ countdownRouter.get("/stats", async (req, res) => {
         }
 
         // Fetch all countdown records for the user
-        const allRecords = await countdownModel.find({ userId: user._id });
+        const allRecords = await countdownModel.find({ userId: user._id }).lean();
 
         // Calculate total time (all-time)
         const totalTime = allRecords.reduce((sum, record) => sum + record.totalTime, 0);

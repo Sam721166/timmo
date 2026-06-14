@@ -105,7 +105,7 @@ stopwatchRouter.get("/stats", async (req, res) => {
         }
 
         // Fetch all stopwatch records for the user
-        const allRecords = await stopwatchModel.find({ userId: user._id });
+        const allRecords = await stopwatchModel.find({ userId: user._id }).lean();
 
         // Calculate total time (all-time)
         const totalTime = allRecords.reduce((sum, record) => sum + record.totalTime, 0);
