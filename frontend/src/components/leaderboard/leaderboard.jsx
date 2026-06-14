@@ -5,6 +5,27 @@ import Sidecard from './sidecard';
 import axios from 'axios';
 
 
+const LeaderboardRowSkeleton = ({ index }) => (
+    <div className='bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px]'>
+        <div className='size-8 rounded-full bg-neutral-800 animate-pulse' />
+
+        <div className='flex items-center gap-2 min-w-0'>
+            <div className='size-8 rounded-full bg-neutral-800 animate-pulse' />
+            <div className='flex flex-col gap-2'>
+                <div className={`h-3 rounded-sm bg-neutral-800 animate-pulse ${index % 3 === 0 ? "w-32" : index % 3 === 1 ? "w-44" : "w-28"}`} />
+                <div className='h-2 w-20 rounded-sm bg-neutral-800/70 animate-pulse' />
+            </div>
+        </div>
+
+        <div className='h-3 w-24 rounded-sm bg-neutral-800 animate-pulse' />
+
+        <div className='flex justify-center'>
+            <div className='h-3 w-14 rounded-sm bg-neutral-800 animate-pulse' />
+        </div>
+    </div>
+)
+
+
 function Leaderboard() {
 
 
@@ -302,7 +323,11 @@ function Leaderboard() {
                                     
                                 
                                 {
-                                    !loading && leaderboard.length === 0 ? (
+                                    loading ? (
+                                        Array.from({ length: 8 }).map((_, i) => (
+                                            <LeaderboardRowSkeleton key={i} index={i} />
+                                        ))
+                                    ) : !loading && leaderboard.length === 0 ? (
                                         <div className='px-10 w-full h-32 font-poppins text-neutral-500 text-sm flex items-center justify-center text-center'>
                                             <p>{fetchError || "No focus time has been logged today yet."}</p>
                                         </div>
@@ -406,7 +431,7 @@ function Leaderboard() {
             </div>
 
             <div className='flex justify-center items-start'>
-                <Sidecard me={me}  />
+                <Sidecard me={me} loading={loading}  />
             </div>
         </div>
         

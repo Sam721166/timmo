@@ -5,7 +5,7 @@ import { MdArrowOutward } from "react-icons/md";
 
 
 
-function Sidecard({ me, avatarColor }) {
+function Sidecard({ me, avatarColor, loading }) {
 
   const formatTime = (seconds) => {
   const hours = Math.floor(seconds / 3600);
@@ -42,21 +42,33 @@ function Sidecard({ me, avatarColor }) {
     <div className='h-auto font-poppins rounded-md w-85 -mr-20 min-w-0 mt-15 px-3 py-3 border-2 border-white/10 bg-whit flex flex-col gap-3 bg-white/2'>
 
       <div className='rounded-md  w-full h-41 p-3 flex flex-col items-center justify-center gap-2 bg-neutral-900 border-2 border-white/5 overflow-hidden truncate'>
-        <div>
-            <div className='size-15 rounded-full  flex justify-center items-center font-semibold text-4xl'
-              style={{
-                backgroundColor: getAvatarColor(me?.name)
-              }}
-            >
-              <p>{me?.name[0]?.toUpperCase()}</p>
+        {loading ? (
+          <>
+            <div className='size-15 rounded-full bg-neutral-800 animate-pulse' />
+            <div className='flex flex-col gap-2 items-center'>
+              <div className='h-5 w-36 rounded-sm bg-neutral-800 animate-pulse' />
+              <div className='h-7 w-52 rounded-full bg-neutral-800 animate-pulse' />
             </div>
-        </div>
-        <div className='flex flex-col gap-2 items-center'>
-          <p className='text-xl font-semibold text-y truncate w-70 text-center '>{me?.name}</p>
-          <p className='text-xs text-neutral-500 tracking-tight rounded-full bg-white/7 pr-3 pl-2 py-1 flex gap-1 items-center border border-white/10'>
-          <MdArrowOutward className='size-4' />
-          Top {me?.percentile}% in Timmo users </p>
-        </div>
+          </>
+        ) : (
+          <>
+            <div>
+                <div className='size-15 rounded-full  flex justify-center items-center font-semibold text-4xl'
+                  style={{
+                    backgroundColor: getAvatarColor(me?.name)
+                  }}
+                >
+                  <p>{me?.name[0]?.toUpperCase()}</p>
+                </div>
+            </div>
+            <div className='flex flex-col gap-2 items-center'>
+              <p className='text-xl font-semibold text-y truncate w-70 text-center '>{me?.name}</p>
+              <p className='text-xs text-neutral-500 tracking-tight rounded-full bg-white/7 pr-3 pl-2 py-1 flex gap-1 items-center border border-white/10'>
+              <MdArrowOutward className='size-4' />
+              Top {me?.percentile}% in Timmo users </p>
+            </div>
+          </>
+        )}
       </div>
 
       <div className='rounded-md w-full min-h-55 px-3 py-3 flex flex-col gap-1 justify-center bg-neutral-900 border-2 border-white/5'>
@@ -64,29 +76,41 @@ function Sidecard({ me, avatarColor }) {
         <p className='tracking-tight  text-neutral-400 '>Today's summary</p>
       
         <div className='w-full min-h-45 grid grid-cols-2 gap-2 justify-center items-center mt-2'>
-          <div className='rounded-sm  h-full w-full px-3 flex justify-center flex-col bg-yellow-400/5'>
-            <p className='text-white mb-0.5'>Rank</p>
-            <p className='text-yellow-400 text-xl font-semibold'># {me?.rank}</p>
-            <p className='text-neutral-500 text-xs '>Today</p>
-          </div>
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className='rounded-sm h-full w-full px-3 flex justify-center flex-col gap-2 bg-white/5'>
+                <div className='h-3 w-16 rounded-sm bg-neutral-800 animate-pulse' />
+                <div className='h-5 w-20 rounded-sm bg-neutral-800 animate-pulse' />
+                <div className='h-2 w-12 rounded-sm bg-neutral-800/70 animate-pulse' />
+              </div>
+            ))
+          ) : (
+            <>
+              <div className='rounded-sm  h-full w-full px-3 flex justify-center flex-col bg-yellow-400/5'>
+                <p className='text-white mb-0.5'>Rank</p>
+                <p className='text-yellow-400 text-xl font-semibold'># {me?.rank}</p>
+                <p className='text-neutral-500 text-xs '>Today</p>
+              </div>
 
-          <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-orange-400/5'>
-            <p className='text-white mb-0.5 '>Streak</p>
-            <p className='text-orange-400 text-xl font-semibold'>{me?.streak} days</p>
-            <p className='text-neutral-500 text-xs '>Current</p>
-          </div>
+              <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-orange-400/5'>
+                <p className='text-white mb-0.5 '>Streak</p>
+                <p className='text-orange-400 text-xl font-semibold'>{me?.streak} days</p>
+                <p className='text-neutral-500 text-xs '>Current</p>
+              </div>
 
-          <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-blue-400/7'>
-            <p className='text-white mb-0.5'>Focus Time</p>
-            <p className='text-blue-400 text-md font-semibold '>{formatTime(me?.todayTime)}</p>
-            <p className='text-neutral-500 text-xs '>Today</p>
-          </div>
+              <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-blue-400/7'>
+                <p className='text-white mb-0.5'>Focus Time</p>
+                <p className='text-blue-400 text-md font-semibold '>{formatTime(me?.todayTime)}</p>
+                <p className='text-neutral-500 text-xs '>Today</p>
+              </div>
 
-          <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-green-500/5'>
-            <p className='text-white mb-0.5'>Percentile</p>
-            <p className='text-green-500 text-xl font-semibold'>{me?.percentile} %</p>
-            <p className='text-neutral-500 text-xs '>Today</p>
-          </div>
+              <div className='rounded-sm h-full w-full px-3 flex justify-center flex-col bg-green-500/5'>
+                <p className='text-white mb-0.5'>Percentile</p>
+                <p className='text-green-500 text-xl font-semibold'>{me?.percentile} %</p>
+                <p className='text-neutral-500 text-xs '>Today</p>
+              </div>
+            </>
+          )}
 
           
         </div>
@@ -111,18 +135,30 @@ function Sidecard({ me, avatarColor }) {
             You vs The World
           </p>
 
-          <div className="mt-3 flex items-end gap-1">
-            <span className="text-5xl font-bold text-white">
-              {me?.focusedMoreThan}
-            </span>
-            <span className="mb-1 text-2xl font-semibold text-neutral-500">
-              %
-            </span>
-          </div>
+          {loading ? (
+            <>
+              <div className='mt-4 h-12 w-24 rounded-sm bg-neutral-800 animate-pulse' />
+              <div className='mt-4 flex flex-col gap-2'>
+                <div className='h-3 w-[170px] rounded-sm bg-neutral-800 animate-pulse' />
+                <div className='h-3 w-32 rounded-sm bg-neutral-800 animate-pulse' />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-3 flex items-end gap-1">
+                <span className="text-5xl font-bold text-white">
+                  {me?.focusedMoreThan}
+                </span>
+                <span className="mb-1 text-2xl font-semibold text-neutral-500">
+                  %
+                </span>
+              </div>
 
-          <p className="mt-2 w-[170px] text-sm text-neutral-400">
-            Focused more than {me?.focusedMoreThan}% of users today.
-          </p>
+              <p className="mt-2 w-[170px] text-sm text-neutral-400">
+                Focused more than {me?.focusedMoreThan}% of users today.
+              </p>
+            </>
+          )}
         </div>
       </div>
 

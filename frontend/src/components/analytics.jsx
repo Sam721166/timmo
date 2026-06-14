@@ -51,6 +51,7 @@ function Analytics() {
   const [streak, setStreak] = useState(0)
 
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
 
 
 
@@ -70,6 +71,7 @@ function Analytics() {
         setStopwatchData(stopRes.data.stats)
         setCountdownData(countRes.data.stats)
         setStreak(streakRes.data.currentStreak ?? 0)
+        setFetchError("")
 
         const combinedChart = combineDailyData(
           stopRes.data.chartData,
@@ -96,6 +98,12 @@ function Analytics() {
         )
       } catch (err) {
         console.log("error while fetching analytics data: ", err)
+
+        if (err?.response?.status === 429) {
+          setFetchError("Too many refreshes. Analytics will be available again in about a minute.")
+        } else {
+          setFetchError("Analytics could not be loaded right now.")
+        }
       } finally{
         setLoading(false)
       }
@@ -137,6 +145,10 @@ function Analytics() {
             <h1 className='font-poppins text-3xl font-semibold tracking-normal text-white sm:text-4xl'>
               Focus overview
             </h1>
+            <div className='flex items-center gap-2 rounded-sm border border-white/10 bg-white/2 px-3 py-1.5 font-poppins text-xs font-semibold tracking-tight text-neutral-500'>
+              <span className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} size-2 rounded-full`} />
+              <p>{fetchError || "Analytics are up to date"}</p>
+            </div>
           </div>
         </div>
 
@@ -148,6 +160,11 @@ function Analytics() {
               className="h-35 rounded-md bg-neutral-800 animate-pulse"
             />
             ))
+          : fetchError ? (
+            <div className='rounded-lg border border-yellow-500/20 bg-yellow-500/10 p-5 font-poppins text-sm text-yellow-100 sm:col-span-2 xl:col-span-4'>
+              {fetchError}
+            </div>
+          )
           : (
             <>
               <Box boxData={{
@@ -189,6 +206,10 @@ function Analytics() {
 
           {loading ? (
             <div className="h-[420px] animate-pulse rounded-lg bg-neutral-800" />
+          ) : fetchError ? (
+            <div className='flex h-[360px] min-h-[360px] items-center justify-center p-6 text-center font-poppins text-sm text-neutral-500 sm:h-[420px] sm:min-h-[420px]'>
+              <p>{fetchError}</p>
+            </div>
           ) : (
             <ChartContainer
               className="h-[360px] min-h-[360px] w-full min-w-0 aspect-auto p-4 sm:h-[420px] sm:min-h-[420px]  sm:p-6"
@@ -244,7 +265,13 @@ function Analytics() {
             <div className='h-56 rounded-lg border border-white/10 bg-neutral-800 animate-pulse'  />
           }
         >
-          <Heatmap data={heatmapData} formatTime={formatTime} />
+          {fetchError ? (
+            <div className='flex h-56 items-center justify-center rounded-lg border border-white/10 bg-neutral-900 px-6 text-center font-poppins text-sm text-neutral-500'>
+              <p>{fetchError}</p>
+            </div>
+          ) : (
+            <Heatmap data={heatmapData} formatTime={formatTime} />
+          )}
         </Suspense>
 
       </div>
