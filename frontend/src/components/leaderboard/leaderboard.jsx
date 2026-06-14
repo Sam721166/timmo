@@ -160,8 +160,8 @@ function Leaderboard() {
 
 
                 const [ meData, leaderboardData] = await Promise.all([
-                    axios.get("api/leaderboard/me") ,           
-                    axios.get("api/leaderboard"),
+                    axios.get("/api/leaderboard/me") ,           
+                    axios.get("/api/leaderboard"),
                 ]);
 
                 setMe(meData.data);

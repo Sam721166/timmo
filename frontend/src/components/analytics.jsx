@@ -63,8 +63,8 @@ function Analytics() {
 
 
         const [stopRes, countRes, streakRes] = await Promise.all([
-          axios.get("api/stopwatch/stats"),
-          axios.get("api/countdown/stats"),
+          axios.get("/api/stopwatch/stats"),
+          axios.get("/api/countdown/stats"),
           axios.get("/api/streak"),
         ])
 

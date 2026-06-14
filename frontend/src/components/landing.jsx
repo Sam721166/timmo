@@ -903,7 +903,7 @@ function Landing() {
   useEffect(() => {
     const fetchPublicStats = async () => {
       try {
-        const res = await axios.get("api/user/public-stats");
+        const res = await axios.get("/api/user/public-stats");
         setTotalUsers(res.data.stats?.totalUsers ?? null);
       } catch (err) {
         console.log("error fetching landing stats:", err);

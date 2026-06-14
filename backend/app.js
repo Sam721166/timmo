@@ -9,6 +9,7 @@ import leaderboardRouter from "./routes/leaderboardRouter.js"
 
 
 
+
 import cors from "cors"
 import cookieParser from "cookie-parser"
 
@@ -35,6 +36,9 @@ import { isLoggedIn } from "./middlewares/isLoggedIn.js"
 ConectDB()
 
 
+
+const port = process.env.PORT || 3000
+
 app.get("/", (req, res) => {
     res.send("backend is running")
 })
@@ -48,6 +52,6 @@ app.use("/api/streak", isLoggedIn, streakRouter)
 app.use("/api/leaderboard", isLoggedIn, leaderboardLimiter, leaderboardRouter)
 
 
-app.listen(3000, (req, res) => {
+app.listen(port, (req, res) => {
     console.log("server is running on port 3000");
 }) 
