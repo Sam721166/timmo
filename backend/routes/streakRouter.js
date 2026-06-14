@@ -19,13 +19,11 @@ streakRouter.get("/", async (req, res) => {
       });
     }
 
-    const stopwatchRecords = await stopwatchModel.find({
-      userId: user._id,
-    });
-
-    const countdownRecords = await countdownModel.find({
-      userId: user._id,
-    });
+    // Fetch stopwatch and countdown records in parallel
+    const [stopwatchRecords, countdownRecords] = await Promise.all([
+      stopwatchModel.find({ userId: user._id }),
+      countdownModel.find({ userId: user._id })
+    ]);
 
     const dateSet = new Set([
       ...stopwatchRecords.map((r) => r.date),

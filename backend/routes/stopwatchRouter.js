@@ -22,7 +22,6 @@ stopwatchRouter.post("/save", async (req, res) => {
 
         const savedSeconds = parsed.data.totalTime
 
-        
         const user = await userModel.findOne({email: req.user.email})
 
         if (!user) {
@@ -51,8 +50,6 @@ stopwatchRouter.post("/save", async (req, res) => {
             });
         }
 
-        
-        
         let leaderboardUser = await leaderboardModel.findOne({
             userId: user._id
         });
@@ -65,10 +62,7 @@ stopwatchRouter.post("/save", async (req, res) => {
                 lastActiveDate: today
             });
         } else {
-
-
             if (leaderboardUser.lastActiveDate !== today) {
-                
                 leaderboardUser.todayTime = 0;
                 
                 const yesterday = localDateKey(
@@ -85,16 +79,8 @@ stopwatchRouter.post("/save", async (req, res) => {
             }
 
             leaderboardUser.todayTime += savedSeconds;
-
             await leaderboardUser.save();
         }           
-
-
-
-
-
-
-
 
         res.status(200).send({
             stopwatchTime: total,
@@ -124,12 +110,9 @@ stopwatchRouter.get("/stats", async (req, res) => {
         // Calculate total time (all-time)
         const totalTime = allRecords.reduce((sum, record) => sum + record.totalTime, 0);
 
-        // Get today's time
+        // Get today's time (computed in memory)
         const today = localDateKey();
-        const todayRecord = await stopwatchModel.findOne({ 
-            userId: user._id, 
-            date: today 
-        });
+        const todayRecord = allRecords.find(r => r.date === today);
         const todayTime = todayRecord?.totalTime || 0;
 
         // Calculate average time per day
@@ -140,13 +123,10 @@ stopwatchRouter.get("/stats", async (req, res) => {
         const chartData = buildDailySeries(30, dateMap)
         const heatmapData = buildDailySeries(365, dateMap)
 
-        // Calculate monthly stats (this month)
+        // Calculate monthly stats (computed in memory)
         const currentDate = new Date();
         const monthStart = localDateKey(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
-        const monthlyRecords = await stopwatchModel.find({
-            userId: user._id,
-            date: { $gte: monthStart }
-        });
+        const monthlyRecords = allRecords.filter(r => r.date >= monthStart);
         const monthlyTotal = monthlyRecords.reduce((sum, record) => sum + record.totalTime, 0);
 
         return res.status(200).json({
@@ -171,8 +151,5 @@ stopwatchRouter.get("/stats", async (req, res) => {
         });
     }
 })
-
-
-
 
 export default stopwatchRouter
