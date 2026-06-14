@@ -4,6 +4,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://timmo-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
