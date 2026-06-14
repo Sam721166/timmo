@@ -25,16 +25,16 @@ function Settings() {
 
 
   return (
-    <div className='h-screen w-screen min-w-0 overflow-y-auto bg-neutral-900 px-5 py-6  text-white sm:px-8 lg:px-10 flex flex-col items-center  ' 
+    <div className='h-screen w-screen min-w-0 overflow-y-auto bg-neutral-900 px-4 py-6 text-white sm:px-6 lg:px-10 flex flex-col items-center' 
       style={{
         scrollbarWidth: "thin",
         scrollbarColor: "gray transparent",
     }}>
 
-      <div className='w-7xl h-full  items-center   flex flex-col gap-6'>
+      <div className='w-full max-w-7xl min-w-0 items-center flex flex-col gap-6'>
 
-        <div className='flex flex-col gap-2 border-b border-white/10 pb-5  h-15 w-7xl -ml-2.5'>
-          <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end pb-9'>
+        <div className='flex w-full min-w-0 flex-col gap-2 border-b border-white/10 pb-5'>
+          <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end'>
             <h1 className='font-poppins text-3xl font-semibold tracking-normal text-white sm:text-4xl'>
               Settings
             </h1>
@@ -43,16 +43,16 @@ function Settings() {
 
         
 
-          <div className='w-full h-46 rounded-md bg-neutral-800/50 py-5 px-6 border-2 border-white/5 justify-between flex'>
-            <div className=' flex flex-col gap-2'>
+          <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
+            <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
                 <p className='font-poppins text-xl'>Sidebar Mode</p>
-                <p className='font-poppins text-sm text-neutral-500 w-60 tracking-tight'>Choose how you want to open and close the sidebar.</p>
+                <p className='font-poppins text-sm text-neutral-500 max-w-60 tracking-tight'>Choose how you want to open and close the sidebar.</p>
 
             </div>
 
-            <div className='flex gap-3 flex-wrap  items-center'>
+            <div className='grid w-full grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3'>
 
-              <div onClick={() => handleSidebar("manual")} className={`w-70 h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center 
+              <div onClick={() => handleSidebar("manual")} className={`min-h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center 
                ${sidebarOpt === "manual" ? "border-white bg-neutral-800" : " border-white/5 "} `}>
                 <div>
                   <div
@@ -77,7 +77,7 @@ function Settings() {
                 </div>
               </div>
 
-              <div  onClick={() => handleSidebar("hover")} className={`w-70 h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center 
+              <div  onClick={() => handleSidebar("hover")} className={`min-h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center 
                ${sidebarOpt === "hover" ? "border-white bg-neutral-800" : " border-white/5 "} `}>
                 <div>
                   <div
@@ -102,7 +102,7 @@ function Settings() {
                 </div>
               </div>
 
-              <div  onClick={() => handleSidebar("mix")} className={`w-70 h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center 
+              <div  onClick={() => handleSidebar("mix")} className={`min-h-35 rounded-md border-2 cursor-pointer hover:bg-neutral-800 transition-all duration-200 p-4 flex gap-4 font-poppins justify-center sm:col-span-2 xl:col-span-1 
                ${sidebarOpt === "mix" ? "border-white bg-neutral-800" : " border-white/5 "} `}>
                 <div>
                   <div
@@ -131,15 +131,15 @@ function Settings() {
           </div>
 
 
-          <div className='w-full h-30 rounded-md bg-neutral-800/50 py-5 px-6 border-2 border-white/5 justify-between flex'>
-            <div className=' flex flex-col gap-2'>
+          <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
+            <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
                 <p className='font-poppins text-xl'>Sidebar Behavior</p>
-                <p className='font-poppins text-sm text-neutral-500 w-60 tracking-tight'>Additional sidebar preferences.</p>
+                <p className='font-poppins text-sm text-neutral-500 max-w-60 tracking-tight'>Additional sidebar preferences.</p>
 
             </div>
 
-              <div className='rounded-md border-2 border-white/5 w-216 min-w-0 h-full flex items-center justify-between p-5'>
-                    <div className='flex flex-col gap-2  '>
+              <div className='rounded-md border-2 border-white/5 w-full min-w-0 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5'>
+                    <div className='flex min-w-0 flex-col gap-2'>
                       <p className='font-poppins'>Close sidebar on outside click</p>
                       <p className='text-sm text-neutral-500 font-poppins tracking-tight'>Click anywhere outside the sidebar to close it.</p>
                     </div>
@@ -156,27 +156,27 @@ function Settings() {
           </div>
 
 
-          <div className='w-full h-75 rounded-md bg-neutral-800/50 py-5 px-6 border-2 border-white/5 justify-between flex'>
-            <div className=' flex flex-col gap-2'>
+          <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
+            <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
                 <p className='font-poppins text-xl'>Time Display</p>
-                <p className='font-poppins text-sm text-neutral-500 w-60 tracking-tight'>Choose how time is displyaed across the app.</p>
+                <p className='font-poppins text-sm text-neutral-500 max-w-60 tracking-tight'>Choose how time is displyaed across the app.</p>
 
             </div>
 
-            <div className='rounded-md border-2 border-white/5 w-216 min-w-0 h-full flex flex-col gap-2 items-center justify-between py- '>
+            <div className='rounded-md border-2 border-white/5 w-full min-w-0 flex flex-col gap-2 items-center justify-between'>
                   
-              <div className='w-full h-full px-5 pt-3 pb-1 flex justify-between items-center '>
-                <div className='flex flex-col gap-1'>
+              <div className='w-full px-4 pt-4 pb-3 flex flex-col gap-4 justify-between sm:px-5 lg:flex-row lg:items-center'>
+                <div className='flex min-w-0 flex-col gap-1'>
                     <p className='font-poppins'>Clock Orientation</p>
                     <p className='font-poppins text-sm text-neutral-500 '>Select the preferred time layout.</p>
                 </div>
 
-                <div className='flex gap-3   font-poppins'>
-                    <div onClick={() =>setTimeDisplay(true)} className={`rounded-md  flex justify-center items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 w-40 h-15 gap-3 ${ timeDisplay ? "bg-neutral-800/50 border-white border" : " border-white/5 border-2"}`}>
+                <div className='grid w-full grid-cols-1 gap-3 font-poppins sm:grid-cols-2 lg:w-auto'>
+                    <div onClick={() =>setTimeDisplay(true)} className={`rounded-md flex justify-center items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 h-15 gap-3 px-4 lg:w-40 ${ timeDisplay ? "bg-neutral-800/50 border-white border" : " border-white/5 border-2"}`}>
                       <div className={`w-8 h-5 border-2 rounded-sm transition-all duration-200  ${timeDisplay ? "bg-white/10" : ""} `}/>
                       <p>Horizontal</p>
                     </div>
-                    <div onClick={() =>setTimeDisplay(false)} className={`rounded-md  flex justify-center items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 w-40 h-15 gap-1.5  ${ !timeDisplay ? "bg-neutral-800/50 border-white border" : " border-2 border-white/5"}`}>
+                    <div onClick={() =>setTimeDisplay(false)} className={`rounded-md flex justify-center items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 h-15 gap-1.5 px-4 lg:w-40 ${ !timeDisplay ? "bg-neutral-800/50 border-white border" : " border-2 border-white/5"}`}>
                       <div className={`w-8 h-5 border-2 rounded-sm rotate-90 transition-all duration-200   ${!timeDisplay ? "bg-white/10" : ""} `}/>
 
                       <p>Verticle</p>
@@ -188,14 +188,14 @@ function Settings() {
               <div className='w-full border border-white/5 ' />
 
 
-              <div className='w-full h-20 px-5 mb- flex py-1 justify-between  '>
-                <div className='flex flex-col gap-1 justify-center  mt- '>
+              <div className='w-full px-4 py-3 flex flex-col gap-4 justify-between sm:px-5 lg:flex-row lg:items-center'>
+                <div className='flex min-w-0 flex-col gap-1 justify-center'>
                     <p className='font-poppins'>Time Format</p>
                     <p className='font-poppins text-sm text-neutral-500 '>choose your preferred time format.</p>
                 </div>
 
-                <div className='flex gap-3   font-poppins'>
-                    <div onClick={() =>setTimeFormat(true)} className={`rounded-md  flex justify-around px-5 items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 w-40 h-full gap-3 ${ timeFormat ? "bg-neutral-800/50 border-white border" : " border-white/5 border-2"}`}>
+                <div className='grid w-full grid-cols-1 gap-3 font-poppins sm:grid-cols-2 lg:w-auto'>
+                    <div onClick={() =>setTimeFormat(true)} className={`rounded-md flex justify-around px-5 items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 min-h-15 gap-3 lg:w-40 ${ timeFormat ? "bg-neutral-800/50 border-white border" : " border-white/5 border-2"}`}>
                       
                       <div>
                         <div
@@ -217,7 +217,7 @@ function Settings() {
                         </div>
                       
                     </div>
-                    <div onClick={() =>setTimeFormat(false)} className={`rounded-md  flex justify-around px-5 items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 w-40 h-15 gap-1.5  ${ !timeFormat ? "bg-neutral-800/50 border-white border" : " border-2 border-white/5"}`}>
+                    <div onClick={() =>setTimeFormat(false)} className={`rounded-md flex justify-around px-5 items-center cursor-pointer hover:bg-neutral-800/50 transition-all duration-200 min-h-15 gap-1.5 lg:w-40 ${ !timeFormat ? "bg-neutral-800/50 border-white border" : " border-2 border-white/5"}`}>
                       
                       <div>
                         <div
@@ -245,8 +245,8 @@ function Settings() {
               <div className='w-full border border-white/5 ' />
 
 
-              <div className='rounded-md  w-216 min-w-0 h-full flex items-center justify-between px-5 py-1 pb-3 '>
-                    <div className='flex flex-col gap-2  '>
+              <div className='rounded-md w-full min-w-0 flex flex-col gap-4 justify-between px-4 py-4 sm:px-5 sm:flex-row sm:items-center'>
+                    <div className='flex min-w-0 flex-col gap-2'>
                       <p className='font-poppins'>Show Seconds</p>
                       <p className='text-sm text-neutral-500 font-poppins tracking-tight'>Include seconds in the clock display. (Horizontal mode only)</p>
                     </div>
@@ -266,22 +266,22 @@ function Settings() {
           </div>
 
 
-          <div className='w-full h-31 rounded-md bg-neutral-800/50 py-5 px-6 border-2 border-white/5 justify-between flex  '>
-            <div className=' flex flex-col gap-2'>
+          <div className='w-full rounded-md bg-neutral-800/50 py-5 px-4 border-2 border-white/5 justify-between flex flex-col gap-5 sm:px-6 xl:flex-row'>
+            <div className='flex flex-col gap-2 xl:w-64 xl:shrink-0'>
                 <p className='font-poppins text-xl'>Appearance</p>
-                <p className='font-poppins text-sm text-neutral-500 w-55 tracking-tight'>Customize the look and feel of the app.</p>
+                <p className='font-poppins text-sm text-neutral-500 max-w-55 tracking-tight'>Customize the look and feel of the app.</p>
 
             </div>
 
-            <div className='rounded-md border-2 border-white/5 w-216 min-w-0 h-full flex flex-col gap-2 items-center justify-between  '>
+            <div className='rounded-md border-2 border-white/5 w-full min-w-0 flex flex-col gap-2 items-center justify-between'>
                   
-              <div className='w-full h-20 px-5 flex justify-between   '>
-                <div className='flex flex-col gap-1 justify-center'>
+              <div className='w-full px-4 py-4 flex flex-col gap-5 justify-between sm:px-5 lg:flex-row lg:items-center'>
+                <div className='flex min-w-0 flex-col gap-1 justify-center'>
                     <p className='font-poppins'>Text Color</p>
                     <p className='font-poppins text-sm text-neutral-500 '>Adjust the text color for better readability.</p>
                 </div>
 
-                <div className='flex flex-wrap gap-6  font-poppins items-center'>
+                <div className='flex flex-wrap gap-4 font-poppins items-center sm:gap-6'>
                     
                   <div onClick={() => handleTextCOlor("white")} className={` rounded-full size-9 cursor-pointer transition-all duration-200 bg-white ${textColor === "white" ? " ring-2 ring-white ring-offset-2 ring-offset-neutral-900" : ""}`} />
                     

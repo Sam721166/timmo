@@ -197,18 +197,18 @@ function Leaderboard() {
 
 
   return (
-    <div className='w-screen h-screen bg-neutral-900  justify-center flex pt-10 font-poppins overflow-y-scroll '
+    <div className='h-screen w-screen bg-neutral-900 justify-center flex px-4 py-6 font-poppins overflow-y-auto sm:px-6 lg:px-10'
     style={{
         scrollbarWidth: "thin",
         scrollbarColor: "gray transparent",
     }} >
 
-        <div className='flex w-7xl min-w-0 h-full gap-2'>
+        <div className='mx-auto flex w-full max-w-7xl min-w-0 h-full gap-4'>
 
-            <div className='w-7xl  min-w-0 h-full flex gap-2 flex-col ' >
+            <div className='w-full min-w-0 h-full flex gap-3 flex-col ' >
                 
-                <div className='flex flex-col gap-2 border-b border-white/10 pb-5  h-12  w-250 min-w-0  '>
-                    <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end pb-9'>
+                <div className='flex w-full min-w-0 flex-col gap-2 border-b border-white/10 pb-5'>
+                    <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end '>
                         <h1 className='font-poppins text-2xl font-semibold tracking-normal text-white sm:text-4xl'>
                             Leaderboard
                         </h1>
@@ -218,28 +218,28 @@ function Leaderboard() {
                 </div>
 
 
-                <div className='w-250 flex justify-between items-center gap-3  '>
-                    <div className=' border-2 border-white/10 rounded-lg w-35 h-10 cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center'>
-                        <p className='font-poppins tracking-tight px-3 py-1  rounded-sm w-33 bg-white/10 '>Last 24 hours</p>
+                <div className='w-full flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
+                    <div className='border-2 border-white/10 rounded-lg h-10 w-full cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center sm:w-35'>
+                        <p className='font-poppins tracking-tight mx-0.5 sm:mx-0 px-3 py-1 rounded-sm w-full text-center bg-white/10 sm:w-33'>Last 24 hours</p>
                     </div>
 
-                    <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center'>
-                        <div className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} text-xl rounded-full size-2`}></div>
-                        <p>{fetchError || "Updates every 5 minutes"}</p>
+                    <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center text-center sm:text-left'>
+                        <div className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} shrink-0 text-xl rounded-full size-2`}></div>
+                        <p className='min-w-0'>{fetchError || "Updates every 5 minutes"}</p>
                     </div>
                     
                 </div>
 
 
-                <div className=' rounded-md w-250 h-50 border-2 border-white/5 pl-7   mt-2 font-poppins flex '>
+                <div className='rounded-md w-full min-h-50 border-2 border-white/5 pl-5 mt-2 font-poppins flex overflow-hidden sm:pl-7'>
                     <div className='h-full bg-yellow-300 w-0.5  -ml-7 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_60%,transparent)] '></div>
-                    <div className='flex flex-col gap-3 h-full justify-center pl-7 '>
-                        <p className='text-2xl font-semibold tracking-tight w-100   rounded-sm'>
+                    <div className='flex min-w-0 flex-1 flex-col gap-3 h-full justify-center py-5 pl-5 sm:pl-7'>
+                        <p className='text-xl font-semibold tracking-tight w-full max-w-100 sm:w-100 rounded-sm sm:text-2xl'>
                             {
                                 loading ? (
-                                    <div className='w-100 h-20 rounded-sm bg-neutral-800 animate-pulse'>
+                                    <div className='h-20 w-full max-w-100  rounded-sm bg-neutral-800 animate-pulse'>
                                     
-                                </div>
+                                    </div>
                                 ) : (
                                     <>
                                         <span className='mr-2  text-amber-300 '>
@@ -274,10 +274,10 @@ function Leaderboard() {
                             </div>
                             ) : (
                                 <>
-                                    <div className='flex gap-2 -mt-2.5'>
-                            <p className='text-neutral-500 text-xs tracking-tight'>Total users : {me?.usersNumber}</p>
-                            <p className='text-neutral-500 text-xs tracking-tight '>  Your rank : # {me?.rank}</p>
-                        </div>
+                                    <div className='flex flex-col gap-1 -mt-2.5 sm:flex-row sm:gap-2'>
+                                        <p className='text-neutral-500 text-xs tracking-tight'>Total users : {me?.usersNumber}</p>
+                                        <p className='text-neutral-500 text-xs tracking-tight '>  Your rank : # {me?.rank}</p>
+                                    </div>
                                 </>
                             )
                         }
@@ -286,8 +286,8 @@ function Leaderboard() {
                         
                     </div>
 
-                    <div className=' overflow-hidden w-full rounded-sm h-full'>
-                        <img src="hero.webp" alt="hero ui" className='rounded-sm -mt-14 '
+                    <div className='hidden overflow-hidden sm:w-[calc(100%-45%)]  rounded-sm h-full md:block '>
+                        <img src="hero.webp" alt="hero ui" className='rounded-sm xl:-mt-14 '
                             style={{
                                 WebkitMaskImage:
                                     "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
@@ -300,12 +300,12 @@ function Leaderboard() {
                 </div>
 
                 
-                <div className='w-full h-full bg-neutral-900 '>
+                <div className='w-full h-full bg-neutral-900 min-w-0'>
                 
                 
-                        <div className='rounded-md border-2 border-white/10 w-250 h-auto   mt-2 '>
+                        <div className='rounded-md border-2 border-white/10 w-full h-auto mt-2 overflow-hidden'>
                 
-                            <div className='border-b-2 border-white/10 gap-10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-10 py-2 items-center flex  justify-between h-10 w-full  '>
+                            <div className='hidden border-b-2 border-white/10 gap-10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-6 py-2 items-center justify-between h-10 w-full md:flex lg:px-10'>
                 
                                 <div className='flex gap-18 mr-70'>
                                     <p>Rank</p>
@@ -318,20 +318,24 @@ function Leaderboard() {
                             </div>
                 
                 
-                            <div className='w-full h-auto   flex flex-col pb-1 overflow-hidden'
+                            <div className='w-full h-auto flex flex-col pb-1 overflow-x-auto'
                             >
                                     
                                 
                                 {
                                     loading ? (
-                                        Array.from({ length: 8 }).map((_, i) => (
-                                            <LeaderboardRowSkeleton key={i} index={i} />
-                                        ))
+                                        <div className='min-w-[720px] md:min-w-0'>
+                                            {Array.from({ length: 8 }).map((_, i) => (
+                                                <LeaderboardRowSkeleton key={i} index={i} />
+                                            ))}
+                                        </div>
                                     ) : !loading && leaderboard.length === 0 ? (
                                         <div className='px-10 w-full h-32 font-poppins text-neutral-500 text-sm flex items-center justify-center text-center'>
                                             <p>{fetchError || "No focus time has been logged today yet."}</p>
                                         </div>
-                                    ) : leaderboard.map((user, i) =>{ 
+                                    ) : (
+                                        <div className='min-w-[720px] md:min-w-0'>
+                                            {leaderboard.map((user, i) =>{ 
                                         
                                         const rankStyle = getRankStyle(i + 1);
                                         const isMe = user.userId === me?.userId;
@@ -407,7 +411,9 @@ function Leaderboard() {
                                                 <span>{user?.streak}</span>
                                             </div>
                                         </div> 
-                                    )})
+                                    )})}
+                                        </div>
+                                    )
                                 }    
                                     
                 
@@ -430,7 +436,7 @@ function Leaderboard() {
 
             </div>
 
-            <div className='flex justify-center items-start'>
+            <div className='hidden justify-center items-start lg:flex'>
                 <Sidecard me={me} loading={loading}  />
             </div>
         </div>

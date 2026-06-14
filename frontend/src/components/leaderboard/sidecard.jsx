@@ -39,7 +39,7 @@ function Sidecard({ me, avatarColor, loading }) {
 
 
   return (
-    <div className='h-auto font-poppins rounded-md w-85 -mr-20 min-w-0 mt-15 px-3 py-3 border-2 border-white/10 bg-whit flex flex-col gap-3 bg-white/2'>
+    <div className='h-auto font-poppins rounded-md w-85 -mr-20 min-w-0 mt-19.5 px-3 py-3 border-2 border-white/10 bg-whit flex flex-col gap-3 bg-white/2'>
 
       <div className='rounded-md  w-full h-41 p-3 flex flex-col items-center justify-center gap-2 bg-neutral-900 border-2 border-white/5 overflow-hidden truncate'>
         {loading ? (
