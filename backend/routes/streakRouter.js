@@ -4,6 +4,7 @@ const streakRouter = express.Router();
 import stopwatchModel from "../model/stopwatch.js";
 import countdownModel from "../model/countdown.js";
 import userModel from "../model/user.js";
+import { localDateKey } from "../utils/localDate.js";
 
 streakRouter.get("/", async (req, res) => {
   try {
@@ -35,7 +36,7 @@ streakRouter.get("/", async (req, res) => {
     const currentDate = new Date();
 
     while (true) {
-      const dateStr = currentDate.toISOString().split("T")[0];
+      const dateStr = localDateKey(currentDate);
 
       if (dateSet.has(dateStr)) {
         currentStreak++;

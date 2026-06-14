@@ -1,5 +1,6 @@
 import cron from "node-cron";
 import leaderboardModel from "../model/leaderboard.js";
+import { APP_TIME_ZONE } from "../utils/localDate.js";
 
 
 cron.schedule("0 0 * * *", async () => {
@@ -15,4 +16,6 @@ cron.schedule("0 0 * * *", async () => {
     );
 
     console.log("Leaderboard reset complete");
+}, {
+    timezone: APP_TIME_ZONE
 });

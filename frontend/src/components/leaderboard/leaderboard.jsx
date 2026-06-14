@@ -126,29 +126,49 @@ function Leaderboard() {
     const [leaderboard, setLeaderboard] = useState([]);
     const [me, setMe] = useState(null);
     const [heroText, setHeroText] = useState("")
+    const [loading, setLoading] = useState(true)
+    const [fetchError, setFetchError] = useState("")
+
 
     useEffect(() => {
-    const fetchLeaderboard = async () => {
-        
-        const [ meData, leaderboardData] = await Promise.all([
-            axios.get("api/leaderboard/me") ,           
-            axios.get("api/leaderboard"),
-        ]);
+        const fetchLeaderboard = async () => {
+            
+            try{
 
-        setMe(meData.data);
-        setLeaderboard(leaderboardData.data.leaderboard);
+                setLoading(true)
 
 
-        setHeroText(getHeroText());
-    };
+                const [ meData, leaderboardData] = await Promise.all([
+                    axios.get("api/leaderboard/me") ,           
+                    axios.get("api/leaderboard"),
+                ]);
 
-    fetchLeaderboard();
+                setMe(meData.data);
+                setLeaderboard(leaderboardData.data.leaderboard);
+                setFetchError("");
 
-    const interval = setInterval(() => {
+
+                setHeroText(getHeroText());
+            } catch(err){
+                console.log("error while leaderboard and me data fetching frontend: ", err);
+
+                if (err?.response?.status === 429) {
+                    setFetchError("Too many refreshes. Leaderboard will be available again in about a minute.");
+                } else {
+                    setFetchError("Leaderboard could not be loaded right now.");
+                }
+            } finally{
+                setLoading(false)
+            }
+        };
+
         fetchLeaderboard();
-    }, 5 * 60 * 1000); // update in every 5 minutes
 
-    return () => clearInterval(interval);
+        const interval = setInterval(() => {
+            fetchLeaderboard();
+        }, 5 * 60 * 1000); // update in every 5 minutes
+
+        return () => clearInterval(interval);
     }, []);
 
 
@@ -183,8 +203,8 @@ function Leaderboard() {
                     </div>
 
                     <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center'>
-                        <div className='bg-green-500 text-xl rounded-full size-2'></div>
-                        <p>Updates every 5 minutes</p>
+                        <div className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} text-xl rounded-full size-2`}></div>
+                        <p>{fetchError || "Updates every 5 minutes"}</p>
                     </div>
                     
                 </div>
@@ -193,23 +213,55 @@ function Leaderboard() {
                 <div className=' rounded-md w-250 h-50 border-2 border-white/5 pl-7   mt-2 font-poppins flex '>
                     <div className='h-full bg-yellow-300 w-0.5  -ml-7 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_60%,transparent)] '></div>
                     <div className='flex flex-col gap-3 h-full justify-center pl-7 '>
-                        <p className='text-2xl font-semibold tracking-tight w-100 '>
-                            <span className='mr-2  text-amber-300 '>
-                               {leaderboard[0]?.name}
-                            </span>
-                            {heroText}
+                        <p className='text-2xl font-semibold tracking-tight w-100   rounded-sm'>
+                            {
+                                loading ? (
+                                    <div className='w-100 h-20 rounded-sm bg-neutral-800 animate-pulse'>
+                                    
+                                </div>
+                                ) : (
+                                    <>
+                                        <span className='mr-2  text-amber-300 '>
+                                        {leaderboard[0]?.name}
+                                        </span>
+                                        {heroText}
+                                    </>
+                                )
+                            }
+                            
                         </p>
 
-                        <p className='text-neutral-500 text-xs tracking-tight'>
-                            Showing top 100 users.  
-                        </p>
 
-                        <div className='flex gap-2 -mt-2.5'>
-                            
-                            
+                        {
+                            loading ? (
+                                <div className='w-35 h-5 rounded-sm bg-neutral-800 animate-pulse'>
+                                
+                            </div>
+                            ) : (
+                                <>
+                                    <p className='text-neutral-500 text-xs tracking-tight'>
+                                        Showing top 100 users.  
+                                    </p>
+                                </>
+                            )
+                        }
+
+                        {
+                            loading ? (
+                                <div className='w-50 h-5 rounded-sm bg-neutral-800 animate-pulse'>
+                                
+                            </div>
+                            ) : (
+                                <>
+                                    <div className='flex gap-2 -mt-2.5'>
                             <p className='text-neutral-500 text-xs tracking-tight'>Total users : {me?.usersNumber}</p>
                             <p className='text-neutral-500 text-xs tracking-tight '>  Your rank : # {me?.rank}</p>
                         </div>
+                                </>
+                            )
+                        }
+
+                        
                         
                     </div>
 
@@ -250,7 +302,11 @@ function Leaderboard() {
                                     
                                 
                                 {
-                                    leaderboard.map((user, i) =>{ 
+                                    !loading && leaderboard.length === 0 ? (
+                                        <div className='px-10 w-full h-32 font-poppins text-neutral-500 text-sm flex items-center justify-center text-center'>
+                                            <p>{fetchError || "No focus time has been logged today yet."}</p>
+                                        </div>
+                                    ) : leaderboard.map((user, i) =>{ 
                                         
                                         const rankStyle = getRankStyle(i + 1);
                                         const isMe = user.userId === me?.userId;

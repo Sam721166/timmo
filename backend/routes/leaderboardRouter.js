@@ -12,7 +12,10 @@ leaderboardRoute.get("/", async (req, res) => {
         const today = localDateKey()
         
         const topUsers = await leaderboardModel
-            .find()
+            .find({
+                lastActiveDate: today,
+                todayTime: { $gt: 0 }
+            })
             .sort({ 
                 todayTime: -1,
                 streak: -1,
@@ -24,10 +27,7 @@ leaderboardRoute.get("/", async (req, res) => {
             rank: index + 1,
             userId: user.userId?._id,
             name: user.userId?.name,
-            todayTime:
-                user.lastActiveDate === today
-                    ? user.todayTime
-                    : 0,
+            todayTime: user.todayTime,
             streak: user.streak
         }))
         
@@ -82,17 +82,23 @@ leaderboardRoute.get("/me", async (req, res) => {
         });
 
 
-        if (!me) {
-            me = await leaderboardModel.create({
-                userId: user._id,
-                todayTime: 0,
-                streak: 0,
-                lastActiveDate: localDateKey()
-            });
-        }
+    if (!me) {
+        me = await leaderboardModel.create({
+            userId: user._id,
+            todayTime,
+            streak: todayTime > 0 ? 1 : 0,
+            lastActiveDate: todayTime > 0 ? today : ""
+        });
+    } else if (todayTime > 0 && me.lastActiveDate !== today) {
+        const yesterday = localDateKey(
+            new Date(Date.now() - 86400000)
+        );
 
-
-    if (me.todayTime !== todayTime) {
+        me.streak = me.lastActiveDate === yesterday ? me.streak + 1 : 1;
+        me.lastActiveDate = today;
+        me.todayTime = todayTime;
+        await me.save();
+    } else if (me.todayTime !== todayTime) {
         me.todayTime = todayTime;
         await me.save();
     }
@@ -100,7 +106,8 @@ leaderboardRoute.get("/me", async (req, res) => {
 
     const rank = await leaderboardModel.countDocuments({
 
-
+        lastActiveDate: today,
+        todayTime: { $gt: 0 },
         $or: [
             { todayTime: { $gt: me.todayTime } },
 
@@ -121,7 +128,7 @@ leaderboardRoute.get("/me", async (req, res) => {
 
 
     const totalUsers =
-        await leaderboardModel.countDocuments();
+        await userModel.countDocuments();
 
     const focusedMoreThan =
         Math.round(

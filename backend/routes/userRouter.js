@@ -3,34 +3,33 @@ const userRouter = express.Router()
 import userModel from "../model/user.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
-// import z from "zod"
+import {
+    getValidationMessage,
+    loginSchema,
+    signupSchema
+} from "../utils/validationSchemas.js"
+
+const cookieOptions = {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 7 * 24 * 60 * 60 * 1000
+}
 
 
 //sign up 
 userRouter.post("/signup", async (req, res) => {
     try{
-        // const requireData = z.object({
-        //     email: z.string().min(1).max(100).email(),
-        //     password: z.string().min(2).max(50),
-        //     name: z.string().min(2).max(100)
-        // })
-        // const parseData = requireData.safeParse(req.body)
-        // if(!parseData.success){
-        //     return res.status(400).json({
-        //         msg: "invalid inputs",
-        //         err: parseData.error.format()
-        //     })
-        // }
+        const parsed = signupSchema.safeParse(req.body)
 
-
-        const {name, email, password} = req.body
-
-        if(!name || !email || !password){
+        if(!parsed.success){
             return res.status(400).json({
                 success: false,
-                msg: "All fields are required"
+                msg: getValidationMessage(parsed.error)
             })
         }
+
+        const {name, email, password} = parsed.data
 
         const user = await userModel.findOne({email})
         if(user){
@@ -45,8 +44,12 @@ userRouter.post("/signup", async (req, res) => {
             email: email,
             password: hash
         })
-        const token = jwt.sign({email: req.body.email}, process.env.JWT_SECRET)
-        res.cookie("token", token)
+        const token = jwt.sign(
+            { email },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        )
+        res.cookie("token", token, cookieOptions)
 
         return res.status(201).json({
             success: true,
@@ -69,13 +72,17 @@ userRouter.post("/signup", async (req, res) => {
 // login
 userRouter.post("/login", async (req, res) => {
     try{
-        const {email, password} = req.body
-        if(!email || !password){
+        const parsed = loginSchema.safeParse(req.body)
+
+        if(!parsed.success){
             return res.status(400).json({
                 success: false,
-                msg: "All fields are required"
+                msg: getValidationMessage(parsed.error)
             })
         }
+
+        const {email, password} = parsed.data
+
         const user = await userModel.findOne({email})
         if(!user){
             return res.status(404).json({
@@ -83,22 +90,31 @@ userRouter.post("/login", async (req, res) => {
                 msg: "User doesn't exist"
             })
         }
-        bcrypt.compare(password, user.password, (err, result) => {
-            if(result){
-                const token = jwt.sign({email}, process.env.JWT_SECRET)
-                res.cookie("token", token)
-                return res.status(200).json({
-                    success: true,
-                    user: user,
-                    token: token, 
-                    msg: `Login successful, welcome back ${user.name}`
-                })
-            } else {
-                return res.status(401).json({
-                    success: false,
-                    msg: "Wrong password"
-                })
-            }
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password)
+
+        if (!isPasswordCorrect) {
+            return res.status(401).json({
+                success: false,
+                msg: "Wrong password"
+            })
+        }
+
+        const token = jwt.sign(
+            { email },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        )
+        res.cookie("token", token, cookieOptions)
+
+        const safeUser = user.toObject()
+        delete safeUser.password
+
+        return res.status(200).json({
+            success: true,
+            user: safeUser,
+            token: token, 
+            msg: `Login successful, welcome back ${user.name}`
         })
 
     } catch(err){
@@ -115,7 +131,7 @@ userRouter.post("/login", async (req, res) => {
 
 //logout
 userRouter.post("/logout", async (req, res) => {
-    res.cookie("token", "")
+    res.clearCookie("token", cookieOptions)
     return res.status(200).json({
         success: true,
         msg: "Logout successful"

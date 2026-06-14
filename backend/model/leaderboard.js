@@ -27,5 +27,6 @@ leaderboardSchema.index({
     todayTime: -1,
     streak: -1
 });
+leaderboardSchema.index({ userId: 1 }, { unique: true });
 
 export default mongoose.model("leaderboard", leaderboardSchema)

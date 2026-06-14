@@ -4,18 +4,26 @@ import countdownModel from "../model/countdown.js"
 import userModel from "../model/user.js"
 import { localDateKey, buildDailySeries } from "../utils/localDate.js"
 import leaderboardModel from "../model/leaderboard.js";
-
+import {
+    getValidationMessage,
+    timerSaveSchema
+} from "../utils/validationSchemas.js";
 
 countdownRouter.post("/save", async (req, res) => {
     try{
-        const {totalTime} = req.body
+        const parsed = timerSaveSchema.safeParse(req.body)
+
+        if (!parsed.success) {
+            return res.status(400).json({
+                success: false,
+                message: getValidationMessage(parsed.error)
+            });
+        }
+
+        const savedSeconds = parsed.data.totalTime
 
         
         const user = await userModel.findOne({email: req.user.email})
-
-        if (!totalTime || totalTime <= 0) {
-            return res.status(400).json({ message: "Invalid time" });
-        }
 
         if (!user) {
             console.log("USER NOT FOUND IN REQ");
@@ -33,12 +41,12 @@ countdownRouter.post("/save", async (req, res) => {
         let total;
 
         if (existing) {
-            existing.totalTime += totalTime;
+            existing.totalTime += savedSeconds;
             await existing.save();
             total = existing;
         } else {
             total = await countdownModel.create({
-                totalTime,
+                totalTime: savedSeconds,
                 userId: user._id,
                 date: today
             });
@@ -54,7 +62,7 @@ countdownRouter.post("/save", async (req, res) => {
         if (!leaderboardUser) {
             leaderboardUser = await leaderboardModel.create({
                 userId: user._id,
-                todayTime: totalTime,
+                todayTime: savedSeconds,
                 streak: 1,
                 lastActiveDate: today
             });
@@ -77,7 +85,7 @@ countdownRouter.post("/save", async (req, res) => {
                 leaderboardUser.lastActiveDate = today;
             }
 
-            leaderboardUser.todayTime += totalTime;
+            leaderboardUser.todayTime += savedSeconds;
 
             await leaderboardUser.save();
         }

@@ -14,4 +14,6 @@ const stopwatchSchema = mongoose.Schema({
     }
 }, {timestamps: true})
 
+stopwatchSchema.index({ userId: 1, date: 1 });
+
 export default mongoose.model("stopwatch", stopwatchSchema)

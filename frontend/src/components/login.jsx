@@ -85,11 +85,13 @@ function Login() {
                                 <input
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="Name"
-                                    type="text"
-                                    required
-                                    className="  absolute text-white outline-none border-none border-2 mb-10 rounded-xl w-120 h-12 placeholder:text-neutral-600 font-poppins font-semibold px-4 text-lg "
-                                />
+                            placeholder="Name"
+                            type="text"
+                            required
+                            minLength={2}
+                            maxLength={100}
+                            className="  absolute text-white outline-none border-none border-2 mb-10 rounded-xl w-120 h-12 placeholder:text-neutral-600 font-poppins font-semibold px-4 text-lg "
+                        />
                             </div>
                         ) : (
                             <div></div>
@@ -104,6 +106,7 @@ function Login() {
                             placeholder="Email"
                             type="email"
                             required
+                            maxLength={100}
                             className="  absolute text-white outline-none border-none border-2 mb-10 rounded-xl w-120 h-12 placeholder:text-neutral-600 font-poppins font-semibold px-4 text-lg "
                         />
                     </div>
@@ -116,6 +119,8 @@ function Login() {
                             placeholder="Password"
                             type="text"
                             required
+                            minLength={login ? undefined : 3}
+                            maxLength={72}
                             className="absolute text-white outline-none border-none border-2 mb-10 rounded-xl w-120 h-12 placeholder:text-neutral-600 font-poppins font-semibold px-4 text-lg "
                         />
                     </div>
