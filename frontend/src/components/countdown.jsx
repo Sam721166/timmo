@@ -6,6 +6,39 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useOutletContext } from "react-router";
 
+import confetti from "canvas-confetti";
+
+const triggerSideCannons = () => {
+  const end = Date.now() + 2 * 1000; // 2 seconds
+  const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+
+  const frame = () => {
+    if (Date.now() > end) return;
+
+    confetti({
+      particleCount: 2,
+      angle: 60,
+      spread: 55,
+      startVelocity: 60,
+      origin: { x: 0, y: 0.5 },
+      colors: colors,
+    });
+    confetti({
+      particleCount: 2,
+      angle: 120,
+      spread: 55,
+      startVelocity: 60,
+      origin: { x: 1, y: 0.5 },
+      colors: colors,
+    });
+
+    requestAnimationFrame(frame);
+  };
+
+  frame();
+};
+
+
 function Countdown() {
 
   const [hours, setHours] = useState(0);
@@ -73,6 +106,7 @@ function Countdown() {
       setIsRunning(false);
       saveCountdown(); 
       setIsSaved(true)
+      triggerSideCannons(); // 🎉 Trigger Side Cannons confetti!
     }
 
     return () => clearInterval(interval);
