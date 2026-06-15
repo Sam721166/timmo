@@ -22,13 +22,15 @@ leaderboardRoute.get("/", async (req, res) => {
             .limit(100)
             .populate("userId", "name");
 
-        const leaderboard = topUsers.map((user, index) => ({
-            rank: index + 1,
-            userId: user.userId?._id,
-            name: user.userId?.name,
-            todayTime: user.todayTime,
-            streak: user.streak
-        }))
+        const leaderboard = topUsers
+            .filter(user => user.userId) // Filter out deleted users where populate returned null
+            .map((user, index) => ({
+                rank: index + 1,
+                userId: user.userId?._id,
+                name: user.userId?.name,
+                todayTime: user.todayTime,
+                streak: user.streak
+            }))
         
         res.status(200).json({
             success: true,

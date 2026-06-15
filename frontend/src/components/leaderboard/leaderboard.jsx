@@ -92,6 +92,7 @@ function Leaderboard() {
 
     
     const getAvatarColor = (name) => {
+        if (!name) return "hsla(0, 0%, 50%, 0.25)";
         let hash = 0;
 
         for (let i = 0; i < name.length; i++) {
@@ -365,7 +366,7 @@ function Leaderboard() {
                                                         backgroundColor: getAvatarColor(user?.name)
                                                     }}
                                                 >
-                                                <p>{user?.name[0]?.toUpperCase()}</p>
+                                                <p>{user?.name ? user.name[0].toUpperCase() : "?"}</p>
                                                 </div>
                         
                                                 <div className="flex flex-col">
