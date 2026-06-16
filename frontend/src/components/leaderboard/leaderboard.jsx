@@ -220,8 +220,8 @@ function Leaderboard() {
 
 
                 <div className='w-full flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-                    <div className='border-2 border-white/10 rounded-lg h-10 w-full cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center sm:w-35'>
-                        <p className='font-poppins tracking-tight mx-0.5 sm:mx-0 px-3 py-1 rounded-sm w-full text-center bg-white/10 sm:w-33'>Last 24 hours</p>
+                    <div className='border-2 border-white/10 rounded-lg h-10 w-full cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center sm:w-27'>
+                        <p className='font-poppins tracking-tight mx-0.5 sm:mx-0 px-3 py-1 rounded-sm w-full text-center bg-white/10 sm:w-25'>Today</p>
                     </div>
 
                     <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center text-center sm:text-left'>
