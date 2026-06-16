@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RiResetLeftLine } from "react-icons/ri";
 import { FaPause } from "react-icons/fa6";
 import { FaPlay } from "react-icons/fa";
@@ -41,20 +41,55 @@ const triggerSideCannons = () => {
 
 function Countdown() {
 
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+  const [hours, setHours] = useState(() => {
+    const saved = localStorage.getItem("countdown_hours");
+    return saved !== null ? Number(saved) : 0;
+  });
+  const [minutes, setMinutes] = useState(() => {
+    const saved = localStorage.getItem("countdown_minutes");
+    return saved !== null ? Number(saved) : 25;
+  });
+  const [seconds, setSeconds] = useState(() => {
+    const saved = localStorage.getItem("countdown_seconds");
+    return saved !== null ? Number(saved) : 0;
+  });
 
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
+  const [isRunning, setIsRunning] = useState(() => {
+    const saved = localStorage.getItem("countdown_isRunning");
+    return saved === "true";
+  });
+  const [hasStarted, setHasStarted] = useState(() => {
+    const saved = localStorage.getItem("countdown_hasStarted");
+    return saved === "true";
+  });
 
+  const [initialTime, setInitialTime] = useState(() => {
+    const saved = localStorage.getItem("countdown_initialTime");
+    return saved !== null ? Number(saved) : 0;
+  });
+  const [isSaved, setIsSaved] = useState(() => {
+    const saved = localStorage.getItem("countdown_isSaved");
+    return saved === "true";
+  });
 
+  const [targetEndTime, setTargetEndTime] = useState(() => {
+    const saved = localStorage.getItem("countdown_targetEndTime");
+    return saved !== null ? Number(saved) : 0;
+  });
 
-  const [initialTime, setInitialTime] = useState(0)
-  const [isSaved, setIsSaved] = useState(false)
+  const [time, setTime] = useState(() => {
+    const savedIsRunning = localStorage.getItem("countdown_isRunning") === "true";
+    if (savedIsRunning) {
+      const savedTargetEndTime = Number(localStorage.getItem("countdown_targetEndTime") || 0);
+      const remaining = Math.max(0, Math.ceil((savedTargetEndTime - Date.now()) / 1000));
+      return remaining;
+    } else {
+      const savedTime = localStorage.getItem("countdown_time");
+      return savedTime !== null ? Number(savedTime) : 1500;
+    }
+  });
 
-
+  const hasSavedRef = useRef(isSaved);
 
   const saveCountdown = async () => {
     const timeUsed = initialTime - time;
@@ -77,12 +112,6 @@ function Countdown() {
     }
   };
 
-
-  
-  
- 
-
-
   // sync input with timer before starting
   useEffect(() => {
       if (!isRunning && !hasStarted) {
@@ -91,19 +120,22 @@ function Countdown() {
       }
   }, [hours, minutes, seconds, isRunning, hasStarted]);
 
-
   useEffect(() => {
-
     let interval;
 
-    if (isRunning && time > 0) {
+    if (isRunning && time > 0 && targetEndTime > 0) {
       interval = setInterval(() => {
-        setTime((prev) => Math.max(prev - 1, 0));
-      }, 1000);
+        const remaining = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
+        if (remaining !== time) {
+          setTime(remaining);
+        }
+      }, 200);
     }
 
-     if (time === 0 && hasStarted && !isSaved) {
+    if (time === 0 && hasStarted && !isSaved && !hasSavedRef.current) {
+      hasSavedRef.current = true;
       setIsRunning(false);
+      setTargetEndTime(0);
       saveCountdown(); 
       setIsSaved(true);
       if (initialTime > 0) {
@@ -112,40 +144,50 @@ function Countdown() {
     }
 
     return () => clearInterval(interval);
-  }, [isRunning, time, hasStarted, isSaved]);
+  }, [isRunning, time, hasStarted, isSaved, targetEndTime]);
 
-
+  useEffect(() => {
+    localStorage.setItem("countdown_hours", hours.toString());
+    localStorage.setItem("countdown_minutes", minutes.toString());
+    localStorage.setItem("countdown_seconds", seconds.toString());
+    localStorage.setItem("countdown_isRunning", isRunning.toString());
+    localStorage.setItem("countdown_hasStarted", hasStarted.toString());
+    localStorage.setItem("countdown_initialTime", initialTime.toString());
+    localStorage.setItem("countdown_isSaved", isSaved.toString());
+    localStorage.setItem("countdown_time", time.toString());
+    localStorage.setItem("countdown_targetEndTime", targetEndTime.toString());
+  }, [hours, minutes, seconds, isRunning, hasStarted, initialTime, isSaved, time, targetEndTime]);
 
   const start = () => {
-
     if(!hasStarted){
-      setInitialTime(time)
+      setInitialTime(time);
       setIsSaved(false);
+      hasSavedRef.current = false;
     }
 
     setHasStarted(true);
     setIsRunning(true);
-    
+
+    const newTargetEndTime = Date.now() + time * 1000;
+    setTargetEndTime(newTargetEndTime);
   };
 
-
   const pause = () => {
-    
     setIsRunning(false);
-
-
-  }
-
+    setTargetEndTime(0);
+  };
 
   const reset = async () => {
-    
-    if(hasStarted && !isSaved){
+    if(hasStarted && !isSaved && !hasSavedRef.current){
+      hasSavedRef.current = true;
       setIsSaved(true); 
       await saveCountdown();
     }
     
     setIsRunning(false);
     setHasStarted(false);
+    setTargetEndTime(0);
+    hasSavedRef.current = false;
 
     const total = hours * 3600 + minutes * 60 + seconds;
     setTime(total);
@@ -201,7 +243,7 @@ function Countdown() {
           placeholder="hh"
           value={hours}
           onChange={(e) =>
-            setHours(Math.min(12, Math.max(0, Number(e.target.value))))
+            setHours(Math.min(11, Math.max(0, Number(e.target.value))))
           }
           className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />

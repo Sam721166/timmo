@@ -9,17 +9,32 @@ import { useOutletContext } from 'react-router';
 
 function Stopwatch() {
 
-    const [isRunning, setIsRunning] = useState(false);
+    const [isRunning, setIsRunning] = useState(() => {
+        const saved = localStorage.getItem("stopwatch_isRunning");
+        return saved === "true";
+    });
 
+    const [startTime, setStartTime] = useState(() => {
+        const saved = localStorage.getItem("stopwatch_startTime");
+        return saved !== null ? Number(saved) : null;
+    });
 
-    const [startTime, setStartTime] = useState(null);
-    const [elapsedTime, setElapsedTime] = useState(0);
-    // const [totalSecond, setTotalSecond] = useState(0);
-
-    
-
+    const [elapsedTime, setElapsedTime] = useState(() => {
+        const saved = localStorage.getItem("stopwatch_elapsedTime");
+        return saved !== null ? Number(saved) : 0;
+    });
 
     const [, forceUpdate] = useState(0);
+
+    useEffect(() => {
+        localStorage.setItem("stopwatch_isRunning", isRunning);
+        if (startTime !== null) {
+            localStorage.setItem("stopwatch_startTime", startTime.toString());
+        } else {
+            localStorage.removeItem("stopwatch_startTime");
+        }
+        localStorage.setItem("stopwatch_elapsedTime", elapsedTime.toString());
+    }, [isRunning, startTime, elapsedTime]);
 
     useEffect(() => {
         let interval;
