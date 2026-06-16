@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import List from "../leaderboard/list"
 import { FaCrown, FaFire } from "react-icons/fa6";
 import Sidecard from './sidecard';
 import axios from 'axios';
