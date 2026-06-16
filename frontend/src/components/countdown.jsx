@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { RiResetLeftLine } from "react-icons/ri";
 import { FaPause } from "react-icons/fa6";
 import { FaPlay } from "react-icons/fa";
@@ -41,23 +41,47 @@ const triggerSideCannons = () => {
 
 function Countdown() {
 
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(25);
-  const [seconds, setSeconds] = useState(0);
+const {
+  textColor,
+  countdownState,
+  setCountdownState,
+  stopwatchState
+} = useOutletContext();
 
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
+const {
+  hours,
+  minutes,
+  seconds,
+  time,
+  isRunning,
+  hasStarted,
+  initialTime,
+  endTime,
+  isSaved,
+} = countdownState;
 
+const updateCountdown = (field, value) => {
+  setCountdownState(prev => ({
+    ...prev,
+    [field]:
+      typeof value === "function"
+        ? value(prev[field])
+        : value,
+  }));
+};
 
-
-  const [initialTime, setInitialTime] = useState(0)
-  const [isSaved, setIsSaved] = useState(false)
-
-
+const completionHandledRef = useRef(false);
 
   const saveCountdown = async () => {
-    const timeUsed = initialTime - time;
+    const currentRemaining =
+  endTime && isRunning
+    ? Math.max(
+        0,
+        Math.floor((endTime - Date.now()) / 1000)
+      )
+    : time;
+
+const timeUsed = initialTime - currentRemaining;
 
     if (timeUsed <= 0) {
       toast.error("Run timer for at least 1 second");
@@ -87,80 +111,130 @@ function Countdown() {
   useEffect(() => {
       if (!isRunning && !hasStarted) {
           const total = hours * 3600 + minutes * 60 + seconds;
-          setTime(total);
+          updateCountdown("time", total);
       }
   }, [hours, minutes, seconds, isRunning, hasStarted]);
 
+// useEffect(() => {
+//   if (
+//     isRunning &&
+//     hasStarted &&
+//     !isSaved &&
+//     endTime &&
+//     Date.now() >= endTime &&
+//     !completionHandledRef.current
+//   ) {
+//     completionHandledRef.current = true;
 
-  useEffect(() => {
+//     updateCountdown("isRunning", false);
+//     updateCountdown("time", 0);
+//     updateCountdown("isSaved", true);
+//     updateCountdown("hasStarted", false);
+//     saveCountdown();
 
-    let interval;
-
-    if (isRunning && time > 0) {
-      interval = setInterval(() => {
-        setTime((prev) => Math.max(prev - 1, 0));
-      }, 1000);
-    }
-
-     if (time === 0 && hasStarted && !isSaved) {
-      setIsRunning(false);
-      saveCountdown(); 
-      setIsSaved(true);
-      if (initialTime > 0) {
-        triggerSideCannons(); // 🎉 Trigger Side Cannons confetti!
-      }
-    }
-
-    return () => clearInterval(interval);
-  }, [isRunning, time, hasStarted, isSaved]);
-
-
+//     if (initialTime > 0) {
+//       triggerSideCannons();
+//     }
+//   }
+// }, [isRunning, hasStarted, isSaved, endTime]);
 
   const start = () => {
+     if (stopwatchState.isRunning) {
+    toast.error(
+      "Stopwatch is already running. Please stop it first."
+    );
+    return;
+  }
+  if (!hasStarted) {
+  completionHandledRef.current = false;
 
-    if(!hasStarted){
-      setInitialTime(time)
-      setIsSaved(false);
-    }
+  updateCountdown("initialTime", time);
+  updateCountdown("isSaved", false);
 
-    setHasStarted(true);
-    setIsRunning(true);
-    
-  };
+ 
+}
+ updateCountdown(
+    "endTime",
+    Date.now() + time * 1000
+  );
 
+  updateCountdown("hasStarted", true);
+  updateCountdown("isRunning", true);
+};
 
   const pause = () => {
-    
-    setIsRunning(false);
+  const remaining = Math.max(
+    0,
+    Math.floor((endTime - Date.now()) / 1000)
+  );
 
-
-  }
+  updateCountdown("time", remaining);
+  updateCountdown("isRunning", false);
+};
 
 
   const reset = async () => {
-    
+    completionHandledRef.current = false;
     if(hasStarted && !isSaved){
-      setIsSaved(true); 
+     updateCountdown("isSaved", true); 
       await saveCountdown();
     }
     
-    setIsRunning(false);
-    setHasStarted(false);
+   updateCountdown("isRunning", false);
+   updateCountdown("hasStarted", false);
+   updateCountdown("endTime", null);
 
     const total = hours * 3600 + minutes * 60 + seconds;
-    setTime(total);
+    updateCountdown("time", total);
   };
 
 
 
   // convert seconds → display
-  const displayHours = String(Math.floor(time / 3600)).padStart(2, "0");
-  const displayMinutes = String(Math.floor((time % 3600) / 60)).padStart(2, "0");
-  const displaySeconds = String(time % 60).padStart(2, "0");
+ const remaining = endTime
+  ? Math.max(
+      0,
+      Math.floor((endTime - Date.now()) / 1000)
+    )
+  : time;
+
+useEffect(() => {
+  if (
+    isRunning &&
+    hasStarted &&
+    !isSaved &&
+    remaining <= 0 &&
+    !completionHandledRef.current
+  ) {
+    completionHandledRef.current = true;
+
+    updateCountdown("isRunning", false);
+    updateCountdown("time", 0);
+    updateCountdown("isSaved", true);
+    updateCountdown("hasStarted", false);
+
+    saveCountdown();
+
+    if (initialTime > 0) {
+      triggerSideCannons();
+    }
+  }
+}, [remaining, isRunning, hasStarted, isSaved]);
+
+const displayHours = String(
+  Math.floor(remaining / 3600)
+).padStart(2, "0");
+
+const displayMinutes = String(
+  Math.floor((remaining % 3600) / 60)
+).padStart(2, "0");
+
+const displaySeconds = String(
+  remaining % 60
+).padStart(2, "0");
 
 
-
-    const { textColor, setTextColor } = useOutletContext();
+    //const { textColor, setTextColor } = useOutletContext();
 
     const textColors = {
       white: "text-neutral-100",
@@ -201,7 +275,10 @@ function Countdown() {
           placeholder="hh"
           value={hours}
           onChange={(e) =>
-            setHours(Math.min(12, Math.max(0, Number(e.target.value))))
+            updateCountdown(
+                     "hours",
+                Math.min(12, Math.max(0, Number(e.target.value)))
+              )
           }
           className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
@@ -219,9 +296,10 @@ function Countdown() {
           placeholder="mm"
           value={minutes}
           onChange={(e) =>
-            setMinutes(
-              Math.min(59, Math.max(0, Number(e.target.value)))
-            )
+            updateCountdown(
+  "minutes",
+  Math.min(59, Math.max(0, Number(e.target.value)))
+)
           }
           className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
@@ -239,9 +317,10 @@ function Countdown() {
           placeholder="ss"
           value={seconds}
           onChange={(e) =>
-            setSeconds(
-              Math.min(59, Math.max(0, Number(e.target.value)))
-            )
+            updateCountdown(
+  "seconds",
+  Math.min(59, Math.max(0, Number(e.target.value)))
+)
           }
           className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
         />
