@@ -9,20 +9,40 @@ import { useOutletContext } from 'react-router';
 
 function Stopwatch() {
 
-    const [isRunning, setIsRunning] = useState(() => {
-        const saved = localStorage.getItem("stopwatch_isRunning");
-        return saved === "true";
-    });
+   const {
+  textColor,
+  stopwatchState,
+  setStopwatchState,
+  countdownState
+} = useOutletContext();
 
-    const [startTime, setStartTime] = useState(() => {
-        const saved = localStorage.getItem("stopwatch_startTime");
-        return saved !== null ? Number(saved) : null;
-    });
+const {
+  isRunning,
+  startTime,
+  elapsedTime,
+} = stopwatchState;
 
-    const [elapsedTime, setElapsedTime] = useState(() => {
-        const saved = localStorage.getItem("stopwatch_elapsedTime");
-        return saved !== null ? Number(saved) : 0;
-    });
+const setIsRunning = (value) =>
+  setStopwatchState(prev => ({
+    ...prev,
+    isRunning: value,
+  }));
+
+const setStartTime = (value) =>
+  setStopwatchState(prev => ({
+    ...prev,
+    startTime: value,
+  }));
+
+const setElapsedTime = (value) =>
+  setStopwatchState(prev => ({
+    ...prev,
+    elapsedTime:
+      typeof value === "function"
+        ? value(prev.elapsedTime)
+        : value,
+  }));
+
 
     const [, forceUpdate] = useState(0);
 
@@ -62,6 +82,12 @@ function Stopwatch() {
 
 
     const startHandler = () => {
+          if (countdownState.isRunning) {
+    toast.error(
+       "Countdown is already running. Please stop it first."
+    );
+    return;
+  }
         setIsRunning(true);
 
         setStartTime(Date.now())
@@ -108,7 +134,7 @@ function Stopwatch() {
 
 
 
-    const { textColor, setTextColor } = useOutletContext();
+   // const { textColor, setTextColor } = useOutletContext();
 
     const textColors = {
         white: "text-neutral-100",
