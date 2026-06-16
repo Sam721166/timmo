@@ -249,7 +249,7 @@ const displaySeconds = String(
           onChange={(e) =>
             updateCountdown(
                      "hours",
-                Math.min(12, Math.max(0, Number(e.target.value)))
+                Math.min(11, Math.max(0, Number(e.target.value)))
               )
           }
           className="w-16 sm:w-16 h-10 sm:h-11 text-white px-2 bg-neutral-800 rounded border border-neutral-700 text-center"
