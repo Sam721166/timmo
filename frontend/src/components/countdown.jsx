@@ -106,58 +106,7 @@ const timeUsed = initialTime - currentRemaining;
 
   
 
-  // play sound after countdown completed 
-  const playAlarmSound = () => {
-  try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-
-    const ctx = new AudioContext();
-    const now = ctx.currentTime;
-
-    const note = (freq, start, duration, volume = 0.3) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(freq, start);
-
-      // Smooth attack
-      gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(volume, start + 0.04);
-
-      // Smooth release
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        start + duration
-      );
-
-      osc.start(start);
-      osc.stop(start + duration + 0.02);
-    };
-
-    // Soft ascending "ding ding ding"
-    note(523.25, now, 0.25);        // C5
-    note(659.25, now + 0.18, 0.25); // E5
-    note(783.99, now + 0.36, 0.45); // G5
-
-// OPTIMIZATION: Close the context after 1 second
-    setTimeout(() => {
-      if (ctx.state !== "closed") {
-        ctx.close();
-      }
-    }, 1200);
-  } catch (err) {
-    console.error("Web Audio API failed:", err);
-  }
-};
-
-
-
-
+  // Background alarm and completions are handled in the Home context.
 
 
 
@@ -176,12 +125,16 @@ const timeUsed = initialTime - currentRemaining;
 
 
   const start = () => {
-     if (stopwatchState.isRunning) {
-    toast.error(
-      "Stopwatch is already running. Please stop it first."
-    );
-    return;
-  }
+    if (stopwatchState.isRunning) {
+      toast.error(
+        "Stopwatch is already running. Please stop it first."
+      );
+      return;
+    }
+    if (time <= 0) {
+      toast.error("Run timer for at least 1 second");
+      return;
+    }
   if (!hasStarted) {
   completionHandledRef.current = false;
 
@@ -235,29 +188,14 @@ const timeUsed = initialTime - currentRemaining;
     )
   : time;
 
-useEffect(() => {
-  if (
-    isRunning &&
-    hasStarted &&
-    !isSaved &&
-    remaining <= 0 &&
-    !completionHandledRef.current
-  ) {
-    completionHandledRef.current = true;
-
-    updateCountdown("isRunning", false);
-    updateCountdown("time", 0);
-    updateCountdown("isSaved", true);
-    updateCountdown("hasStarted", false);
-
-    saveCountdown();
-
-    if (initialTime > 0) {
-      triggerSideCannons(); // <-- show confetti
-      playAlarmSound(); // <-- Play sound here!
+  useEffect(() => {
+    if (countdownState.showConfetti) {
+      if (initialTime > 0) {
+        triggerSideCannons();
+      }
+      updateCountdown("showConfetti", false);
     }
-  }
-}, [remaining, isRunning, hasStarted, isSaved]);
+  }, [countdownState.showConfetti, initialTime]);
 
 const displayHours = String(
   Math.floor(remaining / 3600)
