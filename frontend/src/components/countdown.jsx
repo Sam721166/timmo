@@ -115,7 +115,7 @@ const timeUsed = initialTime - currentRemaining;
     const ctx = new AudioContext();
     const now = ctx.currentTime;
 
-    const note = (freq, start, duration, volume = 0.1) => {
+    const note = (freq, start, duration, volume = 0.3) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
 
@@ -127,7 +127,7 @@ const timeUsed = initialTime - currentRemaining;
 
       // Smooth attack
       gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(volume, start + 0.02);
+      gain.gain.linearRampToValueAtTime(volume, start + 0.04);
 
       // Smooth release
       gain.gain.exponentialRampToValueAtTime(
@@ -144,7 +144,7 @@ const timeUsed = initialTime - currentRemaining;
     note(659.25, now + 0.18, 0.25); // E5
     note(783.99, now + 0.36, 0.45); // G5
 
-    // OPTIMIZATION: Close the context after 1 second
+// OPTIMIZATION: Close the context after 1 second
     setTimeout(() => {
       if (ctx.state !== "closed") {
         ctx.close();
