@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Timer
 } from "lucide-react";
+import { FaGithub, FaXTwitter } from "react-icons/fa6";
 
 // Format helper for user statistics
 const formatCompact = (value) => {
@@ -1291,6 +1292,50 @@ function Landing() {
             </div>
           </section>
         </main>
+
+        {/* Footer */}
+        <footer className="mt-20 border-t border-neutral-200/60 py-8 text-neutral-500 font-sans text-xs">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="font-gothic text-base tracking-wide text-neutral-800">Timmo</span>
+              <span className="text-neutral-300">|</span>
+              <p>© {new Date().getFullYear()} Timmo. All rights reserved.</p>
+            </div>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/Sam721166/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-500 hover:text-neutral-900 transition-colors p-1"
+                aria-label="GitHub"
+              >
+                <FaGithub className="w-5 h-5" />
+              </a>
+              <a
+                href="https://x.com/samirande_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-neutral-500 hover:text-neutral-900 transition-colors p-1"
+                aria-label="Twitter/X"
+              >
+                <FaXTwitter className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+          <div className="mt-6 border-t border-neutral-200/20 pt-4 text-center text-[11px] text-neutral-400">
+            <p>
+              Built with <span className="text-red-500 animate-pulse">❤️</span> by{" "}
+              <a
+                href="https://github.com/Sam721166"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-neutral-500 hover:text-neutral-900 transition-colors"
+              >
+                Samiran De
+              </a>
+            </p>
+          </div>
+        </footer>
       </div>
     </div>
   );
