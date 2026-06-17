@@ -27,7 +27,8 @@ import {
   ShieldCheck,
   Timer
 } from "lucide-react";
-import { FaGithub, FaXTwitter } from "react-icons/fa6";
+import { FaGithub, FaXTwitter, FaHeart } from "react-icons/fa6";
+import { SiBuymeacoffee } from "react-icons/si";
 
 // Format helper for user statistics
 const formatCompact = (value) => {
@@ -1291,10 +1292,77 @@ function Landing() {
               </div>
             </div>
           </section>
+
+          {/* Sponsor/Support Section */}
+          <section className="py-6 w-full mt-4 px-4">
+            <div className="relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-white p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.015)] w-full">
+              {/* Decorative radial gradients */}
+              <div className="absolute -right-24 -top-24 -z-10 h-64 w-64 rounded-full bg-pink-100/30 blur-3xl" />
+              <div className="absolute -left-24 -bottom-24 -z-10 h-64 w-64 rounded-full bg-amber-100/30 blur-3xl" />
+              
+              <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center w-full">
+                <div className="text-left">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200/60 bg-neutral-50 px-3 py-1 font-sans text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+                    <Sparkles className="w-3 h-3 text-amber-500" />
+                    Sponsor & Support
+                  </span>
+                  
+                  <h2 className="mt-5 font-sans text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-950 leading-[1.2]">
+                    Help us build the <br />
+                    <span className="font-instrumental font-normal italic text-neutral-500 block sm:inline mt-1">
+                      ultimate workspace.
+                    </span>
+                  </h2>
+                  
+                  <p className="mt-4 max-w-xl font-sans text-sm leading-relaxed text-neutral-500 font-medium">
+                    Timmo is indie-crafted and completely free of clutter. Your support directly funds server costs, new focus widgets, and continuous upgrades. Join us in building a better, quiet web.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-3 w-full max-w-sm lg:justify-self-end">
+                  <a
+                    href="https://github.com/sponsors/Sam721166"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex h-14 w-full items-center justify-between rounded-2xl border border-neutral-200 bg-white px-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-pink-300 hover:shadow-[0_10px_20px_-10px_rgba(244,63,94,0.15)] cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-9 items-center justify-center rounded-xl bg-pink-50 text-pink-500 transition-colors duration-300 group-hover:bg-pink-100">
+                        <FaHeart className="w-4 h-4 animate-pulse" />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-sans text-xs font-bold text-neutral-800">GitHub Sponsors</p>
+                        <p className="text-[10px] font-semibold text-neutral-400">Support monthly or one-time</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-neutral-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+
+                  <a
+                    href="https://buymeacoffee.com/samirande_"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative flex h-14 w-full items-center justify-between rounded-2xl border border-neutral-200 bg-white px-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-[0_10px_20px_-10px_rgba(245,158,11,0.15)] cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex size-9 items-center justify-center rounded-xl bg-amber-50 text-amber-500 transition-colors duration-300 group-hover:bg-amber-100">
+                        <SiBuymeacoffee className="w-4 h-4" />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-sans text-xs font-bold text-neutral-800">Buy Me a Coffee</p>
+                        <p className="text-[10px] font-semibold text-neutral-400">Buy a cup to show support</p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-neutral-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
         </main>
 
         {/* Footer */}
-        <footer className="mt-20 border-t border-neutral-200/60 py-8 text-neutral-500 font-sans text-xs">
+        <footer className="mt-10 border-t border-neutral-200/60 py-8 text-neutral-500 font-sans text-xs">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <span className="font-gothic text-base tracking-wide text-neutral-800">Timmo</span>
