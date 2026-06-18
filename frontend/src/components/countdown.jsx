@@ -124,7 +124,7 @@ const timeUsed = initialTime - currentRemaining;
   }, [hours, minutes, seconds, isRunning, hasStarted]);
 
 
-  const start = () => {
+  const start = async () => {
     if (stopwatchState.isRunning) {
       toast.error(
         "Stopwatch is already running. Please stop it first."
@@ -141,7 +141,11 @@ const timeUsed = initialTime - currentRemaining;
   updateCountdown("initialTime", time);
   updateCountdown("isSaved", false);
 
- 
+  try {
+      await axios.post("/api/countdown/start", {}, { withCredentials: true });
+  } catch (err) {
+      console.error("Failed to start countdown session on backend: ", err);
+  }
 }
  updateCountdown(
     "endTime",

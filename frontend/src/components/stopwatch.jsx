@@ -81,7 +81,7 @@ const setElapsedTime = (value) =>
 
 
 
-    const startHandler = () => {
+    const startHandler = async () => {
           if (countdownState.isRunning) {
     toast.error(
        "Countdown is already running. Please stop it first."
@@ -89,8 +89,15 @@ const setElapsedTime = (value) =>
     return;
   }
         setIsRunning(true);
+        setStartTime(Date.now());
 
-        setStartTime(Date.now())
+        if (elapsedTime === 0) {
+            try {
+                await axios.post("/api/stopwatch/start", {}, { withCredentials: true });
+            } catch (err) {
+                console.error("Failed to start stopwatch session on backend: ", err);
+            }
+        }
     };
 
     const pauseHandler = () => {

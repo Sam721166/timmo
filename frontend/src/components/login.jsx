@@ -2,17 +2,11 @@ import React, { useState } from 'react'
 import axios from "axios"
 import { useNavigate } from 'react-router'
 import toast from "react-hot-toast"
-import { motion, AnimatePresence } from "framer-motion"
-import { Mail, Lock, User, Eye, EyeOff, ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
+import { GoogleLogin } from '@react-oauth/google'
 
 function Login() {
     const navigate = useNavigate()
-
-    const [login, setLogin] = useState(false)
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [showPassword, setShowPassword] = useState(false)
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
     const [isHovered, setIsHovered] = useState(false)
 
@@ -24,54 +18,33 @@ function Login() {
         })
     }
 
-    const handleLogin = () => {
-        setLogin(!login)
-        setName("")
-        setEmail("")
-        setPassword("")
-        setShowPassword(false)
-    }
-
-    const submitHandler = async (e) => {
-        e.preventDefault()
-        if (login) {
-            // login
-            try {
-                const res = await axios.post("/api/user/login", { email, password }, { withCredentials: true })
-                if (res?.data?.success) {
-                    localStorage.setItem("token", res?.data?.token);
-                    toast.success(res?.data?.msg)
-                    navigate("/clock")
-                }
-            } catch (err) {
-                console.log("error while login in frontend: ", err);
-                toast.error(
-                    err?.response?.data?.msg || 
-                    err?.message || 
-                    "Something went wrong"
-                )
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            const res = await axios.post("/api/user/google-login", {
+                credential: credentialResponse.credential
+            }, { withCredentials: true });
+            
+            if (res?.data?.success) {
+                localStorage.setItem("token", res?.data?.token);
+                toast.success(res?.data?.msg || "Successfully logged in!");
+                navigate("/clock")
             }
-        } else {
-            // sign up
-            try {
-                const res = await axios.post("/api/user/signup", { name, email, password }, { withCredentials: true })
-                if (res?.data?.success) {
-                    toast.success(res?.data?.msg)
-                    setLogin(true)
-                }
-            } catch (err) {
-                console.log("error while signup in frontend: ", err);
-                toast.error(
-                    err?.response?.data?.msg || 
-                    err?.message || 
-                    "Something went wrong"
-                )
-            }
+        } catch (err) {
+            console.error("Error during Google OAuth backend sign-in: ", err);
+            toast.error(
+                err?.response?.data?.msg || 
+                err?.message || 
+                "Google Authentication failed"
+            )
         }
-    }
+    };
+
+    const handleGoogleError = () => {
+        toast.error("Google Authentication failed");
+    };
 
     return (
-        <div className="h-screen w-screen overflow-hidden bg-black text-white font-sans selection:bg-white selection:text-black relative">
+        <div className="h-screen w-screen overflow-hidden bg-black text-white font-sans selection:bg-white selection:text-black relative animate-fade-in">
             <div className="grid grid-cols-1 lg:grid-cols-12 h-full w-full">
                 
                 {/* Showcase Side (Left - Desktop Only) */}
@@ -87,15 +60,15 @@ function Login() {
                         className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-300"
                         style={{
                             opacity: isHovered ? 1 : 0,
-                            background: `radial-gradient(320px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.08), transparent 80%)`
+                            background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.06), transparent 85%)`
                         }}
                     />
 
-                    {/* Background Dither Image (Higher Opacity and Visibility) */}
+                    {/* Background Dither Image */}
                     <img 
                         src="/dither.jpg" 
                         alt="Dither Illustration"
-                        className="absolute inset-0 w-full h-full object-cover opacity-55 mix-blend-luminosity filter contrast-150 brightness-100 pointer-events-none" 
+                        className="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-luminosity filter contrast-150 brightness-90 pointer-events-none" 
                     />
 
                     {/* Overlay Gradients */}
@@ -103,16 +76,14 @@ function Login() {
                     <div className="absolute inset-0 bg-gradient-to-l from-neutral-950/60 to-transparent z-10" />
                     
                     {/* Graphic Grid lines overlay */}
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none z-10" />
-
-                    
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.012)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.012)_1px,transparent_1px)] bg-[size:56px_56px] pointer-events-none z-10" />
 
                     {/* Quotes Accent */}
                     <div className="relative z-30 my-auto max-w-lg mx-auto text-center px-4">
-                        <p className="font-instrumental text-[clamp(1.75rem,3.5vw,3.25rem)] font-light italic leading-tight text-neutral-250">
+                        <p className="font-instrumental text-[clamp(1.75rem,3.5vw,3.25rem)] font-light italic leading-tight text-neutral-200">
                             "Focus is the art of choosing what to ignore."
                         </p>
-                        <div className="w-12 h-[1px] bg-neutral-850 mx-auto my-6" />
+                        <div className="w-12 h-[1px] bg-neutral-800 mx-auto my-6" />
                         <p className="text-xs font-bold uppercase tracking-widest text-neutral-500 font-sans">
                             Timmo Workspace
                         </p>
@@ -123,119 +94,77 @@ function Login() {
 
                 </div>
 
-                {/* Form Side (Right) */}
-                <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between p-6 sm:p-10 md:p-12 bg-[#0d0d0d] text-white relative overflow-y-auto no-scrollbar">
+                {/* Form Side (Right) - Recreated exactly matching the design mockup */}
+                <div className="lg:col-span-6 xl:col-span-5 flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-[#0a0a0a] text-white relative">
                     
                     {/* Top Navigation */}
-                    <div className="flex items-center justify-between w-full mb-4 z-10">
+                    <div className="flex items-center justify-between w-full z-10">
                         <button 
                             id="login-back-btn"
                             onClick={() => navigate('/')}
-                            className="group flex items-center gap-1.5 text-xs font-bold text-neutral-500 hover:text-white transition cursor-pointer"
+                            className="group flex items-center gap-2 text-sm font-medium text-neutral-400 hover:text-white transition cursor-pointer"
                         >
-                            <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                            <span className="text-base">←</span>
                             Back
                         </button>
                     </div>
 
-                    {/* Form Component Container */}
-                    <div className="my-auto py-6 max-w-md w-full mx-auto z-10 flex flex-col">
+                    {/* Google Login Center Pane */}
+                    <div className="my-auto py-8 max-w-sm w-full mx-auto z-10 flex flex-col items-center text-center space-y-6 animate-fade-in-up">
                         
-                        {/* Custom 'timmo' logo text with letter-spacing transition on hover */}
-                        <h2 className="font-gothic text-4xl tracking-widest hover:tracking-[0.25em] text-white text-center mb-10 select-none uppercase transition-all duration-500 cursor-default">
-                            timmo
-                        </h2>
+                        {/* Title - Large spaced typography */}
+                        <div className="space-y-2.5">
+                            <h2 className="font-sans text-3xl sm:text-4xl tracking-[0.35em] text-white font-black uppercase">
+                                timmo
+                            </h2>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-neutral-550 text-neutral-500">
+                                workspace
+                            </p>
+                        </div>
 
-                        <form onSubmit={submitHandler} className="space-y-4">
-                            <AnimatePresence mode="wait">
-                                {!login && (
-                                    <motion.div
-                                        key="name-field"
-                                        initial={{ opacity: 0, height: 0, y: -10 }}
-                                        animate={{ opacity: 1, height: "auto", y: 0 }}
-                                        exit={{ opacity: 0, height: 0, y: -10 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="space-y-1.5 overflow-hidden"
-                                    >
-                                        <label className="text-xs text-neutral-400 font-semibold font-sans block mb-2 tracking-wide">Name</label>
-                                        <div className="relative flex items-center">
-                                            <User className="w-4.5 h-4.5 text-neutral-600 absolute left-3.5 pointer-events-none" />
-                                            <input
-                                                id="signup-name-input"
-                                                value={name}
-                                                onChange={(e) => setName(e.target.value)}
-                                                placeholder="Your name"
-                                                type="text"
-                                                required
-                                                minLength={2}
-                                                maxLength={100}
-                                                className="w-full bg-[#161616] border border-neutral-800/80 text-base text-white pl-11 pr-4 py-3.5 rounded-xl outline-none focus:border-neutral-500 transition font-sans font-medium placeholder:text-neutral-600"
-                                            />
-                                        </div>
-                                    </motion.div>
+                        {/* Thin Short Divider */}
+                        <div className="w-16 h-[1px] bg-neutral-800/80 mx-auto my-1" />
+
+                        {/* Tagline */}
+                        <div className="space-y-1 py-1">
+                            <p className="text-sm sm:text-base text-neutral-300 font-sans font-medium">
+                                Quiet and productive focus.
+                            </p>
+                            <p className="text-sm sm:text-base text-[#F4C95D] font-sans font-bold">
+                                All in one.
+                            </p>
+                        </div>
+
+                        {/* Google Login Button Container */}
+                        <div className="w-full flex justify-center pt-2 group relative">
+                            <div className="relative z-10 w-full flex justify-center">
+                                {!import.meta.env.VITE_GOOGLE_CLIENT_ID ? (
+                                    <div className="text-red-400 text-xs bg-red-950/20 p-4 rounded-xl border border-red-900/30 text-center font-medium w-full leading-relaxed font-sans">
+                                        VITE_GOOGLE_CLIENT_ID is not loaded. Please restart your Vite server.
+                                    </div>
+                                ) : (
+                                    <GoogleLogin
+                                        onSuccess={handleGoogleSuccess}
+                                        onError={handleGoogleError}
+                                        theme="outline"
+                                        shape="pill"
+                                        size="large"
+                                        width="320"
+                                    />
                                 )}
-                            </AnimatePresence>
-
-                            <div className="space-y-1.5">
-                                <label className="text-xs text-neutral-400 font-semibold font-sans block mb-2 tracking-wide">Email</label>
-                                <div className="relative flex items-center">
-                                    <Mail className="w-4.5 h-4.5 text-neutral-600 absolute left-3.5 pointer-events-none" />
-                                    <input
-                                        id="login-email-input"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="hello@0.email"
-                                        type="email"
-                                        required
-                                        maxLength={100}
-                                        className="w-full bg-[#161616] border border-neutral-800/80 text-base text-white pl-11 pr-4 py-3.5 rounded-xl outline-none focus:border-neutral-500 transition font-sans font-medium placeholder:text-neutral-600"
-                                    />
-                                </div>
                             </div>
+                        </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-xs text-neutral-400 font-semibold font-sans block mb-2 tracking-wide">Password</label>
-                                <div className="relative flex items-center">
-                                    <Lock className="w-4.5 h-4.5 text-neutral-600 absolute left-3.5 pointer-events-none" />
-                                    <input
-                                        id="login-password-input"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Your password"
-                                        type={showPassword ? "text" : "password"}
-                                        required
-                                        minLength={login ? undefined : 3}
-                                        maxLength={72}
-                                        className="w-full bg-[#161616] border border-neutral-800/80 text-base text-white pl-11 pr-10 py-3.5 rounded-xl outline-none focus:border-neutral-500 transition font-sans font-medium placeholder:text-neutral-600"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3.5 text-neutral-600 hover:text-neutral-450 transition cursor-pointer"
-                                    >
-                                        {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
-                                    </button>
-                                </div>
-                            </div>
 
-                            <button 
-                                type="submit" 
-                                className="w-full !mt-8 bg-white text-black py-3.5 rounded-xl text-sm font-bold hover:bg-neutral-200 transition-all duration-200 cursor-pointer shadow active:scale-[0.98]"
-                            >
-                                {login ? "Login" : "Sign Up"}
-                            </button>
-                        </form>
 
-                        {/* Toggle Link */}
-                        <p className="text-center text-xs text-neutral-500 mt-6 font-sans">
-                            {login ? "Don't have an account? " : "Already have an account? "}
-                            <button 
-                                onClick={handleLogin} 
-                                className="font-semibold text-neutral-300 hover:text-white hover:underline cursor-pointer ml-0.5"
-                            >
-                                {login ? "Sign up" : "Login"}
-                            </button>
-                        </p>
+                        {/* Padlock Security Notice */}
+                        <div className="flex items-center gap-2 justify-center text-neutral-500">
+                            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-current" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                            <span className="text-[10px] font-sans tracking-wide text-neutral-500">Secure passwordless authentication.</span>
+                        </div>
                     </div>
 
                     {/* Footer spacer */}
@@ -248,6 +177,3 @@ function Login() {
 }
 
 export default Login
-
-
-

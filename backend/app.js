@@ -1,3 +1,4 @@
+import "dotenv/config"
 import express from "express"
 const app = express()
 import userRouter from "./routes/userRouter.js"
@@ -14,8 +15,6 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 
 
-import dotenv from "dotenv"
-dotenv.config()
 import {
     authLimiter,
     leaderboardLimiter,

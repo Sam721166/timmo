@@ -3,6 +3,8 @@ const userRouter = express.Router()
 import userModel from "../model/user.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import crypto from "crypto"
+import { OAuth2Client } from "google-auth-library"
 import {
     getValidationMessage,
     loginSchema,
@@ -16,115 +18,88 @@ const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000
 }
 
-
-//sign up 
-userRouter.post("/signup", async (req, res) => {
-    try{
-        const parsed = signupSchema.safeParse(req.body)
-
-        if(!parsed.success){
+// Google Sign-In
+userRouter.post("/google-login", async (req, res) => {
+    try {
+        const { credential } = req.body;
+        if (!credential) {
             return res.status(400).json({
                 success: false,
-                msg: getValidationMessage(parsed.error)
-            })
+                msg: "Google credential token is required"
+            });
         }
 
-        const {name, email, password} = parsed.data
-
-        const user = await userModel.findOne({email})
-        if(user){
-            return res.status(409).json({
-                success: false,
-                msg: "User already exist"
-            })
-        }
-        const hash = await bcrypt.hash(password, 10)
-        const newUser = await userModel.create({
-            name: name,
-            email: email,
-            password: hash
-        })
-        const token = jwt.sign(
-            { email, id: newUser._id, name: newUser.name },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
-        )
-        res.cookie("token", token, cookieOptions)
-
-        return res.status(201).json({
-            success: true,
-            token: token, 
-            msg: "Account successfully created"
-        })
-
-    } catch(err){
-        console.log("error:", err);
-        return res.status(500).json({
-            success: false,
-            msg: "Server error signup"
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID
         });
-    }
-    
-})
 
+        const payload = ticket.getPayload();
+        const { email, name } = payload;
 
-
-// login
-userRouter.post("/login", async (req, res) => {
-    try{
-        const parsed = loginSchema.safeParse(req.body)
-
-        if(!parsed.success){
+        if (!email) {
             return res.status(400).json({
                 success: false,
-                msg: getValidationMessage(parsed.error)
-            })
+                msg: "Failed to retrieve email from Google"
+            });
         }
 
-        const {email, password} = parsed.data
+        let user = await userModel.findOne({ email });
 
-        const user = await userModel.findOne({email})
-        if(!user){
-            return res.status(404).json({
-                success: false,
-                msg: "User doesn't exist"
-            })
-        }
-
-        const isPasswordCorrect = await bcrypt.compare(password, user.password)
-
-        if (!isPasswordCorrect) {
-            return res.status(401).json({
-                success: false,
-                msg: "Wrong password"
-            })
+        if (!user) {
+            // Create user with a safe random password hash to satisfy schema requirements
+            const randomPassword = crypto.randomBytes(32).toString("hex");
+            const hash = await bcrypt.hash(randomPassword, 10);
+            user = await userModel.create({
+                name,
+                email,
+                password: hash
+            });
         }
 
         const token = jwt.sign(
-            { email, id: user._id, name: user.name },
+            { email: user.email, id: user._id, name: user.name },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
-        )
-        res.cookie("token", token, cookieOptions)
+        );
 
-        const safeUser = user.toObject()
-        delete safeUser.password
+        res.cookie("token", token, cookieOptions);
+
+        const safeUser = user.toObject();
+        delete safeUser.password;
 
         return res.status(200).json({
             success: true,
             user: safeUser,
-            token: token, 
-            msg: `Login successful, welcome back ${user.name}`
-        })
+            token: token,
+            msg: `Login successful, welcome ${user.name}`
+        });
 
-    } catch(err){
-        console.log("error:", err);
+    } catch (err) {
+        console.error("Error during Google OAuth login:", err);
         return res.status(500).json({
             success: false,
-            msg: "Server error login"
+            msg: "Server error during Google Login"
         });
     }
-})
+});
+
+// sign up (disabled)
+userRouter.post("/signup", async (req, res) => {
+    return res.status(400).json({
+        success: false,
+        msg: "Traditional signup is disabled. Please use 'Sign in with Google'."
+    });
+});
+
+// login (disabled)
+userRouter.post("/login", async (req, res) => {
+    return res.status(400).json({
+        success: false,
+        msg: "Traditional login is disabled. Please use 'Sign in with Google'."
+    });
+});
 
 
 

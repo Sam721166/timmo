@@ -74,22 +74,22 @@ function Leaderboard() {
 
 
     const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
 
         if (hours > 0) {
-        return `${hours} h ${minutes} m ${secs} s`;
+            return `${hours} h ${minutes} m ${secs} s`;
         }
 
         if (minutes > 0) {
-        return `${minutes} m ${secs} s`;
+            return `${minutes} m ${secs} s`;
         }
 
         return `${secs} s`;
     };
 
-    
+
     const getAvatarColor = (name) => {
         if (!name) return "hsla(0, 0%, 50%, 0.25)";
         let hash = 0;
@@ -102,25 +102,25 @@ function Leaderboard() {
 
         return `hsla(${hue}, 70%, 60%, 0.25)`; // low opacity
     };
-  
 
-    
+
+
     const getRankStyle = (rank) => {
         if (rank === 1) {
             return {
                 className:
-                "border-2 border-yellow-500 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-transparent font-bold shadow-[0_0_10px_0px] shadow-yellow-400 ",
+                    "border-2 border-yellow-500 bg-gradient-to-r from-amber-500/15 via-yellow-500/10 to-transparent font-bold shadow-[0_0_10px_0px] shadow-yellow-400 ",
                 style: {
                     animation: "glow 3s ease-in-out infinite"
                 }
             };
-            
+
         }
 
         if (rank === 2) {
             return {
                 className:
-                "border-2 bg-zinc-400/10 border-zinc-300/40 shadow-[0_0_10px_0px_rgba(212,212,216,0.08)]",
+                    "border-2 bg-zinc-400/10 border-zinc-300/40 shadow-[0_0_10px_0px_rgba(212,212,216,0.08)]",
                 style: {
                     animation: "silverGlow 3s ease-in-out infinite"
                 }
@@ -130,7 +130,7 @@ function Leaderboard() {
         if (rank === 3) {
             return {
                 className:
-                "border-2  bg-orange-500/10 border-orange-400/40 shadow-[0_0_10px_0px_rgba(251,146,60,0.08)] ",
+                    "border-2  bg-orange-500/10 border-orange-400/40 shadow-[0_0_10px_0px_rgba(251,146,60,0.08)] ",
                 style: {
                     animation: "bronzeGlow 3s ease-in-out infinite"
                 }
@@ -141,7 +141,7 @@ function Leaderboard() {
     };
 
 
-    
+
 
 
     const [leaderboard, setLeaderboard] = useState([]);
@@ -153,14 +153,14 @@ function Leaderboard() {
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
-            
-            try{
+
+            try {
 
                 setLoading(true)
 
 
-                const [ meData, leaderboardData] = await Promise.all([
-                    axios.get("/api/leaderboard/me") ,           
+                const [meData, leaderboardData] = await Promise.all([
+                    axios.get("/api/leaderboard/me"),
                     axios.get("/api/leaderboard"),
                 ]);
 
@@ -170,7 +170,7 @@ function Leaderboard() {
 
 
                 setHeroText(getHeroText());
-            } catch(err){
+            } catch (err) {
                 console.log("error while leaderboard and me data fetching frontend: ", err);
 
                 if (err?.response?.status === 429) {
@@ -178,7 +178,7 @@ function Leaderboard() {
                 } else {
                     setFetchError("Leaderboard could not be loaded right now.");
                 }
-            } finally{
+            } finally {
                 setLoading(false)
             }
         };
@@ -196,127 +196,127 @@ function Leaderboard() {
 
 
 
-  return (
-    <div className='h-screen w-screen bg-neutral-900 justify-center flex px-4 py-6 font-poppins overflow-y-auto sm:px-6 lg:px-10'
-    style={{
-        scrollbarWidth: "thin",
-        scrollbarColor: "gray transparent",
-    }} >
+    return (
+        <div className='h-screen w-screen bg-neutral-900 justify-center flex px-4 py-6 font-poppins overflow-y-auto sm:px-6 lg:px-10'
+            style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "gray transparent",
+            }} >
 
-        <div className='mx-auto flex w-full max-w-7xl min-w-0 h-full gap-4'>
+            <div className='mx-auto flex w-full max-w-7xl min-w-0 h-full gap-4'>
 
-            <div className='w-full min-w-0 h-full flex gap-3 flex-col ' >
-                
-                <div className='flex w-full min-w-0 flex-col gap-2 border-b border-white/10 pb-5'>
-                    <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end '>
-                        <h1 className='font-poppins text-2xl font-semibold tracking-normal text-white sm:text-4xl'>
-                            Leaderboard
-                        </h1>
-                    </div>
+                <div className='w-full min-w-0 h-full flex gap-3 flex-col ' >
 
-
-                </div>
-
-
-                <div className='w-full flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
-                    <div className='border-2 border-white/10 rounded-lg h-10 w-full cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center sm:w-27'>
-                        <p className='font-poppins tracking-tight mx-0.5 sm:mx-0 px-3 py-1 rounded-sm w-full text-center bg-white/10 sm:w-25'>Today</p>
-                    </div>
-
-                    <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center text-center sm:text-left'>
-                        <div className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} shrink-0 text-xl rounded-full size-2`}></div>
-                        <p className='min-w-0'>{fetchError || "Updates every 5 minutes"}</p>
-                    </div>
-                    
-                </div>
-
-
-                <div className='rounded-md w-full min-h-50 border-2 border-white/5 pl-5 mt-2 font-poppins flex overflow-hidden sm:pl-7'>
-                    <div className='h-full bg-yellow-300 w-0.5  -ml-7 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_60%,transparent)] '></div>
-                    <div className='flex min-w-0 flex-1 flex-col gap-3 h-full justify-center py-5 pl-5 sm:pl-7'>
-                        <div className='text-xl font-semibold tracking-tight w-full max-w-100 sm:w-100 rounded-sm sm:text-2xl'>
-                            {
-                                loading ? (
-                                    <div className='h-20 w-full max-w-100  rounded-sm bg-neutral-800 animate-pulse'>
-                                    
-                                    </div>
-                                ) : (
-                                    <>
-                                        <span className='mr-2  text-amber-300 '>
-                                        {leaderboard[0]?.name}
-                                        </span>
-                                        {heroText}
-                                    </>
-                                )
-                            }
-                            
+                    <div className='flex w-full min-w-0 flex-col gap-2 border-b border-white/10 pb-5'>
+                        <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-end '>
+                            <h1 className='font-poppins text-2xl font-semibold tracking-normal text-white sm:text-4xl'>
+                                Leaderboard
+                            </h1>
                         </div>
 
 
-                        {
-                            loading ? (
-                                <div className='w-35 h-5 rounded-sm bg-neutral-800 animate-pulse'>
-                                
-                            </div>
-                            ) : (
-                                <>
-                                    <p className='text-neutral-500 text-xs tracking-tight'>
-                                        Showing top 100 users.  
-                                    </p>
-                                </>
-                            )
-                        }
+                    </div>
 
-                        {
-                            loading ? (
-                                <div className='w-50 h-5 rounded-sm bg-neutral-800 animate-pulse'>
-                                
+
+                    <div className='w-full flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
+                        <div className='border-2 border-white/10 rounded-lg h-10 w-full cursor-pointer active:scale-99 transition-all duration-200 bg-neutral-900 flex justify-center items-center sm:w-27'>
+                            <p className='font-poppins tracking-tight mx-0.5 sm:mx-0 px-3 py-1 rounded-sm w-full text-center bg-white/10 sm:w-25'>Today</p>
+                        </div>
+
+                        <div className='text-sm text-neutral-500 border-2 font-poppins bg-white/2 border-white/10 rounded-sm px-3 tracking-tight font-semibold py-1 flex gap-2 items-center justify-center text-center sm:text-left'>
+                            <div className={`${fetchError ? "bg-yellow-500" : "bg-green-500"} shrink-0 text-xl rounded-full size-2`}></div>
+                            <p className='min-w-0'>{fetchError || "Updates every 5 minutes"}</p>
+                        </div>
+
+                    </div>
+
+
+                    <div className='rounded-md w-full min-h-50 border-2 border-white/5 pl-5 mt-2 font-poppins flex overflow-hidden sm:pl-7'>
+                        <div className='h-full bg-yellow-300 w-0.5  -ml-7 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_60%,transparent)] '></div>
+                        <div className='flex min-w-0 flex-1 flex-col gap-3 h-full justify-center py-5 pl-5 sm:pl-7'>
+                            <div className='text-xl font-semibold tracking-tight w-full max-w-100 sm:w-100 rounded-sm sm:text-2xl'>
+                                {
+                                    loading ? (
+                                        <div className='h-20 w-full max-w-100  rounded-sm bg-neutral-800 animate-pulse'>
+
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <span className='mr-2  text-amber-300 '>
+                                                {leaderboard[0]?.name}
+                                            </span>
+                                            {heroText}
+                                        </>
+                                    )
+                                }
+
                             </div>
-                            ) : (
-                                <>
-                                    <div className='flex flex-col gap-1 -mt-2.5 sm:flex-row sm:gap-2'>
-                                        <p className='text-neutral-500 text-xs tracking-tight'>Total users : {me?.usersNumber}</p>
-                                        <p className='text-neutral-500 text-xs tracking-tight '>  Your rank : # {me?.rank}</p>
+
+
+                            {
+                                loading ? (
+                                    <div className='w-35 h-5 rounded-sm bg-neutral-800 animate-pulse'>
+
                                     </div>
-                                </>
-                            )
-                        }
+                                ) : (
+                                    <>
+                                        <p className='text-neutral-500 text-xs tracking-tight'>
+                                            Showing top 100 users.
+                                        </p>
+                                    </>
+                                )
+                            }
 
-                        
-                        
+                            {
+                                loading ? (
+                                    <div className='w-50 h-5 rounded-sm bg-neutral-800 animate-pulse'>
+
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className='flex flex-col gap-1 -mt-2.5 sm:flex-row sm:gap-2'>
+                                            <p className='text-neutral-500 text-xs tracking-tight'>Total users : {me?.usersNumber}</p>
+                                            <p className='text-neutral-500 text-xs tracking-tight '>  Your rank : # {me?.rank}</p>
+                                        </div>
+                                    </>
+                                )
+                            }
+
+
+
+                        </div>
+
+                        <div className='hidden overflow-hidden sm:w-[calc(100%-45%)]  rounded-sm h-full md:block '>
+                            <img src="hero.webp" alt="hero ui" className='rounded-sm xl:-mt-14 '
+                                style={{
+                                    WebkitMaskImage:
+                                        "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
+                                    maskImage:
+                                        "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
+                                }}
+                            />
+                        </div>
+
                     </div>
 
-                    <div className='hidden overflow-hidden sm:w-[calc(100%-45%)]  rounded-sm h-full md:block '>
-                        <img src="hero.webp" alt="hero ui" className='rounded-sm xl:-mt-14 '
-                            style={{
-                                WebkitMaskImage:
-                                    "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
-                                maskImage:
-                                    "linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0))",
-                            }}
-                        />
-                    </div>
 
-                </div>
+                    <div className='w-full h-full bg-neutral-900 min-w-0'>
 
-                
-                <div className='w-full h-full bg-neutral-900 min-w-0'>
-                
-                
+
                         <div className='rounded-md border-2 border-white/10 w-full h-auto mt-2 overflow-hidden'>
-                
+
                             <div className='hidden border-b-2 border-white/10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-10 py-2 items-center h-10 w-full md:grid md:grid-cols-[80px_1fr_220px_135px]'>
                                 <p>Rank</p>
                                 <p>Name</p>
                                 <p>Today's time</p>
                                 <p className='text-center'>Streak</p>
                             </div>
-                
-                
+
+
                             <div className='w-full h-auto flex flex-col pb-1 overflow-x-auto'
                             >
-                                    
-                                
+
+
                                 {
                                     loading ? (
                                         <div className='min-w-[720px] md:min-w-0'>
@@ -330,53 +330,53 @@ function Leaderboard() {
                                         </div>
                                     ) : (
                                         <div className='min-w-[720px] md:min-w-0'>
-                                            {leaderboard.map((user, i) =>{ 
-                                        
-                                        const rankStyle = getRankStyle(i + 1);
-                                        const isMe = user.userId === me?.userId;
+                                            {leaderboard.map((user, i) => {
 
-                                        return(
-                                            <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px] 
+                                                const rankStyle = getRankStyle(i + 1);
+                                                const isMe = user.userId === me?.userId;
+
+                                                return (
+                                                    <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px] 
                                             
                                                 ${isMe
-                                                    ? `
+                                                            ? `
                                                     bg-white/5
                                                     `
-                                                    : ""
-                                                }
+                                                            : ""
+                                                        }
                                                 
                                             `}>
-                        
-                        
-                                            {/* Rank */}
-                                            <div className={`rounded-full text-xs size-8  flex items-center  justify-center font-bold ${rankStyle.className}
+
+
+                                                        {/* Rank */}
+                                                        <div className={`rounded-full text-xs size-8  flex items-center  justify-center font-bold ${rankStyle.className}
                                             
                                             
                                              ${getRankStyle(i + 1)}
                                             `}
-                                            style={rankStyle.style}>
-                                                <span className=''>{i + 1}</span>
-                                            </div>
-                        
-                                            {/* User */}
-                                            <div className="flex items-center gap-2 min-w-0">
-                                                <div className="rounded-full size-8  flex items-center justify-center text-xl"
-                                                    style={{
-                                                        backgroundColor: getAvatarColor(user?.name)
-                                                    }}
-                                                >
-                                                <p>{user?.name ? user.name[0].toUpperCase() : "?"}</p>
-                                                </div>
-                        
-                                                <div className="flex flex-col">
-                                                    <div className="flex items-center gap-2">
+                                                            style={rankStyle.style}>
+                                                            <span className=''>{i + 1}</span>
+                                                        </div>
 
-                                                        <p className="truncate">
-                                                            {user?.name}
-                                                        </p>
+                                                        {/* User */}
+                                                        <div className="flex items-center gap-2 min-w-0">
+                                                            <div className="rounded-full size-8  flex items-center justify-center text-xl"
+                                                                style={{
+                                                                    backgroundColor: getAvatarColor(user?.name)
+                                                                }}
+                                                            >
+                                                                <p>{user?.name ? user.name[0].toUpperCase() : "?"}</p>
+                                                            </div>
 
-                                                        {isMe && (
-                                                            <span className="
+                                                            <div className="flex flex-col">
+                                                                <div className="flex items-center gap-2">
+
+                                                                    <p className="truncate">
+                                                                        {user?.name}
+                                                                    </p>
+
+                                                                    {isMe && (
+                                                                        <span className="
                                                                 text-[10px]
                                                                 px-2 py-0.5
                                                                 rounded-full
@@ -385,59 +385,61 @@ function Leaderboard() {
                                                                 border border-yellow-500/20
                                                                 font-semibold
                                                             ">
-                                                                YOU
-                                                            </span>
-                                                        )}
+                                                                            YOU
+                                                                        </span>
+                                                                    )}
 
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        {/* Time */}
+                                                        <div className=''>
+                                                            <p>{formatTime(user?.todayTime)}</p>
+                                                        </div>
+
+                                                        {/* Streak */}
+                                                        <div className="flex items-center gap-1  justify-center ">
+                                                            <FaFire className="text-amber-600" />
+                                                            <span>{user?.streak}</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                
-                                                
-                                            </div>
-                        
-                                            {/* Time */}
-                                            <div className=''>
-                                                <p>{formatTime(user?.todayTime)}</p>
-                                            </div>
-                        
-                                            {/* Streak */}
-                                            <div className="flex items-center gap-1  justify-center ">
-                                                <FaFire className="text-amber-600" />
-                                                <span>{user?.streak}</span>
-                                            </div>
-                                        </div> 
-                                    )})}
+                                                )
+                                            })}
                                         </div>
                                     )
-                                }    
-                                    
-                
-                
-                
-                                
+                                }
+
+
+
+
+
                                 <div className='px-10 w-full h-20 font-poppins text-neutral-500 text-sm flex items-center justify-center gap-1 flex-col '>
                                     <p>Showing top 100 users.</p>
+
                                     <p className='text-neutral-600'>Procrastinators were filtered out.</p>
                                 </div>
-                
+
                             </div>
-                
-                
+
+
                         </div>
-                
+
+                    </div>
+
+
+
                 </div>
 
-                
-
+                <div className='hidden justify-center items-start lg:flex'>
+                    <Sidecard me={me} loading={loading} />
+                </div>
             </div>
 
-            <div className='hidden justify-center items-start lg:flex'>
-                <Sidecard me={me} loading={loading}  />
-            </div>
         </div>
-        
-    </div>
-  )
+    )
 }
 
 export default Leaderboard

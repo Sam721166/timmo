@@ -57,6 +57,7 @@ function BentoTimerWidget() {
   const [isRunning, setIsRunning] = useState(false);
   const [showSeconds, setShowSeconds] = useState(true);
   const [timerTheme, setTimerTheme] = useState("dark"); // dark (neutral-950), indigo, rose
+  const isLoggedIn = !!localStorage.getItem("token");
 
   useEffect(() => {
     let timer;
@@ -102,29 +103,29 @@ function BentoTimerWidget() {
       <div className="flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
           <Clock className="w-4.5 h-4.5 text-neutral-400" />
-          <span className="font-sans text-xs font-bold tracking-wider uppercase text-neutral-400">Deep Work Timer</span>
+          <span className="font-sans text-xs font-bold tracking-wider uppercase text-neutral-450">Deep Work Timer</span>
         </div>
         <div className="flex items-center gap-1.5">
           <button
             id="theme-btn-dark"
             aria-label="Dark Theme"
             onClick={() => setTimerTheme("dark")}
-            className={`w-3.5 h-3.5 rounded-full bg-neutral-950 border transition cursor-pointer ${timerTheme === 'dark' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
+            className={`w-3.5 h-3.5 rounded-full bg-neutral-955 border transition cursor-pointer ${timerTheme === 'dark' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
           />
           <button
             id="theme-btn-indigo"
             aria-label="Indigo Theme"
             onClick={() => setTimerTheme("indigo")}
-            className={`w-3.5 h-3.5 rounded-full bg-indigo-500 border transition cursor-pointer ${timerTheme === 'indigo' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
+            className={`w-3.5 h-3.5 rounded-full bg-indigo-505 border transition cursor-pointer ${timerTheme === 'indigo' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
           />
           <button
             id="theme-btn-rose"
             aria-label="Rose Theme"
             onClick={() => setTimerTheme("rose")}
-            className={`w-3.5 h-3.5 rounded-full bg-rose-500 border transition cursor-pointer ${timerTheme === 'rose' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
+            className={`w-3.5 h-3.5 rounded-full bg-rose-505 border transition cursor-pointer ${timerTheme === 'rose' ? 'ring-2 ring-offset-2 ring-neutral-950 scale-105' : 'hover:scale-105'}`}
           />
-          <span className="flex items-center gap-1.5 rounded-full bg-neutral-50 border border-neutral-200 px-2 py-0.5 text-[9px] text-neutral-600 font-bold ml-2">
-            <span className={`w-1.5 h-1.5 rounded-full bg-neutral-950 ${isRunning ? 'animate-ping' : ''}`} />
+          <span className="flex items-center gap-1.5 rounded-full bg-neutral-50 border border-neutral-205 px-2 py-0.5 text-[9px] text-neutral-600 font-bold ml-2">
+            <span className={`w-1.5 h-1.5 rounded-full bg-neutral-955 ${isRunning ? 'animate-ping' : ''}`} />
             {isRunning ? 'active' : 'paused'}
           </span>
         </div>
@@ -192,7 +193,7 @@ function BentoTimerWidget() {
         </button>
 
         <Link
-          to="/login"
+          to={isLoggedIn ? "/clock" : "/login"}
           id="bento-timer-save"
           className="flex items-center justify-center gap-1.5 rounded-xl border border-neutral-200 bg-neutral-50 py-2 text-xs font-bold hover:bg-neutral-100 transition cursor-pointer text-neutral-855 text-neutral-800"
           style={{
@@ -901,6 +902,7 @@ function AppShowcase() {
 // ----------------------------------------------------
 function Landing() {
   const [totalUsers, setTotalUsers] = useState(null);
+  const isLoggedIn = !!localStorage.getItem("token");
 
   useEffect(() => {
     const fetchPublicStats = async () => {
@@ -960,18 +962,18 @@ function Landing() {
 
             <div className="flex items-center gap-2">
               <Link
-                to="/login"
+                to={isLoggedIn ? "/clock" : "/login"}
                 id="nav-login-btn"
                 className="hidden rounded-full border border-neutral-200 bg-white px-5 py-2 font-sans text-xs font-bold text-neutral-800 transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:border-neutral-300 sm:block"
               >
-                Log in
+                {isLoggedIn ? "Dashboard" : "Log in"}
               </Link>
               <Link
-                to="/login"
+                to={isLoggedIn ? "/clock" : "/login"}
                 id="nav-start-btn"
                 className="group flex items-center gap-1.5 rounded-full bg-neutral-950 px-5 py-2 font-sans text-xs font-bold text-white shadow shadow-neutral-900/10 transition hover:-translate-y-0.5 hover:bg-neutral-800"
               >
-                Start
+                {isLoggedIn ? "Clock" : "Start"}
                 <ArrowUpRight className="w-3.5 h-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
@@ -1019,11 +1021,11 @@ function Landing() {
             {/* Actions */}
             <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:flex-row z-10 px-4">
               <Link
-                to="/login"
+                to={isLoggedIn ? "/clock" : "/login"}
                 id="hero-start-free"
                 className="group flex h-12 w-full max-w-64 items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 font-sans text-sm font-semibold text-white shadow-lg shadow-neutral-950/10 hover:shadow-xl hover:shadow-neutral-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 sm:w-auto"
               >
-                Get started free
+                {isLoggedIn ? "Go to Dashboard" : "Get started free"}
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
               <a
@@ -1281,11 +1283,11 @@ function Landing() {
 
                 <div className="flex justify-start lg:justify-end">
                   <Link
-                    to="/login"
+                    to={isLoggedIn ? "/clock" : "/login"}
                     id="cta-start-btn"
                     className="group flex h-12 w-full max-w-64 items-center justify-center gap-2 rounded-full bg-neutral-950 px-8 font-sans text-sm font-semibold text-white shadow hover:bg-neutral-850 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 sm:w-fit cursor-pointer"
                   >
-                    Create account free
+                    {isLoggedIn ? "Go to Dashboard" : "Create account free"}
                     <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                 </div>
