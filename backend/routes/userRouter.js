@@ -36,7 +36,7 @@ userRouter.post("/google-login", async (req, res) => {
         });
 
         const payload = ticket.getPayload();
-        const { email, name } = payload;
+        const { email, name, picture } = payload;
 
         if (!email) {
             return res.status(400).json({
@@ -54,12 +54,19 @@ userRouter.post("/google-login", async (req, res) => {
             user = await userModel.create({
                 name,
                 email,
-                password: hash
+                password: hash,
+                picture
             });
+        } else {
+            // Update picture if it has changed or wasn't set before
+            if (user.picture !== picture) {
+                user.picture = picture;
+                await user.save();
+            }
         }
 
         const token = jwt.sign(
-            { email: user.email, id: user._id, name: user.name },
+            { email: user.email, id: user._id, name: user.name, picture: user.picture },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );

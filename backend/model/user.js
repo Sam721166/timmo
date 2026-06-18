@@ -16,6 +16,9 @@ const userSchema = mongoose.Schema({
     },
     lastTimerSavedAt: {
         type: Date
+    },
+    picture: {
+        type: String
     }
 }, {timestamps: true})
 

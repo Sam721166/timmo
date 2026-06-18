@@ -53,6 +53,14 @@ function Sidecard({ me, avatarColor, loading }) {
         ) : (
           <>
             <div>
+              {me?.picture ? (
+                <img
+                  src={me.picture}
+                  alt={me.name}
+                  className="size-15 rounded-full object-cover border border-white/10"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
                 <div className='size-15 rounded-full  flex justify-center items-center font-semibold text-4xl'
                   style={{
                     backgroundColor: getAvatarColor(me?.name)
@@ -60,6 +68,7 @@ function Sidecard({ me, avatarColor, loading }) {
                 >
                   <p>{me?.name[0]?.toUpperCase()}</p>
                 </div>
+              )}
             </div>
             <div className='flex flex-col gap-2 items-center'>
               <p className='text-xl font-semibold text-y truncate w-70 text-center '>{me?.name}</p>

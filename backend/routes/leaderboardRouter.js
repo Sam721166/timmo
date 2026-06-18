@@ -21,7 +21,7 @@ leaderboardRoute.get("/", async (req, res) => {
                 streak: -1,
             })
             .limit(100)
-            .populate("userId", "name");
+            .populate("userId", "name picture");
 
         const leaderboard = topUsers
             .filter(user => user.userId) // Filter out deleted users where populate returned null
@@ -29,6 +29,7 @@ leaderboardRoute.get("/", async (req, res) => {
                 rank: index + 1,
                 userId: user.userId?._id,
                 name: user.userId?.name,
+                picture: user.userId?.picture,
                 todayTime: user.todayTime,
                 streak: user.streak
             }))
@@ -102,6 +103,7 @@ leaderboardRoute.get("/me", async (req, res) => {
             usersNumber,
             userId,
             name: userName,
+            picture: req.user.picture,
             rank,
             focusedMoreThan,
             percentile,

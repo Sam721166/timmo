@@ -360,13 +360,22 @@ function Leaderboard() {
 
                                                         {/* User */}
                                                         <div className="flex items-center gap-2 min-w-0">
-                                                            <div className="rounded-full size-8  flex items-center justify-center text-xl"
-                                                                style={{
-                                                                    backgroundColor: getAvatarColor(user?.name)
-                                                                }}
-                                                            >
-                                                                <p>{user?.name ? user.name[0].toUpperCase() : "?"}</p>
-                                                            </div>
+                                                            {user?.picture ? (
+                                                                <img
+                                                                    src={user.picture}
+                                                                    alt={user.name}
+                                                                    className="rounded-full size-8 object-cover border border-white/10"
+                                                                    referrerPolicy="no-referrer"
+                                                                />
+                                                            ) : (
+                                                                <div className="rounded-full size-8  flex items-center justify-center text-xl"
+                                                                    style={{
+                                                                        backgroundColor: getAvatarColor(user?.name)
+                                                                    }}
+                                                                >
+                                                                    <p>{user?.name ? user.name[0].toUpperCase() : "?"}</p>
+                                                                </div>
+                                                            )}
 
                                                             <div className="flex flex-col">
                                                                 <div className="flex items-center gap-2">
