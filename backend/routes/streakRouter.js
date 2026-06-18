@@ -27,17 +27,30 @@ streakRouter.get("/", async (req, res) => {
     ]);
 
     let currentStreak = 0;
-    const currentDate = new Date();
+    let startCheckingDate = new Date();
 
-    while (true) {
-      const dateStr = localDateKey(currentDate);
+    const todayStr = localDateKey(startCheckingDate);
+    const yesterdayStr = localDateKey(new Date(Date.now() - 86400000));
 
-      if (dateSet.has(dateStr)) {
-        currentStreak++;
-        currentDate.setDate(currentDate.getDate() - 1);
-      } else {
-        break;
-      }
+    let shouldCheck = false;
+    if (dateSet.has(todayStr)) {
+        shouldCheck = true;
+    } else if (dateSet.has(yesterdayStr)) {
+        shouldCheck = true;
+        startCheckingDate.setDate(startCheckingDate.getDate() - 1);
+    }
+
+    if (shouldCheck) {
+        while (true) {
+            const dateStr = localDateKey(startCheckingDate);
+
+            if (dateSet.has(dateStr)) {
+                currentStreak++;
+                startCheckingDate.setDate(startCheckingDate.getDate() - 1);
+            } else {
+                break;
+            }
+        }
     }
 
     res.status(200).json({

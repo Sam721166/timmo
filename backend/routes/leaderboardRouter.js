@@ -5,6 +5,7 @@ import stopwatchModel from "../model/stopwatch.js"
 import userModel from "../model/user.js"
 import leaderboardModel from "../model/leaderboard.js"
 import { localDateKey } from "../utils/localDate.js";
+import { syncLeaderboardForUser } from "../utils/leaderboardSync.js"
 
 leaderboardRoute.get("/", async (req, res) => {
     try{
@@ -61,45 +62,12 @@ leaderboardRoute.get("/me", async (req, res) => {
         const userName = req.user.name;
 
         // Run independent queries in parallel to minimize network round-trips
-        const [usersNumber, countdownToday, stopwatchToday, meData] = await Promise.all([
+        const [usersNumber, me] = await Promise.all([
             userModel.countDocuments(),
-            countdownModel.findOne({ userId, date: today }),
-            stopwatchModel.findOne({ userId, date: today }),
-            leaderboardModel.findOne({ userId })
+            syncLeaderboardForUser(userId)
         ]);
 
-        const todayTime =
-            (countdownToday?.totalTime || 0) +
-            (stopwatchToday?.totalTime || 0);
-
-        let me = meData;
-        let needsSave = false;
-
-        if (!me) {
-            me = new leaderboardModel({
-                userId,
-                todayTime,
-                streak: todayTime > 0 ? 1 : 0,
-                lastActiveDate: todayTime > 0 ? today : ""
-            });
-            needsSave = true;
-        } else if (todayTime > 0 && me.lastActiveDate !== today) {
-            const yesterday = localDateKey(
-                new Date(Date.now() - 86400000)
-            );
-
-            me.streak = me.lastActiveDate === yesterday ? me.streak + 1 : 1;
-            me.lastActiveDate = today;
-            me.todayTime = todayTime;
-            needsSave = true;
-        } else if (me.todayTime !== todayTime) {
-            me.todayTime = todayTime;
-            needsSave = true;
-        }
-
-        if (needsSave) {
-            await me.save();
-        }
+        const todayTime = me.todayTime;
 
         const rank = await leaderboardModel.countDocuments({
             lastActiveDate: today,

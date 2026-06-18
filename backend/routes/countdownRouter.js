@@ -3,8 +3,8 @@ const countdownRouter = express.Router()
 import countdownModel from "../model/countdown.js"
 import stopwatchModel from "../model/stopwatch.js"
 import userModel from "../model/user.js"
-import { localDateKey, buildDailySeries } from "../utils/localDate.js"
-import leaderboardModel from "../model/leaderboard.js";
+import { localDateKey, buildDailySeries, splitTimeIntervalByDay } from "../utils/localDate.js"
+import { syncLeaderboardForUser } from "../utils/leaderboardSync.js"
 import {
     getValidationMessage,
     timerSaveSchema
@@ -30,78 +30,53 @@ countdownRouter.post("/save", async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // calculate the total "totaltime" if the date is same and store in single place in database
-        const today = localDateKey();
+        const endTime = new Date();
+        const splitIntervals = splitTimeIntervalByDay(savedSeconds, endTime);
 
-        // Check cumulative time saved across both models today to enforce a 24-hour limit
-        const [existingCountdown, existingStopwatch] = await Promise.all([
-            countdownModel.findOne({ userId: user._id, date: today }),
-            stopwatchModel.findOne({ userId: user._id, date: today })
-        ]);
-
-        const currentTotal = (existingCountdown?.totalTime || 0) + (existingStopwatch?.totalTime || 0);
+        let lastRecord = null;
         const MAX_DAILY_TIME = 24 * 60 * 60; // 86,400 seconds (24 hours)
 
-        if (currentTotal >= MAX_DAILY_TIME) {
-            return res.status(400).json({
-                success: false,
-                message: "Daily focus time limit of 24 hours reached."
-            });
-        }
+        for (const interval of splitIntervals) {
+            const { date, time } = interval;
 
-        let finalSavedSeconds = savedSeconds;
-        if (currentTotal + savedSeconds > MAX_DAILY_TIME) {
-            finalSavedSeconds = MAX_DAILY_TIME - currentTotal;
-        }
+            const [existingCountdown, existingStopwatch] = await Promise.all([
+                countdownModel.findOne({ userId: user._id, date }),
+                stopwatchModel.findOne({ userId: user._id, date })
+            ]);
 
-        let existing = existingCountdown;
-        let total;
+            const currentTotal = (existingCountdown?.totalTime || 0) + (existingStopwatch?.totalTime || 0);
 
-        if (existing) {
-            existing.totalTime += finalSavedSeconds;
-            await existing.save();
-            total = existing;
-        } else {
-            total = await countdownModel.create({
-                totalTime: finalSavedSeconds,
-                userId: user._id,
-                date: today
-            });
-        }
-
-        let leaderboardUser = await leaderboardModel.findOne({
-            userId: user._id
-        });
-
-        if (!leaderboardUser) {
-            leaderboardUser = await leaderboardModel.create({
-                userId: user._id,
-                todayTime: finalSavedSeconds,
-                streak: 1,
-                lastActiveDate: today
-            });
-        } else {
-            if (leaderboardUser.lastActiveDate !== today) {
-                leaderboardUser.todayTime = 0;
-                const yesterday = localDateKey(
-                    new Date(Date.now() - 86400000)
-                );
-
-                if (leaderboardUser.lastActiveDate === yesterday) {
-                    leaderboardUser.streak += 1;
-                } else {
-                    leaderboardUser.streak = 1;
-                }
-
-                leaderboardUser.lastActiveDate = today;
+            if (currentTotal >= MAX_DAILY_TIME) {
+                continue;
             }
 
-            leaderboardUser.todayTime += finalSavedSeconds;
-            await leaderboardUser.save();
+            let finalSavedSeconds = time;
+            if (currentTotal + time > MAX_DAILY_TIME) {
+                finalSavedSeconds = MAX_DAILY_TIME - currentTotal;
+            }
+
+            let existing = existingCountdown;
+            let record;
+
+            if (existing) {
+                existing.totalTime += finalSavedSeconds;
+                await existing.save();
+                record = existing;
+            } else {
+                record = await countdownModel.create({
+                    totalTime: finalSavedSeconds,
+                    userId: user._id,
+                    date
+                });
+            }
+            lastRecord = record;
         }
 
+        // Sync leaderboard status for the user
+        await syncLeaderboardForUser(user._id);
+
         res.status(200).send({
-            countdownTime: total,
+            countdownTime: lastRecord || { totalTime: 0, date: localDateKey(endTime) },
             msg: "total time saved"
         })
     } catch(err){
