@@ -19,6 +19,17 @@ const userSchema = mongoose.Schema({
     },
     picture: {
         type: String
+    },
+    bestStreak: {
+        type: Number,
+        default: 0
+    },
+    badges: {
+        type: [String],
+        default: []
+    },
+    lastNameUpdateAt: {
+        type: Date
     }
 }, {timestamps: true})
 

@@ -21,7 +21,7 @@ leaderboardRoute.get("/", async (req, res) => {
                 streak: -1,
             })
             .limit(100)
-            .populate("userId", "name picture");
+            .populate("userId", "name picture badges");
 
         const leaderboard = topUsers
             .filter(user => user.userId) // Filter out deleted users where populate returned null
@@ -30,6 +30,7 @@ leaderboardRoute.get("/", async (req, res) => {
                 userId: user.userId?._id,
                 name: user.userId?.name,
                 picture: user.userId?.picture,
+                badges: user.userId?.badges || [],
                 todayTime: user.todayTime,
                 streak: user.streak
             }))
@@ -60,13 +61,19 @@ leaderboardRoute.get("/me", async (req, res) => {
         
         const today = localDateKey();
         const userId = req.user.id;
-        const userName = req.user.name;
-
         // Run independent queries in parallel to minimize network round-trips
-        const [usersNumber, me] = await Promise.all([
+        const [usersNumber, me, dbUser] = await Promise.all([
             userModel.countDocuments(),
-            syncLeaderboardForUser(userId)
+            syncLeaderboardForUser(userId),
+            userModel.findById(userId).select("name picture")
         ]);
+
+        if (!dbUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
 
         const todayTime = me.todayTime;
 
@@ -102,8 +109,8 @@ leaderboardRoute.get("/me", async (req, res) => {
         res.json({
             usersNumber,
             userId,
-            name: userName,
-            picture: req.user.picture,
+            name: dbUser.name,
+            picture: dbUser.picture || req.user.picture,
             rank,
             focusedMoreThan,
             percentile,

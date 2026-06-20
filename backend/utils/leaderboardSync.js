@@ -1,6 +1,7 @@
 import leaderboardModel from "../model/leaderboard.js"
 import stopwatchModel from "../model/stopwatch.js"
 import countdownModel from "../model/countdown.js"
+import userModel from "../model/user.js"
 import { localDateKey } from "./localDate.js"
 
 export const syncLeaderboardForUser = async (userId) => {
@@ -73,6 +74,56 @@ export const syncLeaderboardForUser = async (userId) => {
         }
     }
     
+    // Calculate best streak and achievements
+    const sortedDates = Array.from(dateSet).sort();
+    let bestStreak = 0;
+    if (sortedDates.length > 0) {
+        let tempStreak = 1;
+        bestStreak = 1;
+        for (let i = 1; i < sortedDates.length; i++) {
+            const prevDate = new Date(sortedDates[i - 1]);
+            const currDate = new Date(sortedDates[i]);
+            const diffTime = Math.abs(currDate - prevDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            if (diffDays === 1) {
+                tempStreak++;
+            } else if (diffDays > 1) {
+                bestStreak = Math.max(bestStreak, tempStreak);
+                tempStreak = 1;
+            }
+        }
+        bestStreak = Math.max(bestStreak, tempStreak);
+    }
+
+    const totalSessions = stopwatchRecords.length + countdownRecords.length;
+    const totalStopwatchTime = stopwatchRecords.reduce((sum, r) => sum + r.totalTime, 0);
+    const totalCountdownTime = countdownRecords.reduce((sum, r) => sum + r.totalTime, 0);
+    const totalFocusTime = totalStopwatchTime + totalCountdownTime;
+
+    let maxDayTime = 0;
+    const dailyTotals = {};
+    for (const r of stopwatchRecords) dailyTotals[r.date] = (dailyTotals[r.date] || 0) + r.totalTime;
+    for (const r of countdownRecords) dailyTotals[r.date] = (dailyTotals[r.date] || 0) + r.totalTime;
+    for (const time of Object.values(dailyTotals)) {
+        if (time > maxDayTime) maxDayTime = time;
+    }
+
+    const earnedBadges = [];
+    if (totalSessions >= 1) earnedBadges.push("newbie");
+    if (bestStreak >= 7) earnedBadges.push("locked_in");
+    if (bestStreak >= 30) earnedBadges.push("unstoppable");
+    if (totalFocusTime >= 180000) earnedBadges.push("elite");
+    if (maxDayTime >= 28800) earnedBadges.push("day_conqueror");
+    if (maxDayTime >= 43200) earnedBadges.push("okay_at_home");
+    if (bestStreak >= 365) earnedBadges.push("who_hurt_you");
+    if (totalFocusTime >= 360000) earnedBadges.push("seek_help");
+    if (bestStreak >= 500) earnedBadges.push("sunlight_allergic");
+
+    await userModel.findByIdAndUpdate(userId, {
+        bestStreak,
+        badges: earnedBadges
+    });
+
     await me.save();
     return me;
 };

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { FaCrown, FaFire } from "react-icons/fa6";
 import Sidecard from './sidecard';
 import axios from 'axios';
+import { Sprout, Flame, Sparkles, Award, Trophy, ShieldAlert, Heart, Activity, Sun } from "lucide-react";
+
 
 
 const LeaderboardRowSkeleton = ({ index }) => (
-    <div className='bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px]'>
+    <div className='bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px_120px]'>
         <div className='size-8 rounded-full bg-neutral-800 animate-pulse' />
 
         <div className='flex items-center gap-2 min-w-0'>
@@ -20,6 +22,10 @@ const LeaderboardRowSkeleton = ({ index }) => (
 
         <div className='flex justify-center'>
             <div className='h-3 w-14 rounded-sm bg-neutral-800 animate-pulse' />
+        </div>
+
+        <div className='flex justify-center'>
+            <div className='h-5 w-14 rounded bg-neutral-800/50 animate-pulse' />
         </div>
     </div>
 )
@@ -303,17 +309,18 @@ function Leaderboard() {
                     <div className='w-full h-full bg-neutral-900 min-w-0'>
 
 
-                        <div className='rounded-md border-2 border-white/10 w-full h-auto mt-2 overflow-hidden'>
+                        <div className='rounded-md border-2 border-white/10 w-full h-auto mt-2 overflow-hidden md:overflow-visible'>
 
-                            <div className='hidden border-b-2 border-white/10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-10 py-2 items-center h-10 w-full md:grid md:grid-cols-[80px_1fr_220px_135px]'>
+                            <div className='hidden border-b-2 border-white/10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-10 py-2 items-center h-10 w-full md:grid md:grid-cols-[80px_1fr_195px_135px_120px]'>
                                 <p>Rank</p>
                                 <p>Name</p>
                                 <p>Today's time</p>
                                 <p className='text-center'>Streak</p>
+                                <p className='text-center'>Badges</p>
                             </div>
 
 
-                            <div className='w-full h-auto flex flex-col pb-1 overflow-x-auto'
+                            <div className='w-full h-auto flex flex-col pb-1 overflow-x-auto md:overflow-visible'
                             >
 
 
@@ -336,7 +343,7 @@ function Leaderboard() {
                                                 const isMe = user.userId === me?.userId;
 
                                                 return (
-                                                    <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px] 
+                                                    <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px_120px] relative transition-all duration-150 hover:bg-neutral-800/20 hover:z-30 
                                             
                                                 ${isMe
                                                             ? `
@@ -414,6 +421,109 @@ function Leaderboard() {
                                                             <FaFire className="text-amber-600" />
                                                             <span>{user?.streak}</span>
                                                         </div>
+                                                         {/* Badges Column */}
+                                                         <div className="flex justify-center items-center">
+                                                              {(() => {
+                                                                  const userBadges = user.badges || [];
+                                                                  if (userBadges.length === 0) return <span className="text-neutral-600 text-xs font-semibold font-poppins">-</span>;
+                                                                  return (
+                                                                      <div className="relative group/tooltip flex items-center select-none font-poppins">
+                                                                          {/* Badge Icons & Overflow Count */}
+                                                                          <div className="flex gap-1.5 items-center cursor-pointer">
+                                                                              {userBadges.slice(0, 2).map((b) => {
+                                                                                  let Icon = null;
+                                                                                  let bgStyle = "";
+                                                                                  let glowStyle = "";
+                                                                                  if (b === "newbie") { 
+                                                                                      Icon = Sprout; 
+                                                                                      bgStyle = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"; 
+                                                                                      glowStyle = "shadow-emerald-500/10 hover:shadow-emerald-500/30";
+                                                                                  } else if (b === "locked_in") { 
+                                                                                      Icon = Flame; 
+                                                                                      bgStyle = "bg-orange-500/10 border-orange-500/30 text-orange-400"; 
+                                                                                      glowStyle = "shadow-orange-500/10 hover:shadow-orange-500/30";
+                                                                                  } else if (b === "unstoppable") { 
+                                                                                      Icon = Sparkles; 
+                                                                                      bgStyle = "bg-blue-500/10 border-blue-500/30 text-blue-400"; 
+                                                                                      glowStyle = "shadow-blue-500/10 hover:shadow-blue-500/30";
+                                                                                  } else if (b === "elite") { 
+                                                                                      Icon = Award; 
+                                                                                      bgStyle = "bg-purple-500/10 border-purple-500/30 text-purple-400"; 
+                                                                                      glowStyle = "shadow-purple-500/10 hover:shadow-purple-500/30";
+                                                                                  } else if (b === "day_conqueror") { 
+                                                                                      Icon = Trophy; 
+                                                                                      bgStyle = "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"; 
+                                                                                      glowStyle = "shadow-yellow-500/10 hover:shadow-yellow-500/30";
+                                                                                  } else if (b === "okay_at_home") { 
+                                                                                      Icon = ShieldAlert; 
+                                                                                      bgStyle = "bg-red-500/10 border-red-500/30 text-red-400"; 
+                                                                                      glowStyle = "shadow-red-500/10 hover:shadow-red-500/30";
+                                                                                  } else if (b === "who_hurt_you") { 
+                                                                                      Icon = Heart; 
+                                                                                      bgStyle = "bg-rose-500/10 border-rose-500/30 text-rose-400"; 
+                                                                                      glowStyle = "shadow-rose-500/10 hover:shadow-rose-500/30";
+                                                                                  } else if (b === "seek_help") { 
+                                                                                      Icon = Activity; 
+                                                                                      bgStyle = "bg-teal-500/10 border-teal-500/30 text-teal-400"; 
+                                                                                      glowStyle = "shadow-teal-500/10 hover:shadow-teal-500/30";
+                                                                                  } else if (b === "sunlight_allergic") { 
+                                                                                      Icon = Sun; 
+                                                                                      bgStyle = "bg-amber-500/10 border-amber-500/30 text-amber-400"; 
+                                                                                      glowStyle = "shadow-amber-500/10 hover:shadow-amber-500/30";
+                                                                                  }
+
+                                                                                  if (!Icon) return null;
+                                                                                  return (
+                                                                                      <div 
+                                                                                          key={b} 
+                                                                                          className={`w-6.5 h-6.5 rounded-md border flex items-center justify-center shadow-md hover:scale-115 hover:-translate-y-0.5 active:scale-95 transition-all duration-200 ${bgStyle} ${glowStyle}`}
+                                                                                      >
+                                                                                          <Icon className="size-3.5" />
+                                                                                      </div>
+                                                                                  );
+                                                                              })}
+                                                                              {userBadges.length > 2 && (
+                                                                                  <div className="text-[10px] text-neutral-300 font-bold bg-neutral-850 hover:bg-neutral-800 px-1.5 py-0.5 rounded border border-white/10 shadow-sm transition-colors duration-150">
+                                                                                      {userBadges.length - 2}+
+                                                                                  </div>
+                                                                              )}
+                                                                          </div>
+                                                                          {/* Custom Tooltip ("Tulip") - Positioned above the badge icons */}
+                                                                          <div className="absolute bottom-[135%] left-1/2 -translate-x-1/2 hidden group-hover/tooltip:flex flex-col gap-2.5 bg-neutral-950/98 backdrop-blur-md border border-white/10 p-3.5 rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.8)] z-50 pointer-events-none w-80 animate-in fade-in slide-in-from-bottom-2 duration-150 font-poppins">
+                                                                              <div className="text-[10px] font-black text-neutral-400 uppercase tracking-widest border-b border-white/5 pb-2 text-center font-poppins">
+                                                                                  Earned Badges
+                                                                              </div>
+                                                                              <div className="grid grid-cols-3 gap-2 font-poppins">
+                                                                                  {userBadges.map((badgeId) => {
+                                                                                      let name = "";
+                                                                                      let Icon = null;
+                                                                                      let style = "";
+                                                                                      if (badgeId === "newbie") { name = "Touched the Timer"; Icon = Sprout; style = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"; }
+                                                                                      else if (badgeId === "locked_in") { name = "Locked In"; Icon = Flame; style = "bg-orange-500/10 border-orange-500/30 text-orange-400"; }
+                                                                                      else if (badgeId === "unstoppable") { name = "Touch Grass Pls"; Icon = Sparkles; style = "bg-blue-500/10 border-blue-500/30 text-blue-400"; }
+                                                                                      else if (badgeId === "elite") { name = "Has No Life"; Icon = Award; style = "bg-purple-500/10 border-purple-500/30 text-purple-400"; }
+                                                                                      else if (badgeId === "day_conqueror") { name = "No Grass Toucher"; Icon = Trophy; style = "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"; }
+                                                                                      else if (badgeId === "okay_at_home") { name = "Everything Okay At Home?"; Icon = ShieldAlert; style = "bg-red-500/10 border-red-500/30 text-red-400"; }
+                                                                                      else if (badgeId === "who_hurt_you") { name = "Who Hurt You?"; Icon = Heart; style = "bg-rose-500/10 border-rose-500/30 text-rose-400"; }
+                                                                                      else if (badgeId === "seek_help") { name = "Seek Professional Help"; Icon = Activity; style = "bg-teal-500/10 border-teal-500/30 text-teal-400"; }
+                                                                                      else if (badgeId === "sunlight_allergic") { name = "Allergic to Sunlight"; Icon = Sun; style = "bg-amber-500/10 border-amber-500/30 text-amber-400"; }
+                                                                                      
+                                                                                      if (!Icon) return null;
+                                                                                      return (
+                                                                                          <div key={badgeId} className={`flex flex-col items-center justify-center text-center p-2 rounded-lg border text-[9px] font-bold font-poppins gap-1.5 transition-all duration-150 ${style}`}>
+                                                                                              <Icon className="size-5 shrink-0" />
+                                                                                              <span className="leading-tight select-none text-[8px] font-medium tracking-tight break-words max-w-[76px]">{name}</span>
+                                                                                          </div>
+                                                                                      );
+                                                                                  })}
+                                                                              </div>
+                                                                              {/* Arrow pointing down */}
+                                                                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-neutral-950/98" />
+                                                                          </div>
+                                                                      </div>
+                                                                  );
+                                                              })()}
+                                                         </div>
                                                     </div>
                                                 )
                                             })}

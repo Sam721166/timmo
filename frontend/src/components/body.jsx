@@ -12,6 +12,7 @@ import ProtectedRoute from "./protectedRoute"
 import NoRoute from './NoRoute'
 import Leaderboard from './leaderboard/leaderboard'
 import Landing from './landing'
+import Profile from './profile'
 
 function Body() {
 
@@ -35,6 +36,7 @@ function Body() {
                         <Route path='/analytics' element={<Analytics />} />
                         <Route path='/settings' element={<Settings />} />
                         <Route path='/leaderboard' element={<Leaderboard />} />
+                        <Route path='/profile' element={<Profile />} />
                         
                     </Route>
                 <Route path='*' element={<NoRoute />} />

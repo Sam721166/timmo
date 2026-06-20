@@ -20,6 +20,34 @@ function Sidebar({sidebarOpt, outsideClick}) {
 
   const [sidebar, setSidebar] = useState(true);
   const { pathname } = useLocation();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const res = await axios.get("/api/user/me", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (res.data?.success) {
+            setUser(res.data.user);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch user in sidebar", err);
+      }
+    };
+    fetchUser();
+
+    const handleProfileUpdate = (e) => {
+      if (e.detail) {
+        setUser(prev => ({ ...prev, ...e.detail }));
+      }
+    };
+    window.addEventListener("profileUpdated", handleProfileUpdate);
+    return () => window.removeEventListener("profileUpdated", handleProfileUpdate);
+  }, []);
 
   const isActive = (path) => {
     if (path === "/") return pathname === "/";
@@ -229,26 +257,44 @@ function Sidebar({sidebarOpt, outsideClick}) {
                         </div>
                     </Link>
 
-
-
-
-                    <div className="rounded-lg  h-auto w-54 bg-neutral-800 overflow-x-hidden mt-60 px-2 flex flex-col gap-2 items-start ">
-
-                        
-                        
-
-                        <Link to="/login">
-                            <div onClick={logoutHandler} className="flex gap-2 items-center  hover:bg-neutral-700 rounded-md px-3 transition-all duration-100 w-50 min-h-12 h-auto cursor-pointer my-2">
-                                <PiSignOutBold className="text-xl text-neutral-500 " /> 
-
-                                <p className="text-neutral-500 font-semibold ">Sign Out</p>
-                            </div>
-                        </Link>
-                            
-
-                    </div>
+                    <Link to="/profile">
+                        <div className={`rounded-lg h-10 hover:bg-neutral-700/40 p-2 px-3 mt-2 cursor-pointer active:scale-99 transition-all duration-100 font-gothic flex items-center gap-2 group ${isActive("/profile") ? "bg-neutral-700/40" : ""}`}>
+                            <MdOutlineAccountCircle className={`text-2xl  transition-all duration-100  ${isActive("/profile") ? "text-white" : "text-neutral-500"}`} />
+                            <p className={`font-poppins transition-all duration-100   ${isActive("/profile") ? "text-white" : "text-neutral-500"}`}>
+                                Profile
+                            </p>
+                        </div>
+                    </Link>
 
                 </div>
+
+                {user ? (
+                    <div className="rounded-lg w-54 bg-neutral-800/65 border border-white/5 overflow-hidden mt-auto px-3 py-2 flex items-center justify-between gap-2 shadow-inner">
+                        <Link to="/profile" className="flex items-center gap-2 min-w-0 flex-1 hover:opacity-85 transition-opacity">
+                            {user.picture ? (
+                                <img src={user.picture} alt={user.name} className="size-8 rounded-full object-cover border border-white/10" referrerPolicy="no-referrer" />
+                            ) : (
+                                <div className="size-8 rounded-full bg-neutral-700 text-white font-bold flex items-center justify-center text-sm">
+                                    {user.name ? user.name[0].toUpperCase() : "?"}
+                                </div>
+                            )}
+                            <div className="flex flex-col min-w-0">
+                                <p className="text-xs font-semibold text-white truncate leading-snug">{user.name}</p>
+                                <p className="text-[9px] text-neutral-500 truncate leading-none">View Profile</p>
+                            </div>
+                        </Link>
+                        <Link to="/login" onClick={logoutHandler} title="Sign Out" className="text-neutral-500 hover:text-red-400 transition-colors p-1">
+                            <PiSignOutBold className="text-lg" />
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="rounded-lg w-54 bg-neutral-800/65 border border-white/5 overflow-hidden mt-auto px-3 py-2 flex items-center justify-between gap-2 shadow-inner">
+                        <Link to="/login" onClick={logoutHandler} className="flex gap-2 items-center hover:bg-neutral-700/40 rounded px-2 py-1.5 transition-all duration-100 w-full cursor-pointer">
+                            <PiSignOutBold className="text-lg text-neutral-500" /> 
+                            <p className="text-xs text-neutral-500 font-semibold">Sign Out</p>
+                        </Link>
+                    </div>
+                )}
 
                 
 
