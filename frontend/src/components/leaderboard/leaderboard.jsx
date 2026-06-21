@@ -7,7 +7,7 @@ import { Zap, Target, Leaf, Crown, Trophy, ShieldAlert, HeartCrack, LifeBuoy, Gh
 
 
 const LeaderboardRowSkeleton = ({ index }) => (
-    <div className='bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px_120px]'>
+    <div className='bg-white/2 border-b-2 border-white/10 px-4 md:px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px_120px]'>
         <div className='size-8 rounded-full bg-neutral-800 animate-pulse' />
 
         <div className='flex items-center gap-2 min-w-0'>
@@ -311,7 +311,7 @@ function Leaderboard() {
 
                         <div className='rounded-md border-2 border-white/10 w-full h-auto mt-2 overflow-hidden md:overflow-visible'>
 
-                            <div className='hidden border-b-2 border-white/10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-10 py-2 items-center h-10 w-full md:grid md:grid-cols-[80px_1fr_195px_135px_120px]'>
+                            <div className='hidden border-b-2 border-white/10 font-poppins text-sm text-neutral-500 bg-white/6 rounded-t-sm px-4 md:px-10 py-2 items-center h-10 w-full md:grid md:grid-cols-[80px_1fr_140px_135px_120px]'>
                                 <p>Rank</p>
                                 <p>Name</p>
                                 <p>Today's time</p>
@@ -343,7 +343,7 @@ function Leaderboard() {
                                                 const isMe = user.userId === me?.userId;
 
                                                 return (
-                                                    <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_195px_135px_120px] relative transition-all duration-150 hover:bg-neutral-800/20 hover:z-30 
+                                                    <div key={user._id || i} className={`bg-white/2 border-b-2 border-white/10 px-4 md:px-10 py-1 w-full min-h-16 items-center grid grid-cols-[80px_1fr_125px_135px_120px] relative transition-all duration-150 hover:bg-neutral-800/20 hover:z-30 
                                             
                                                 ${isMe
                                                             ? `
@@ -384,8 +384,8 @@ function Leaderboard() {
                                                                 </div>
                                                             )}
 
-                                                            <div className="flex flex-col">
-                                                                <div className="flex items-center gap-2">
+                                                            <div className="flex flex-col min-w-0">
+                                                                <div className="flex items-center gap-2 min-w-0">
 
                                                                     <p className="truncate">
                                                                         {user?.name}
