@@ -123,7 +123,8 @@ function Profile() {
       name: "Touched the Timer",
       description: "Log your first focus session. Look at you go, using the mouse.",
       icon: Sprout,
-      color: "from-emerald-500/10 to-teal-500/20 text-emerald-400 border-emerald-500/30",
+      color: "from-green-500/10 to-lime-500/20 text-emerald-400 border-emerald-500/30",
+      iconBg: "bg-lime-400 border-lime-400 text-black",
       // glow: "shadow-emerald-500/10"
     },
     {
@@ -132,6 +133,7 @@ function Profile() {
       description: "Achieve a 7-day daily focus streak. The grind is real.",
       icon: Flame,
       color: "from-orange-500/10 to-red-500/20 text-orange-400 border-red-500/30",
+      iconBg: "bg-orange-400 border-orange-400 text-black",
       // glow: "shadow-orange-500/10"
     },
     {
@@ -140,6 +142,7 @@ function Profile() {
       description: "Achieve a 30-day daily focus streak. The outside world has trees.",
       icon: Sparkles,
       color: "from-blue-500/10 to-indigo-500/20 text-blue-400 border-blue-500/30",
+      iconBg: "bg-blue-400 border-blue-400 text-black",
       // glow: "shadow-blue-500/10"
     },
     {
@@ -148,6 +151,7 @@ function Profile() {
       description: "Accumulate 50 hours of all-time focus. We are concerned.",
       icon: Award,
       color: "from-purple-500/10 to-pink-500/20 text-purple-400 border-purple-500/30",
+      iconBg: "bg-purple-400 border-purple-400 text-black",
       // glow: "shadow-purple-500/10"
     },
     {
@@ -156,6 +160,7 @@ function Profile() {
       description: "Focus for 8+ hours in a single day. Your chair has a body shape now.",
       icon: Trophy,
       color: "from-yellow-500/20 to-amber-600/10 text-yellow-400 border-yellow-500/30",
+      iconBg: "bg-yellow-400 border-yellow-400 text-black",
       // glow: "shadow-yellow-500/10"
     },
     {
@@ -164,6 +169,7 @@ function Profile() {
       description: "Focus for 12+ hours in a single day. Do we need to call someone?",
       icon: ShieldAlert,
       color: "from-red-500/10 to-rose-500/20 text-red-400 border-red-500/30",
+      iconBg: "bg-red-400 border-red-400 text-black",
       // glow: "shadow-red-500/10"
     },
     {
@@ -172,6 +178,7 @@ function Profile() {
       description: "Achieve a 365-day daily focus streak. Who broke your heart?",
       icon: Heart,
       color: "from-rose-500/10 to-pink-500/20 text-rose-400 border-rose-500/30",
+      iconBg: "bg-rose-400 border-rose-400 text-black",
       // glow: "shadow-rose-500/10"
     },
     {
@@ -180,6 +187,7 @@ function Profile() {
       description: "Accumulate 100 hours of focus. Seriously, there is therapy for this.",
       icon: Activity,
       color: "from-teal-500/10 to-emerald-500/20 text-teal-400 border-teal-500/30",
+      iconBg: "bg-teal-400 border-teal-400 text-black",
       // glow: "shadow-teal-500/10"
     },
     {
@@ -188,6 +196,7 @@ function Profile() {
       description: "Achieve a 500-day focus streak. The sun is a myth.",
       icon: Sun,
       color: "from-amber-500/10 to-yellow-500/20 text-amber-400 border-amber-500/30",
+      iconBg: "bg-amber-400 border-amber-400 text-black",
       // glow: "shadow-amber-550/10"
     }
   ];
@@ -419,13 +428,13 @@ function Profile() {
                   }`}
                 >
                   {/* Badge Icon Block */}
-                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 h-fit ${
+                  <div className={`p-2.5 rounded-xl border flex items-center justify-center shrink-0 h-fit transition-all duration-200 ${
                     isUnlocked 
-                      ? "bg-neutral-900 border-white/10" 
-                      : "bg-neutral-950/20 border-white/5"
+                      ? `${badge.iconBg}` 
+                      : "bg-neutral-950/20 border-white/5 text-neutral-600/40"
                   }`}>
                     {isUnlocked ? (
-                      <IconComponent className="size-6 text-current drop-shadow" />
+                      <IconComponent className="size-6 text-black drop-shadow-sm" />
                     ) : (
                       <IconComponent className="size-6 text-neutral-600/40" />
                     )}

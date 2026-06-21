@@ -436,39 +436,39 @@ function Leaderboard() {
                                                                                   let glowStyle = "";
                                                                                   if (b === "newbie") { 
                                                                                       Icon = Sprout; 
-                                                                                      bgStyle = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"; 
+                                                                                      bgStyle = "bg-lime-400 border-lime-400 text-black"; 
                                                                                       glowStyle = "shadow-emerald-500/10 hover:shadow-emerald-500/30";
                                                                                   } else if (b === "locked_in") { 
                                                                                       Icon = Flame; 
-                                                                                      bgStyle = "bg-orange-500/10 border-orange-500/30 text-orange-400"; 
+                                                                                      bgStyle = "bg-orange-400 border-orange-400 text-black"; 
                                                                                       glowStyle = "shadow-orange-500/10 hover:shadow-orange-500/30";
                                                                                   } else if (b === "unstoppable") { 
                                                                                       Icon = Sparkles; 
-                                                                                      bgStyle = "bg-blue-500/10 border-blue-500/30 text-blue-400"; 
+                                                                                      bgStyle = "bg-blue-400 border-blue-400 text-black"; 
                                                                                       glowStyle = "shadow-blue-500/10 hover:shadow-blue-500/30";
                                                                                   } else if (b === "elite") { 
                                                                                       Icon = Award; 
-                                                                                      bgStyle = "bg-purple-500/10 border-purple-500/30 text-purple-400"; 
+                                                                                      bgStyle = "bg-purple-400 border-purple-400 text-black"; 
                                                                                       glowStyle = "shadow-purple-500/10 hover:shadow-purple-500/30";
                                                                                   } else if (b === "day_conqueror") { 
                                                                                       Icon = Trophy; 
-                                                                                      bgStyle = "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"; 
+                                                                                      bgStyle = "bg-yellow-400 border-yellow-400 text-black"; 
                                                                                       glowStyle = "shadow-yellow-500/10 hover:shadow-yellow-500/30";
                                                                                   } else if (b === "okay_at_home") { 
                                                                                       Icon = ShieldAlert; 
-                                                                                      bgStyle = "bg-red-500/10 border-red-500/30 text-red-400"; 
+                                                                                      bgStyle = "bg-red-400 border-red-400 text-black"; 
                                                                                       glowStyle = "shadow-red-500/10 hover:shadow-red-500/30";
                                                                                   } else if (b === "who_hurt_you") { 
                                                                                       Icon = Heart; 
-                                                                                      bgStyle = "bg-rose-500/10 border-rose-500/30 text-rose-400"; 
+                                                                                      bgStyle = "bg-rose-400 border-rose-400 text-black"; 
                                                                                       glowStyle = "shadow-rose-500/10 hover:shadow-rose-500/30";
                                                                                   } else if (b === "seek_help") { 
                                                                                       Icon = Activity; 
-                                                                                      bgStyle = "bg-teal-500/10 border-teal-500/30 text-teal-400"; 
+                                                                                      bgStyle = "bg-teal-400 border-teal-400 text-black"; 
                                                                                       glowStyle = "shadow-teal-500/10 hover:shadow-teal-500/30";
                                                                                   } else if (b === "sunlight_allergic") { 
                                                                                       Icon = Sun; 
-                                                                                      bgStyle = "bg-amber-500/10 border-amber-500/30 text-amber-400"; 
+                                                                                      bgStyle = "bg-amber-400 border-amber-400 text-black"; 
                                                                                       glowStyle = "shadow-amber-500/10 hover:shadow-amber-500/30";
                                                                                   }
 
@@ -498,15 +498,15 @@ function Leaderboard() {
                                                                                       let name = "";
                                                                                       let Icon = null;
                                                                                       let style = "";
-                                                                                      if (badgeId === "newbie") { name = "Touched the Timer"; Icon = Sprout; style = "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"; }
-                                                                                      else if (badgeId === "locked_in") { name = "Locked In"; Icon = Flame; style = "bg-orange-500/10 border-orange-500/30 text-orange-400"; }
-                                                                                      else if (badgeId === "unstoppable") { name = "Touch Grass Pls"; Icon = Sparkles; style = "bg-blue-500/10 border-blue-500/30 text-blue-400"; }
-                                                                                      else if (badgeId === "elite") { name = "Has No Life"; Icon = Award; style = "bg-purple-500/10 border-purple-500/30 text-purple-400"; }
-                                                                                      else if (badgeId === "day_conqueror") { name = "No Grass Toucher"; Icon = Trophy; style = "bg-yellow-500/10 border-yellow-500/30 text-yellow-400"; }
-                                                                                      else if (badgeId === "okay_at_home") { name = "Everything Okay At Home?"; Icon = ShieldAlert; style = "bg-red-500/10 border-red-500/30 text-red-400"; }
-                                                                                      else if (badgeId === "who_hurt_you") { name = "Who Hurt You?"; Icon = Heart; style = "bg-rose-500/10 border-rose-500/30 text-rose-400"; }
-                                                                                      else if (badgeId === "seek_help") { name = "Seek Professional Help"; Icon = Activity; style = "bg-teal-500/10 border-teal-500/30 text-teal-400"; }
-                                                                                      else if (badgeId === "sunlight_allergic") { name = "Allergic to Sunlight"; Icon = Sun; style = "bg-amber-500/10 border-amber-500/30 text-amber-400"; }
+                                                                                      if (badgeId === "newbie") { name = "Touched the Timer"; Icon = Sprout; style = "bg-lime-400 border-lime-400 text-black"; }
+                                                                                      else if (badgeId === "locked_in") { name = "Locked In"; Icon = Flame; style = "bg-orange-400 border-orange-400 text-black"; }
+                                                                                      else if (badgeId === "unstoppable") { name = "Touch Grass Pls"; Icon = Sparkles; style = "bg-blue-400 border-blue-400 text-black"; }
+                                                                                      else if (badgeId === "elite") { name = "Has No Life"; Icon = Award; style = "bg-purple-400 border-purple-400 text-black"; }
+                                                                                      else if (badgeId === "day_conqueror") { name = "No Grass Toucher"; Icon = Trophy; style = "bg-yellow-400 border-yellow-400 text-black"; }
+                                                                                      else if (badgeId === "okay_at_home") { name = "Everything Okay At Home?"; Icon = ShieldAlert; style = "bg-red-400 border-red-400 text-black"; }
+                                                                                      else if (badgeId === "who_hurt_you") { name = "Who Hurt You?"; Icon = Heart; style = "bg-rose-400 border-rose-400 text-black"; }
+                                                                                      else if (badgeId === "seek_help") { name = "Seek Professional Help"; Icon = Activity; style = "bg-teal-400 border-teal-400 text-black"; }
+                                                                                      else if (badgeId === "sunlight_allergic") { name = "Allergic to Sunlight"; Icon = Sun; style = "bg-amber-400 border-amber-400 text-black"; }
                                                                                       
                                                                                       if (!Icon) return null;
                                                                                       return (
