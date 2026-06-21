@@ -7,14 +7,16 @@ Timmo is a minimalist, premium productivity and focus application designed to he
 ## 🚀 Key Features
 
 * **Dual-Timer Mode**: Support for both manual **Stopwatch** tracking and structured **Countdown** sessions.
-* **Global Leaderboards**: A real-time leaderboard showing the top 100 focus builders of the day. Features personalized ranking card showing your active rank and percentile group.
+* **Achievements & Badges**: Gamified achievements tracking user progress (e.g., *Touched the Timer*, *Locked In*, *Touch Grass Pls*, *Has No Life*, *Seek Professional Help*, etc.) featuring a modern aesthetic list of gamer-inspired solid-color badges (Zap, Target, Leaf, Crown, Trophy, ShieldAlert, HeartCrack, LifeBuoy, Ghost).
+* **Global Leaderboards**: A real-time leaderboard showing the top 100 focus builders of the day. Features personalized ranking cards and hover tooltips showing earned user badges. Optimized for responsive layouts with text truncation to prevent column overlapping.
 * **Visual Performance Analytics**: Custom dashboard charting your daily focus trends over the last 30 days.
 * **Activity Heatmaps**: A GitHub-style 365-day calendar visualizing your focus history.
 * **Premium Custom Settings**:
-  * Customizable theme accent colors (White, Gold, Coral, Blue, Mint, Purple, Peach, Lime).
+  * Customizable theme accent colors (White, Gold, Coral, Blue, Mint, Purple, Peach, Lime) plus a **Custom Color Picker** allowing users to select any custom hex color for all three clock interfaces.
   * Multiple sidebar opening options (Manual toggle, Hover, Mix).
   * Time layout formats (12-hour AM/PM vs. 24-hour) and option to toggle seconds.
-* **Responsive Design**: Clean sidebar navigation optimized for desktop layouts.
+* **Responsive Design**: Optimized layouts with flexible flex/grid wrapping for smooth mobile and desktop experiences.
+* **Detailed Profile Statistics**: Displays today's focus, current streak, best streak, total sessions, and all-time milestone records formatted dynamically with seconds precision.
 
 ---
 
