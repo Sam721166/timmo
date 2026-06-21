@@ -40,10 +40,17 @@ function Profile() {
   }, []);
 
   const formatDuration = (seconds) => {
-    if (!seconds || isNaN(seconds) || seconds <= 0) return "0h 0m";
+    if (!seconds || isNaN(seconds) || seconds <= 0) return "0s";
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
+    const secs = Math.floor(seconds % 60);
+    
+    const parts = [];
+    if (hours > 0) parts.push(`${hours}h`);
+    if (minutes > 0) parts.push(`${minutes}m`);
+    if (secs > 0 || parts.length === 0) parts.push(`${secs}s`);
+    
+    return parts.join(" ");
   };
 
   const formatDate = (dateStr) => {
@@ -416,8 +423,8 @@ function Profile() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {badgeDefinitions.map((badge) => {
-              // const isUnlocked = profile?.badges?.includes(badge.id);
-              const isUnlocked = true  // tesing all unloacked in ui
+              const isUnlocked = profile?.badges?.includes(badge.id);
+              // const isUnlocked = true  // tesing all unloacked in ui
               const IconComponent = badge.icon;
               return (
                 <div 
