@@ -92,7 +92,9 @@ userRouter.post("/google-login", async (req, res) => {
         console.error("Error during Google OAuth login:", err);
         return res.status(500).json({
             success: false,
-            msg: "Server error during Google Login"
+            msg: "Server error during Google Login",
+            error: err.message || err.toString(),
+            stack: err.stack
         });
     }
 });
