@@ -5,7 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import Maintenance from './Maintenance'
 
-const maintenance = false
+const maintenance = true
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
