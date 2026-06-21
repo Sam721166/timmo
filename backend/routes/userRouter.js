@@ -191,21 +191,17 @@ userRouter.get("/me", async (req, res) => {
 userRouter.get("/profile", isLoggedIn, async (req, res) => {
     try {
         const userId = req.user.id;
-        // Sync streak and achievements in real-time before returning details
-        await syncLeaderboardForUser(userId).catch(err => {
-            console.error("Error syncing user data on profile load:", err);
-        });
 
-        const user = await userModel.findById(userId).select("-password").lean();
-        if (!user) {
-            return res.status(404).json({ success: false, msg: "User not found" });
-        }
-
-        // Performance Optimization: fetch only necessary fields with projections
-        const [stopwatchRecords, countdownRecords] = await Promise.all([
+        // Performance Optimization: Fetch user and focus records in parallel to minimize DB round-trips
+        const [user, stopwatchRecords, countdownRecords] = await Promise.all([
+            userModel.findById(userId).select("-password").lean(),
             stopwatchModel.find({ userId }, "date totalTime").lean(),
             countdownModel.find({ userId }, "date totalTime").lean()
         ]);
+
+        if (!user) {
+            return res.status(404).json({ success: false, msg: "User not found" });
+        }
 
         const totalSessions = stopwatchRecords.length + countdownRecords.length;
 
