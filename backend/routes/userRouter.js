@@ -165,7 +165,7 @@ userRouter.get("/me", async (req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await userModel.findOne({ email: decoded.email }).select("-password");
+        const user = await userModel.findOne({ email: decoded.email }).select("-password").lean();
 
         if (!user) {
             return res.status(404).json({
