@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { 
   User, Mail, Calendar, Edit3, Check, X, Lock, 
   Flame, Award, Clock, Sparkles, Trophy, ShieldAlert,
-  Loader2, PlayCircle, Sprout, Star, CheckCircle2, Heart, Activity, Timer, Sun
+  Loader2, PlayCircle, Star, CheckCircle2, Heart, Activity, Timer, Sun,
+  Zap, Target, Leaf, Crown, HeartCrack, LifeBuoy, Ghost
 } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -122,7 +123,7 @@ function Profile() {
       id: "newbie",
       name: "Touched the Timer",
       description: "Log your first focus session. Look at you go, using the mouse.",
-      icon: Sprout,
+      icon: Zap,
       color: "from-green-500/10 to-lime-500/20 text-emerald-400 border-emerald-500/30",
       iconBg: "bg-lime-400 border-lime-400 text-black",
       // glow: "shadow-emerald-500/10"
@@ -131,7 +132,7 @@ function Profile() {
       id: "locked_in",
       name: "Locked In",
       description: "Achieve a 7-day daily focus streak. The grind is real.",
-      icon: Flame,
+      icon: Target,
       color: "from-orange-500/10 to-red-500/20 text-orange-400 border-red-500/30",
       iconBg: "bg-orange-400 border-orange-400 text-black",
       // glow: "shadow-orange-500/10"
@@ -140,16 +141,16 @@ function Profile() {
       id: "unstoppable",
       name: "Touch Grass Pls",
       description: "Achieve a 30-day daily focus streak. The outside world has trees.",
-      icon: Sparkles,
+      icon: Leaf,
       color: "from-blue-500/10 to-indigo-500/20 text-blue-400 border-blue-500/30",
-      iconBg: "bg-blue-400 border-blue-400 text-black",
+      iconBg: "bg-emerald-400 border-emerald-400 text-black",
       // glow: "shadow-blue-500/10"
     },
     {
       id: "elite",
       name: "Has No Life",
       description: "Accumulate 50 hours of all-time focus. We are concerned.",
-      icon: Award,
+      icon: Crown,
       color: "from-purple-500/10 to-pink-500/20 text-purple-400 border-purple-500/30",
       iconBg: "bg-purple-400 border-purple-400 text-black",
       // glow: "shadow-purple-500/10"
@@ -176,7 +177,7 @@ function Profile() {
       id: "who_hurt_you",
       name: "Who Hurt You?",
       description: "Achieve a 365-day daily focus streak. Who broke your heart?",
-      icon: Heart,
+      icon: HeartCrack,
       color: "from-rose-500/10 to-pink-500/20 text-rose-400 border-rose-500/30",
       iconBg: "bg-rose-400 border-rose-400 text-black",
       // glow: "shadow-rose-500/10"
@@ -185,7 +186,7 @@ function Profile() {
       id: "seek_help",
       name: "Seek Professional Help",
       description: "Accumulate 100 hours of focus. Seriously, there is therapy for this.",
-      icon: Activity,
+      icon: LifeBuoy,
       color: "from-teal-500/10 to-emerald-500/20 text-teal-400 border-teal-500/30",
       iconBg: "bg-teal-400 border-teal-400 text-black",
       // glow: "shadow-teal-500/10"
@@ -194,7 +195,7 @@ function Profile() {
       id: "sunlight_allergic",
       name: "Allergic to Sunlight",
       description: "Achieve a 500-day focus streak. The sun is a myth.",
-      icon: Sun,
+      icon: Ghost,
       color: "from-amber-500/10 to-yellow-500/20 text-amber-400 border-amber-500/30",
       iconBg: "bg-amber-400 border-amber-400 text-black",
       // glow: "shadow-amber-550/10"
