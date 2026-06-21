@@ -246,6 +246,15 @@ function Sidebar({sidebarOpt, outsideClick}) {
                     </Link>
                 
 
+                    <Link to="/profile">
+                        <div className={`rounded-lg h-10 hover:bg-neutral-700/40 p-2 px-3 mt-2 cursor-pointer active:scale-99 transition-all duration-100 font-gothic flex items-center gap-2 group ${isActive("/profile") ? "bg-neutral-700/40" : ""}`}>
+                            <MdOutlineAccountCircle className={`text-2xl  transition-all duration-100  ${isActive("/profile") ? "text-white" : "text-neutral-500"}`} />
+                            <p className={`font-poppins transition-all duration-100   ${isActive("/profile") ? "text-white" : "text-neutral-500"}`}>
+                                Profile
+                            </p>
+                        </div>
+                    </Link>
+
                     <Link to="/settings">
                         <div className={`rounded-lg h-10 hover:bg-neutral-700/40 p-2 px-3 mt-2 cursor-pointer active:scale-99 transition-all duration-100 font-gothic flex items-center gap-2 group ${isActive("/settings") ? "bg-neutral-700/40" : ""}`}>
 
@@ -254,15 +263,6 @@ function Sidebar({sidebarOpt, outsideClick}) {
                                     Settings
                                 </p>
 
-                        </div>
-                    </Link>
-
-                    <Link to="/profile">
-                        <div className={`rounded-lg h-10 hover:bg-neutral-700/40 p-2 px-3 mt-2 cursor-pointer active:scale-99 transition-all duration-100 font-gothic flex items-center gap-2 group ${isActive("/profile") ? "bg-neutral-700/40" : ""}`}>
-                            <MdOutlineAccountCircle className={`text-2xl  transition-all duration-100  ${isActive("/profile") ? "text-white" : "text-neutral-500"}`} />
-                            <p className={`font-poppins transition-all duration-100   ${isActive("/profile") ? "text-white" : "text-neutral-500"}`}>
-                                Profile
-                            </p>
                         </div>
                     </Link>
 
