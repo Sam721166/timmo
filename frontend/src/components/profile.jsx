@@ -124,7 +124,7 @@ function Profile() {
       name: "Touched the Timer",
       description: "Log your first focus session. Look at you go, using the mouse.",
       icon: Zap,
-      color: "from-green-500/10 to-lime-500/20 text-emerald-400 border-emerald-500/30",
+      color: "from-green-500/10 to-lime-500/20 text-lime-400 border-lime-500/30",
       iconBg: "bg-lime-400 border-lime-400 text-black",
       // glow: "shadow-emerald-500/10"
     },
@@ -142,7 +142,7 @@ function Profile() {
       name: "Touch Grass Pls",
       description: "Achieve a 30-day daily focus streak. The outside world has trees.",
       icon: Leaf,
-      color: "from-blue-500/10 to-indigo-500/20 text-blue-400 border-blue-500/30",
+      color: "from-green-500/10 to-teal-500/20 text-blue-400 border-blue-500/30",
       iconBg: "bg-emerald-400 border-emerald-400 text-black",
       // glow: "shadow-blue-500/10"
     },
@@ -187,7 +187,7 @@ function Profile() {
       name: "Seek Professional Help",
       description: "Accumulate 100 hours of focus. Seriously, there is therapy for this.",
       icon: LifeBuoy,
-      color: "from-teal-500/10 to-emerald-500/20 text-teal-400 border-teal-500/30",
+      color: "from-teal-500/15 to-cyan-500/20 text-teal-400 border-teal-500/30",
       iconBg: "bg-teal-400 border-teal-400 text-black",
       // glow: "shadow-teal-500/10"
     },
