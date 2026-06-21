@@ -142,7 +142,7 @@ function Login() {
                                     <div className="text-red-400 text-xs bg-red-950/20 p-4 rounded-xl border border-red-900/30 text-center font-medium w-full leading-relaxed font-sans">
                                         VITE_GOOGLE_CLIENT_ID is not loaded. Please restart your Vite server.
                                     </div>
-                                ) : (
+                                     ) : (
                                     <GoogleLogin
                                         onSuccess={handleGoogleSuccess}
                                         onError={handleGoogleError}
