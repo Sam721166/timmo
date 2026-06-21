@@ -85,7 +85,9 @@ function Clock() {
             <div className={` break-all  p-10 flex  w-auto tabular-nums 
                 ${timeDisplay ? "flex-row" : "flex-col items-center "} 
                  ${textColors[textColor] || "text-white"}
-            `} > 
+            `}
+                 style={{ color: textColor?.startsWith('#') ? textColor : undefined }}
+            > 
                 
                 <p className={` font-gothic leading-none  
                     ${showSeconds && timeDisplay ? " text-[37px] sm:text-[70px] md:text-[100px] lg:text-[150px] xl:text-[200px]" : " text-[57px] sm:text-[90px] md:text-[120px] lg:text-[200px] xl:text-[290px]"}
@@ -104,7 +106,12 @@ function Clock() {
 
             {timeFormat && (
                 <div className=' break-all   ' > 
-                    <p className={`${textColors50[textColor] || "text-white/60"} font-gothic leading-none     ${timeDisplay ? "-ml-7 sm:-ml-0 md:-ml-3 lg:-ml-0" : "-ml-10 sm:-ml-30 md:-ml-15  "}  ${showSeconds ? "text-md sm:text-3xl" :"text-lg sm:text-3xl"} `}>{ampm}</p>
+                    <p 
+                        className={`${textColors50[textColor] || "text-white/60"} font-gothic leading-none     ${timeDisplay ? "-ml-7 sm:-ml-0 md:-ml-3 lg:-ml-0" : "-ml-10 sm:-ml-30 md:-ml-15  "}  ${showSeconds ? "text-md sm:text-3xl" :"text-lg sm:text-3xl"} `}
+                        style={{ color: textColor?.startsWith('#') ? textColor : undefined, opacity: textColor?.startsWith('#') ? 0.6 : undefined }}
+                    >
+                        {ampm}
+                    </p>
                 </div>
             )}
         </div>

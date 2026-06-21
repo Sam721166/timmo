@@ -157,7 +157,10 @@ const setElapsedTime = (value) =>
 
 
   return (
-    <div className={`bg-neutral-900 p-4 sm:p-5 w-screen h-screen   flex flex-col justify-center items-center overflow-y-auto ${textColors[textColor] || "text-white"}`}>
+    <div 
+      className={`bg-neutral-900 p-4 sm:p-5 w-screen h-screen   flex flex-col justify-center items-center overflow-y-auto ${textColors[textColor] || "text-white"}`}
+      style={{ color: textColor?.startsWith('#') ? textColor : undefined }}
+    >
         
         <p className="text-[55px] sm:text-6xl md:text-8xl lg:text-9xl xl:text-[200px] font-gothic font-bold text-center tabular-nums">
             {hours}:{minutes}:{seconds}

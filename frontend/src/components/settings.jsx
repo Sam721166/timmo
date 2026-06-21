@@ -335,6 +335,27 @@ function Settings() {
 
                   <div onClick={() => handleTextCOlor("lime")} className={` rounded-full size-9 cursor-pointer transition-all duration-200  bg-lime-300 ${textColor === "lime" ? " ring-2 ring-lime-300 ring-offset-2 ring-offset-neutral-900" : ""}` }/>
                   
+                  {/* Custom color picker */}
+                  <div className="relative size-9">
+                    <input 
+                      type="color" 
+                      value={textColor?.startsWith('#') ? textColor : "#ffffff"} 
+                      onChange={(e) => handleTextCOlor(e.target.value)} 
+                      className="absolute inset-0 opacity-0 w-full h-full cursor-pointer rounded-full z-10"
+                    />
+                    <div 
+                      className={`rounded-full size-9 border-2 border-dashed border-white/40 flex items-center justify-center cursor-pointer transition-all duration-200`}
+                      style={{ 
+                        backgroundColor: textColor?.startsWith('#') ? textColor : "transparent",
+                        borderColor: textColor?.startsWith('#') ? textColor : "rgba(255,255,255,0.4)",
+                        boxShadow: textColor?.startsWith('#') ? `0 0 0 2px #171717, 0 0 0 4px ${textColor}` : undefined
+                      }}
+                    >
+                      {!textColor?.startsWith('#') && (
+                        <span className="text-[20px] font-medium leading-none text-white/60">+</span>
+                      )}
+                    </div>
+                  </div>
 
                 </div>
 
