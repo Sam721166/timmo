@@ -106,7 +106,7 @@ const [stopwatchState, setStopwatchState] = useState({
 });
 
 // Countdown state
-const [countdownState, setCountdownState] = useState({
+const defaultCountdownState = {
   hours: 0,
   minutes: 25,
   seconds: 0,
@@ -117,7 +117,21 @@ const [countdownState, setCountdownState] = useState({
   endTime: null,
   isSaved: false,
   showConfetti: false,
+};
+
+const [countdownState, setCountdownState] = useState(() => {
+  const saved = localStorage.getItem("countdownState");
+
+  return saved
+    ? JSON.parse(saved)
+    : defaultCountdownState;
 });
+useEffect(() => {
+  localStorage.setItem(
+    "countdownState",
+    JSON.stringify(countdownState)
+  );
+}, [countdownState]);
 const [, forceUpdate] = useState(0);
 
 // Play sound after countdown completed 

@@ -73,15 +73,15 @@ const updateCountdown = (field, value) => {
 const completionHandledRef = useRef(false);
 
   const saveCountdown = async () => {
-    const currentRemaining =
-  endTime && isRunning
+   const remaining =
+  isRunning && endTime
     ? Math.max(
         0,
         Math.floor((endTime - Date.now()) / 1000)
       )
     : time;
 
-const timeUsed = initialTime - currentRemaining;
+const timeUsed = initialTime - remaining;
 
     if (timeUsed <= 0) {
       toast.error("Run timer for at least 1 second");
@@ -156,7 +156,7 @@ const timeUsed = initialTime - currentRemaining;
   updateCountdown("isRunning", true);
 };
 
-  const pause = () => {
+const pause = () => {
   const remaining = Math.max(
     0,
     Math.floor((endTime - Date.now()) / 1000)
@@ -164,6 +164,7 @@ const timeUsed = initialTime - currentRemaining;
 
   updateCountdown("time", remaining);
   updateCountdown("isRunning", false);
+  updateCountdown("endTime", null); // add this
 };
 
 
