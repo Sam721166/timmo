@@ -962,7 +962,7 @@ function Landing() {
 
             <div className="flex items-center gap-2">
               <Link
-                to={isLoggedIn ? "/clock" : "/login"}
+                to={isLoggedIn ? "/analytics" : "/login"}
                 id="nav-login-btn"
                 className="hidden rounded-full border border-neutral-200 bg-white px-5 py-2 font-sans text-xs font-bold text-neutral-800 transition hover:-translate-y-0.5 hover:bg-neutral-50 hover:border-neutral-300 sm:block"
               >
@@ -1021,7 +1021,7 @@ function Landing() {
             {/* Actions */}
             <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:flex-row z-10 px-4">
               <Link
-                to={isLoggedIn ? "/clock" : "/login"}
+                to={isLoggedIn ? "/analytics" : "/login"}
                 id="hero-start-free"
                 className="group flex h-12 w-full max-w-64 items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 font-sans text-sm font-semibold text-white shadow-lg shadow-neutral-950/10 hover:shadow-xl hover:shadow-neutral-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-neutral-800 sm:w-auto"
               >
