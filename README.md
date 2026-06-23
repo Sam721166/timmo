@@ -134,3 +134,6 @@ Open `http://localhost:5173` in your browser.
   ]
 }
 ```
+
+<img width="1470" height="956" alt="Screenshot 2026-06-23 at 9 13 45 PM" src="https://github.com/user-attachments/assets/e5757e1f-158f-4dd9-afbb-a3efcdfa99e9" />
+<img width="1470" height="956" alt="Screenshot 2026-06-23 at 9 14 00 PM" src="https://github.com/user-attachments/assets/f755dbb3-b190-4a82-8d37-0497e279a8e5" />
