@@ -88,16 +88,18 @@ const setElapsedTime = (value) =>
     );
     return;
   }
-        setIsRunning(true);
-        setStartTime(Date.now());
-
         if (elapsedTime === 0) {
             try {
                 await axios.post("/api/stopwatch/start", {}, { withCredentials: true });
             } catch (err) {
                 console.error("Failed to start stopwatch session on backend: ", err);
+                toast.error("Could not start the stopwatch. Please try again.");
+                return;
             }
         }
+
+        setIsRunning(true);
+        setStartTime(Date.now());
     };
 
     const pauseHandler = () => {

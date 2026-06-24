@@ -33,6 +33,6 @@ export const timerSaveLimiter = rateLimit({
     standardHeaders: "draft-8",
     legacyHeaders: false,
     keyGenerator: userOrIpKey,
-    skip: (req) => req.method !== "POST" || req.path !== "/save",
+    skip: (req) => req.method !== "POST" || !["/start", "/save"].includes(req.path),
     message: jsonRateLimitMessage("Too many timer saves. Please try again later.")
 });

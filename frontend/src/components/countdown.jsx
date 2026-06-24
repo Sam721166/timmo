@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useEffect,useRef } from "react";
 import { RiResetLeftLine } from "react-icons/ri";
 import { FaPause } from "react-icons/fa6";
 import { FaPlay } from "react-icons/fa";
@@ -95,7 +95,7 @@ const timeUsed = initialTime - currentRemaining;
 
       toast.success(res?.data?.msg);
 
-    } catch (err) {
+    } catch {
       
       toast.error("Error saving countdown");
     }
@@ -145,6 +145,8 @@ const timeUsed = initialTime - currentRemaining;
       await axios.post("/api/countdown/start", {}, { withCredentials: true });
   } catch (err) {
       console.error("Failed to start countdown session on backend: ", err);
+      toast.error("Could not start the countdown. Please try again.");
+      return;
   }
 }
  updateCountdown(
