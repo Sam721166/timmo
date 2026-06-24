@@ -9,4 +9,4 @@ Disallow: /settings
 Disallow: /leaderboard
 Disallow: /profile
 
-Sitemap: https://timmo.co.in/sitemap.xml
+Sitemap: https://www.timmo.co.in/sitemap.xml
