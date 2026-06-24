@@ -45,6 +45,9 @@ function Login() {
 
     return (
         <div className="h-screen w-screen overflow-hidden bg-black text-white font-sans selection:bg-white selection:text-black relative animate-fade-in">
+            <title>Login | Timmo — Access Your Focus Dashboard</title>
+            <meta name="author" content="Samiran De" />
+            <meta name="description" content="Sign in to your Timmo account to track your focus sessions, view your activity heatmaps, check global leaderboards, and resume your workspaces." />
             <div className="grid grid-cols-1 lg:grid-cols-12 h-full w-full">
                 
                 {/* Showcase Side (Left - Desktop Only) */}

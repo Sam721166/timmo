@@ -936,6 +936,9 @@ function Landing() {
         scrollbarColor: "#171717 transparent",
       }}
     >
+      <title>Timmo — Beautiful Focus Timer, Heatmaps & Leaderboards</title>
+      <meta name="author" content="Samiran De" />
+      <meta name="description" content="Timmo is a minimalist, premium focus application featuring workspaces, countdowns, activity heatmaps, global leaderboards, and customizable aesthetics." />
       <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
 
         {/* Navigation Bar */}
