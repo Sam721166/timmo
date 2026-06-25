@@ -15,6 +15,7 @@ import {
     loginSchema,
     signupSchema
 } from "../utils/validationSchemas.js"
+import { isBlockedEmail } from "../utils/blockedEmails.js"
 
 const cookieOptions = {
     httpOnly: true,
@@ -47,6 +48,13 @@ userRouter.post("/google-login", async (req, res) => {
             return res.status(400).json({
                 success: false,
                 msg: "Failed to retrieve email from Google"
+            });
+        }
+
+        if (isBlockedEmail(email)) {
+            return res.status(403).json({
+                success: false,
+                msg: "Access denied. This email is blocked."
             });
         }
 
@@ -171,6 +179,13 @@ userRouter.get("/me", async (req, res) => {
             return res.status(404).json({
                 success: false,
                 msg: "User not found"
+            });
+        }
+
+        if (isBlockedEmail(user.email)) {
+            return res.status(403).json({
+                success: false,
+                msg: "Access denied. This email is blocked."
             });
         }
 
