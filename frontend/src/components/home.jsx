@@ -219,6 +219,21 @@ useEffect(() => {
   countdownState.isSaved,
   countdownState.initialTime
 ]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (stopwatchState.isRunning || countdownState.isRunning) {
+        e.preventDefault();
+        e.returnValue = "Changes will not be saved";
+        return "Changes will not be saved";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [stopwatchState.isRunning, countdownState.isRunning]);
   return (
 
     <div className='flex h-screen w-screen overflow-hidden bg-neutral-900'>
