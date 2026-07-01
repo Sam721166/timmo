@@ -17,11 +17,12 @@ stopwatchRouter.post("/start", async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        await sessionModel.findOneAndUpdate(
-            { userId: req.user.id },
-            { timerType: "stopwatch", startTime: new Date() },
-            { upsert: true, returnDocument: "after" }
-        );
+        await sessionModel.findOneAndDelete({ userId: req.user.id });
+        await sessionModel.create({
+            userId: req.user.id,
+            timerType: "stopwatch",
+            startTime: new Date()
+        });
         res.status(200).json({ success: true, message: "Stopwatch session started" });
     } catch (err) {
         console.error("Error starting stopwatch session:", err);
