@@ -66,7 +66,7 @@ function Sidecard({ me, avatarColor, loading }) {
                     backgroundColor: getAvatarColor(me?.name)
                   }}
                 >
-                  <p>{me?.name[0]?.toUpperCase()}</p>
+                  <p>{me?.name ? me.name[0].toUpperCase() : "?"}</p>
                 </div>
               )}
             </div>
