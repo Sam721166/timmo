@@ -139,12 +139,19 @@ userRouter.post("/logout", async (req, res) => {
 // public product stats for landing page
 userRouter.get("/public-stats", async (req, res) => {
     try {
-        const totalUsers = await userModel.countDocuments()
+        const [totalUsers, totalStopwatch, totalCountdown] = await Promise.all([
+            userModel.countDocuments(),
+            stopwatchModel.countDocuments(),
+            countdownModel.countDocuments()
+        ]);
+
+        const totalSessions = totalStopwatch + totalCountdown;
 
         return res.status(200).json({
             success: true,
             stats: {
-                totalUsers
+                totalUsers,
+                totalSessions
             }
         })
     } catch (err) {
