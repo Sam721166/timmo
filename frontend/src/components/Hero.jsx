@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "./Navbar";
 import { Button } from "./ui/button";
@@ -472,6 +473,22 @@ function DashboardPreview() {
 }
 
 const Hero = () => {
+  const [totalUsers, setTotalUsers] = useState(350);
+
+  useEffect(() => {
+    const fetchPublicStats = async () => {
+      try {
+        const res = await axios.get("/api/user/public-stats");
+        if (res.data?.success && res.data?.stats) {
+          setTotalUsers(res.data.stats.totalUsers);
+        }
+      } catch (err) {
+        console.log("error fetching landing stats:", err);
+      }
+    };
+    fetchPublicStats();
+  }, []);
+
   const [selectedTime, setSelectedTime] = useState({
     hours: "0",
     minutes: "0",
@@ -626,7 +643,7 @@ const Hero = () => {
           {[
             {
               videoSrc: "/video1.webm",
-              stat: "350+ ",
+              stat: `${totalUsers.toLocaleString()}+ `,
               description: "Register User",
             },
             {

@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./button";
+import axios from "axios";
 
 export function CTA11() {
   const isLoggedIn = !!localStorage.getItem("token");
+  const [stats, setStats] = useState({ totalUsers: 1240, totalSessions: 12500 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("/api/user/public-stats");
+        if (res.data?.success && res.data?.stats) {
+          setStats(res.data.stats);
+        }
+      } catch (err) {
+        console.error("Failed to fetch public stats:", err);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <section className="bg-neutral-50 py-16 md:py-24 border-t border-neutral-200/50">
@@ -20,7 +36,7 @@ export function CTA11() {
             ))}
           </div>
           <p className="text-xs sm:text-sm font-semibold tracking-wide italic text-neutral-500">
-            Loved by 1,240+ builders worldwide
+            Loved by {stats.totalUsers.toLocaleString()}+ builders worldwide
           </p>
         </div>
 
@@ -38,13 +54,17 @@ export function CTA11() {
         {/* Number Ticker / Metrics */}
         <div className="my-2 flex flex-col sm:flex-row items-center gap-6 sm:gap-12 border-y border-neutral-200/60 py-4 w-full max-w-xl justify-center">
           <div className="text-center">
-            <p className="text-4xl  text-neutral-900 font-mono">350+</p>
+            <p className="text-4xl  text-neutral-900 font-mono">
+              {stats.totalUsers.toLocaleString()}+
+            </p>
             <p className="text-sm font-semibold  text-neutral-500 tracking-wider">
               Registered Users
             </p>
           </div>
           <div className="text-center">
-            <p className="text-4xl  text-neutral-900 font-mono">12,500+</p>
+            <p className="text-4xl  text-neutral-900 font-mono">
+              {stats.totalSessions.toLocaleString()}+
+            </p>
             <p className="text-sm font-semibold  text-neutral-500 tracking-wider">
               Sessions Logged
             </p>
