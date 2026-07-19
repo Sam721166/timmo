@@ -1,123 +1,151 @@
-# ⌛ Timmo — Beautiful Focus Timer, Heatmaps & Leaderboards
+# Timmo — Professional Focus Timer and Productivity Tracker
 
-Timmo is a minimalist, premium productivity and focus application designed to help users track their focus times, observe their work consistency, and compete on a global leaderboard. It features custom countdowns, stopwatches, a GitHub-style activity heatmap, and a fully customizable dark-mode aesthetic.
+<p align="center">
+  <a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/Frontend-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React 19" /></a>
+  <a href="https://vitejs.dev/" target="_blank"><img src="https://img.shields.io/badge/Build-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
+  <a href="https://expressjs.com/" target="_blank"><img src="https://img.shields.io/badge/Backend-Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" /></a>
+  <a href="https://www.mongodb.com/" target="_blank"><img src="https://img.shields.io/badge/Database-MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" /></a>
+  <a href="https://tailwindcss.com/" target="_blank"><img src="https://img.shields.io/badge/UI-Tailwind%20CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" /></a>
+</p>
 
----
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Inter&weight=600&size=26&duration=2600&pause=1000&color=8B5CF6&center=true&vCenter=true&width=900&lines=Track+focus+sessions+with+precision;Visualize+consistency+with+activity+heatmaps;Compete+globally+with+real-time+leaderboards" alt="Timmo animated headline" />
+</p>
 
-## 🚀 Key Features
+Timmo is a minimalist, premium productivity and focus application built to help users track focus sessions, measure consistency, and stay motivated through progress insights and global competition.
 
-* **Dual-Timer Mode**: Support for both manual **Stopwatch** tracking and structured **Countdown** sessions.
-* **Achievements & Badges**: Gamified achievements tracking user progress (e.g., *Touched the Timer*, *Locked In*, *Touch Grass Pls*, *Has No Life*, *Seek Professional Help*, etc.) featuring a modern aesthetic list of gamer-inspired solid-color badges (Zap, Target, Leaf, Crown, Trophy, ShieldAlert, HeartCrack, LifeBuoy, Ghost).
-* **Global Leaderboards**: A real-time leaderboard showing the top 100 focus builders of the day. Features personalized ranking cards and hover tooltips showing earned user badges. Optimized for responsive layouts with text truncation to prevent column overlapping.
-* **Visual Performance Analytics**: Custom dashboard charting your daily focus trends over the last 30 days.
-* **Activity Heatmaps**: A GitHub-style 365-day calendar visualizing your focus history.
-* **Premium Custom Settings**:
-  * Customizable theme accent colors (White, Gold, Coral, Blue, Mint, Purple, Peach, Lime) plus a **Custom Color Picker** allowing users to select any custom hex color for all three clock interfaces.
-  * Multiple sidebar opening options (Manual toggle, Hover, Mix).
-  * Time layout formats (12-hour AM/PM vs. 24-hour) and option to toggle seconds.
-* **Responsive Design**: Optimized layouts with flexible flex/grid wrapping for smooth mobile and desktop experiences.
-* **Detailed Profile Statistics**: Displays today's focus, current streak, best streak, total sessions, and all-time milestone records formatted dynamically with seconds precision.
+## Live Product Highlights
 
----
+- Dual tracking modes: stopwatch and countdown
+- Global daily leaderboard (top 100 users)
+- GitHub-style 365-day activity heatmap
+- Profile statistics with streaks, sessions, and milestones
+- Personalized themes and appearance controls
+- Responsive interface optimized for desktop and mobile
 
-## 🛠️ Technology Stack
+## Core Features
+
+### Focus Tracking
+- Stopwatch mode for open-ended focus blocks
+- Countdown mode for structured sessions
+- Precise tracking with second-level granularity
+
+### Analytics and Consistency
+- 30-day performance trends dashboard
+- Calendar heatmap to visualize long-term habits
+- Daily and all-time records surfaced in profile analytics
+
+### Competitive Motivation
+- Real-time leaderboard updates
+- Personalized rank cards
+- User badge visibility integrated into leaderboard interactions
+
+### Personalization
+- Multiple accent presets plus custom hex color picker
+- Flexible sidebar behavior (manual, hover, mixed)
+- Time format controls (12-hour / 24-hour) and seconds toggle
+
+## Tech Stack
 
 ### Frontend
-* **Core**: React 19 & Vite
-* **Styling**: Tailwind CSS (with `@tailwindcss/vite` plugin)
-* **Animations**: Framer Motion
-* **Charts**: Shad cn components (for analytics and heatmap calendar)
-* **API Client**: Axios
+- React 19
+- Vite
+- Tailwind CSS (`@tailwindcss/vite`)
+- Framer Motion
+- Axios
+- shadcn/ui components
 
 ### Backend
-* **Runtime**: Node.js & Express.js
-* **Validation**: Zod (for request validation schemas)
-* **Authentication**: JSON Web Tokens (stored in HTTP-only cookies) & BCrypt (password hashing)
-* **Rate Limiting**: Express Rate Limiter (to prevent brute force attacks)
+- Node.js
+- Express.js
+- Zod validation
+- JWT authentication (HTTP-only cookies)
+- bcrypt password hashing
+- Express rate limiting
 
 ### Database
-* **Database**: MongoDB (managed via Mongoose ODM with database indexing for optimal performance)
+- MongoDB
+- Mongoose ODM with indexing support
 
----
+## Project Structure
 
-## 📂 Project Structure
+```text
+backend/
+  db/                 Database connection setup
+  middlewares/        Authentication and rate limiting
+  model/              Mongoose data models
+  routes/             REST API route handlers
+  utils/              Utility helpers (dates, validation, etc.)
+  app.js              Backend entry point
 
+frontend/
+  public/             Static assets
+  src/
+    components/       Reusable and feature components
+    App.jsx           Main application shell
+    main.jsx          React root bootstrap
+  vercel.json         Vercel rewrites and routing
+  vite.config.js      Vite configuration
 ```
-├── backend/                  # Express REST API
-│   ├── db/                   # Database connection helper
-│   ├── middlewares/          # Auth guards and rate limiters
-│   ├── model/                # Mongoose Database schemas
-│   ├── routes/               # API route controllers
-│   ├── utils/                # Helper utilities (dates, validation)
-│   └── app.js                # Server entry point
-│
-├── frontend/                 # React client
-│   ├── public/               # Static assets (favicons, og-image)
-│   ├── src/
-│   │   ├── components/       # Custom React views and components
-│   │   ├── App.jsx           # Main App shell and global event listeners
-│   │   └── main.jsx          # App root entry point
-│   ├── vercel.json           # Vercel SPA routing & API rewrites configuration
-│   └── vite.config.js        # Vite build and development configuration
-```
 
----
+## Local Development
 
-## 💻 Local Development Setup
-
-### 1. Clone the repository
+### 1) Clone Repository
 ```bash
-git clone https://github.com/Sam721166/timmo.git
+git clone https://github.com/G1r1shCodes/timmo.git
 cd timmo
 ```
 
-### 2. Set up the Backend
-1. Navigate to the `backend` folder:
-   ```bash
-   cd backend
-   npm install
-   ```
-2. Create a `.env` file in the `backend` directory:
-   ```env
-   MONGO_URI="mongodb://localhost:27017/timmo"
-   JWT_SECRET="yourSecret123"
-   PORT=3000
-   ```
-3. Start the backend server in development mode:
-   ```bash
-   npm run dev
-   ```
+### 2) Backend Setup
+```bash
+cd backend
+npm install
+```
 
-### 3. Set up the Frontend
-1. Navigate to the `frontend` folder:
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-2. Create a `.env` file in the `frontend` directory:
-   ```env
-   BACKEND_URL="http://localhost:3000"
-   ```
-3. Start the Vite development server:
-   ```bash
-   npm run dev
-   ```
+Create `backend/.env`:
+```env
+MONGO_URI="mongodb://localhost:27017/timmo"
+JWT_SECRET="yourSecret123"
+PORT=3000
+```
 
-Open `http://localhost:5173` in your browser.
+Run backend:
+```bash
+npm run dev
+```
 
----
+### 3) Frontend Setup
+```bash
+cd ../frontend
+npm install
+```
 
-## 🌐 Production Deployment
+Create `frontend/.env`:
+```env
+BACKEND_URL="http://localhost:3000"
+```
 
-### Backend (Deployed on Render)
-1. Hosted on a persistent server (e.g., Render Web Service).
-2. Set up environment variables: `MONGO_URI` (pointing to a MongoDB Atlas cluster) and `JWT_SECRET`.
-3. Configure **CORS** in `backend/app.js` to allow requests originating from your frontend Vercel domain.
+Run frontend:
+```bash
+npm run dev
+```
 
-### Frontend (Deployed on Vercel)
-1. Hosted on Vercel with the **Root Directory** set to `frontend`.
-2. Vercel automatically detects the Vite preset and builds the application output into the `dist` directory.
-3. Uses a reverse proxy in `vercel.json` to route `/api/*` requests directly to the backend Render app, bypassing CORS restrictions:
+Open:
+```text
+http://localhost:5173
+```
+
+## Deployment
+
+### Backend (Render)
+- Deploy as a persistent web service
+- Configure `MONGO_URI` and `JWT_SECRET`
+- Set CORS allowlist to include frontend domain
+
+### Frontend (Vercel)
+- Set root directory to `frontend`
+- Vite builds to `dist`
+- Use rewrite rules to proxy `/api/*` to backend
 
 ```json
 {
@@ -135,5 +163,23 @@ Open `http://localhost:5173` in your browser.
 }
 ```
 
-<img width="1470" height="956" alt="Screenshot 2026-06-23 at 9 13 45 PM" src="https://github.com/user-attachments/assets/e5757e1f-158f-4dd9-afbb-a3efcdfa99e9" />
-<img width="1470" height="956" alt="Screenshot 2026-06-23 at 9 14 00 PM" src="https://github.com/user-attachments/assets/f755dbb3-b190-4a82-8d37-0497e279a8e5" />
+## Product Screenshots
+
+<p align="center">
+  <img width="1470" height="956" alt="Timmo Dashboard" src="https://github.com/user-attachments/assets/e5757e1f-158f-4dd9-afbb-a3efcdfa99e9" />
+</p>
+
+<p align="center">
+  <img width="1470" height="956" alt="Timmo Leaderboard" src="https://github.com/user-attachments/assets/f755dbb3-b190-4a82-8d37-0497e279a8e5" />
+</p>
+
+## Roadmap Ideas
+
+- Team workspaces and shared focus rooms
+- Weekly goals and accountability reports
+- Rich profile sharing and public stat cards
+- Session notes and deep-work tagging
+
+## License
+
+No license file is currently declared in this repository. Add a license to define reuse terms.
