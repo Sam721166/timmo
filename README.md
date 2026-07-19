@@ -1,4 +1,11 @@
-# Timmo — Professional Focus Timer and Productivity Tracker
+# Timmo — Focus Timer, Consistency Analytics, and Global Leaderboard
+
+<p align="center">
+  <a href="https://timmo-gamma.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/Live%20Demo-Open%20App-7C3AED?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo" /></a>
+  <a href="https://github.com/G1r1shCodes/timmo" target="_blank"><img src="https://img.shields.io/github/stars/G1r1shCodes/timmo?style=for-the-badge&color=fbbf24" alt="GitHub stars" /></a>
+  <a href="https://github.com/G1r1shCodes/timmo/forks" target="_blank"><img src="https://img.shields.io/github/forks/G1r1shCodes/timmo?style=for-the-badge&color=60a5fa" alt="GitHub forks" /></a>
+  <a href="https://github.com/G1r1shCodes/timmo" target="_blank"><img src="https://komarev.com/ghpvc/?username=G1r1shCodes&repo=timmo&style=for-the-badge&color=10b981" alt="Visitor counter" /></a>
+</p>
 
 <p align="center">
   <a href="https://react.dev/" target="_blank"><img src="https://img.shields.io/badge/Frontend-React%2019-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React 19" /></a>
@@ -13,6 +20,10 @@
 </p>
 
 Timmo is a minimalist, premium productivity and focus application built to help users track focus sessions, measure consistency, and stay motivated through progress insights and global competition.
+
+## Live Demo
+
+**Launch Timmo:** https://timmo-gamma.vercel.app/
 
 ## Live Product Highlights
 
