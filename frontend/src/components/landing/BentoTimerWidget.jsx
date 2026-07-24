@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import NumberFlow from '@number-flow/react'
 import { Clock, Pause, Play, RotateCcw } from "lucide-react";
 
 const MotionCircle = motion.circle;
@@ -33,12 +34,8 @@ export default function BentoTimerWidget() {
     setTimeLeft(165);
   };
 
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    if (!showSeconds) return `${m}m`;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
+  const timerMinutes = Math.floor(timeLeft / 60);
+  const timerSeconds = timeLeft % 60;
 
   const progress = (timeLeft / 165) * 100;
   const radius = 40;
@@ -120,7 +117,11 @@ export default function BentoTimerWidget() {
             />
           </svg>
           <div className="absolute font-sans text-xl sm:text-2xl font-black tracking-tight text-neutral-950">
-            {formatTime(timeLeft)}
+            {showSeconds ? (
+              <><NumberFlow value={timerMinutes} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={timerSeconds} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} /></>
+            ) : (
+              <><NumberFlow value={timerMinutes} className="tabular-nums" willChange isolate style={{ display: "inline-block" }} />m</>
+            )}
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import NumberFlow from '@number-flow/react'
 
 import Navbar from "./Navbar";
 import { Button } from "./ui/button";
@@ -271,10 +272,11 @@ function PreviewClock() {
     const id = setInterval(update, 1000);
     return () => clearInterval(id);
   }, []);
+  const [pHours, pMinutes, pSeconds] = time.split(":").map(Number);
   return (
     <div className="flex h-[330px] flex-col items-center justify-center sm:h-auto sm:min-h-[640px]">
       <div className="flex items-baseline gap-1.5 sm:gap-4">
-        <p className="font-gothic text-[2.4rem] leading-none tabular-nums text-white sm:text-7xl md:text-9xl">{time}</p>
+        <p className="font-inter font-medium text-[2.4rem] leading-none tabular-nums text-white sm:text-7xl md:text-9xl"><NumberFlow value={pHours} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={pMinutes} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={pSeconds} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} /></p>
         <p className="font-gothic text-sm tracking-wider text-white/50 sm:text-2xl md:text-3xl">{ampm}</p>
       </div>
       <p className="mt-3 font-poppins text-[10px] tracking-[0.15em] text-neutral-500 sm:mt-4 sm:text-xs">LIVE PREVIEW</p>
@@ -296,13 +298,13 @@ function PreviewStopwatch() {
   }, [running]);
 
   const totalSec = Math.floor(elapsed / 1000);
-  const h = String(Math.floor(totalSec / 3600)).padStart(2, "0");
-  const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
-  const s = String(totalSec % 60).padStart(2, "0");
+  const hNum = Math.floor(totalSec / 3600);
+  const mNum = Math.floor((totalSec % 3600) / 60);
+  const sNum = totalSec % 60;
 
   return (
     <div className="flex h-[330px] flex-col items-center justify-center gap-4 sm:h-auto sm:min-h-[640px] sm:gap-6">
-      <p className="font-gothic text-[2.2rem] leading-none tabular-nums text-white sm:text-6xl md:text-8xl">{h}:{m}:{s}</p>
+      <p className="font-inter font-medium text-[2.2rem] leading-none tabular-nums text-white sm:text-6xl md:text-8xl"><NumberFlow value={hNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={mNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={sNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} /></p>
       <div className="flex gap-3 sm:gap-4">
         {running ? (
           <button onClick={() => { setRunning(false); startRef.current = null; }} className="flex cursor-pointer items-center gap-2 rounded-md bg-neutral-800 px-4 py-2 font-poppins text-xs text-white border-2 border-neutral-700/60 hover:bg-neutral-700/60 transition-all active:scale-98 sm:px-6 sm:py-3 sm:text-sm">
@@ -339,13 +341,13 @@ function PreviewCountdown() {
   }, [running]);
 
   const display = running ? remaining : total;
-  const hh = String(Math.floor(display / 3600)).padStart(2, "0");
-  const mm = String(Math.floor((display % 3600) / 60)).padStart(2, "0");
-  const ss = String(display % 60).padStart(2, "0");
+  const hhNum = Math.floor(display / 3600);
+  const mmNum = Math.floor((display % 3600) / 60);
+  const ssNum = display % 60;
 
   return (
     <div className="flex h-[330px] flex-col items-center justify-center gap-3 sm:h-auto sm:min-h-[640px] sm:gap-4">
-      <p className="font-gothic text-[2.2rem] leading-none tabular-nums text-white sm:text-6xl md:text-8xl">{hh}:{mm}:{ss}</p>
+      <p className="font-inter font-medium text-[2.2rem] leading-none tabular-nums text-white sm:text-6xl md:text-8xl"><NumberFlow value={hhNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={mmNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={ssNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} /></p>
       {!running && (
         <div className="flex gap-2">
           {["h", "m", "s"].map((unit) => (
@@ -643,17 +645,20 @@ const Hero = () => {
           {[
             {
               videoSrc: "/video1.webm",
-              stat: `${totalUsers.toLocaleString()}+ `,
+              value: totalUsers,
+              suffix: "+",
               description: "Register User",
             },
             {
               videoSrc: "/video2.webm",
-              stat: "6",
+              value: 6,
+              suffix: "",
               description: "focus tools included",
             },
             {
               videoSrc: "/video3.webm",
-              stat: "365",
+              value: 365,
+              suffix: "",
               description: "days of activity heatmap",
             },
           ].map((card, index) => (
@@ -674,7 +679,7 @@ const Hero = () => {
               </div>
 
               <div className="px-4 py-3">
-                <h2 className="text-xl font-semibold">{card.stat}</h2>
+                <h2 className="text-xl font-semibold"><NumberFlow value={card.value} className="tabular-nums" willChange isolate style={{ display: "inline-block" }} />{card.suffix}</h2>
                 <p
                   className={`whitespace-nowrap text-base font-medium text-neutral-500`}
                 >
@@ -818,9 +823,8 @@ const Hero = () => {
                       </Button>
                     </div>
                     <p className="text-sm font-medium text-slate-700">
-                      {isRunning
-                        ? `Counting down: ${formatTime(remainingSeconds)}`
-                        : `Ready: ${formatTime(remainingSeconds)}`}
+                      {isRunning ? "Counting down: " : "Ready: "}
+                      <NumberFlow value={Math.floor(remainingSeconds / 3600)} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={Math.floor((remainingSeconds % 3600) / 60)} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={remainingSeconds % 60} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />
                     </p>
                   </div>
                 </div>

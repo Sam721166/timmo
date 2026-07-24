@@ -5,6 +5,7 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useOutletContext } from "react-router";
+import NumberFlow from '@number-flow/react'
 
 import confetti from "canvas-confetti";
 
@@ -203,17 +204,9 @@ const timeUsed = initialTime - currentRemaining;
     }
   }, [countdownState.showConfetti, initialTime]);
 
-const displayHours = String(
-  Math.floor(remaining / 3600)
-).padStart(2, "0");
-
-const displayMinutes = String(
-  Math.floor((remaining % 3600) / 60)
-).padStart(2, "0");
-
-const displaySeconds = String(
-  remaining % 60
-).padStart(2, "0");
+const displayHours = Math.floor(remaining / 3600);
+const displayMinutes = Math.floor((remaining % 3600) / 60);
+const displaySeconds = remaining % 60;
 
 
     //const { textColor, setTextColor } = useOutletContext();
@@ -239,7 +232,7 @@ const displaySeconds = String(
 
       {/* Timer Display */}
       <p className="text-[55px] sm:text-6xl md:text-8xl lg:text-9xl xl:text-[200px] font-gothic font-bold text-center tabular-nums">
-        {displayHours}:{displayMinutes}:{displaySeconds}
+        <NumberFlow value={displayHours} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={displayMinutes} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={displaySeconds} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />
       </p>
 
 

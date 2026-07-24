@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import NumberFlow from '@number-flow/react'
 import {
   Award,
   BarChart2,
@@ -47,11 +48,8 @@ export default function AppShowcase() {
     setTimerVal(1500);
   };
 
-  const formatShowcaseTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
-  };
+  const showcaseMinutes = Math.floor(timerVal / 60);
+  const showcaseSeconds = timerVal % 60;
 
   const tagColor = {
     Coding: {
@@ -223,7 +221,7 @@ export default function AppShowcase() {
                     </svg>
                     <div className="absolute flex flex-col items-center justify-center">
                       <span className="text-3xl sm:text-4xl font-black tracking-tight text-neutral-900">
-                        {formatShowcaseTime(timerVal)}
+                        <NumberFlow value={showcaseMinutes} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={showcaseSeconds} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />
                       </span>
                       <span className="text-[9px] sm:text-[10px] uppercase font-black tracking-widest mt-1 text-neutral-400">
                         {focusTag}
