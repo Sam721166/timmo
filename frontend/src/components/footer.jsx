@@ -68,7 +68,7 @@ export function Footer() {
         <p className="inline-flex items-center gap-1">
           <span>Built with ❤️ by</span>
           <a
-            aria-label="x/twitter"
+            aria-label="Github Profile"
             className="inline-flex items-center gap-1 text-foreground/80 hover:text-foreground hover:underline font-semibold"
             href={"https://github.com/Sam721166"}
             rel="noreferrer"
