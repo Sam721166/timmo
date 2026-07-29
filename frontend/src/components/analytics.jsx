@@ -49,6 +49,7 @@ function Analytics() {
   const [chartData, setChartData] = useState([]);
   const [heatmapData, setHeatmapData] = useState([]);
   const [streak, setStreak] = useState(0)
+  const [bestDay, setBestDay] = useState(null)
 
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
@@ -77,6 +78,16 @@ function Analytics() {
           stopRes.data.chartData,
           countRes.data.chartData
         )
+        const best = combinedChart.reduce(
+          (max, entry) => (entry.time > (max?.time ?? 0) ? entry : max),
+          null
+        )
+        if (best) {
+          setBestDay({
+            date: formatChartDate(best.date),
+            time: best.time,
+          })
+        }
 
         const combinedHeatmap = combineDailyData(
           stopRes.data.heatmapData || stopRes.data.chartData,
@@ -152,9 +163,9 @@ function Analytics() {
           </div>
         </div>
 
-        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4'>
+        <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5'>
 
-          {loading ? Array.from({ length: 4 }).map((_, i) => (
+          {loading ? Array.from({ length: 5 }).map((_, i) => (
             <div
               key={i}
               className="h-35 rounded-md bg-neutral-800 animate-pulse"
@@ -181,6 +192,11 @@ function Analytics() {
                 title: "Current streak",
                 time: `${streak} days`
               }} />
+              
+              <Box boxData={{
+                title: "Best day",
+                time: bestDay ? `${formatTime(bestDay.time)} — ${bestDay.date}` : "No data yet"
+                }} />
 
               <Box boxData={{
                 title: "Average time",
