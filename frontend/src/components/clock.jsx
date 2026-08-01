@@ -12,10 +12,10 @@ function Clock() {
     const [ampm, setAmpm] = useState("");
 
     const { timeFormat } = useOutletContext();
-    const { timeDisplay,setTimeDisplay } = useOutletContext();
+    const { timeDisplay } = useOutletContext();
 
-    const { textColor, setTextColor } = useOutletContext();
-    const { showSeconds , setShowSeconds } = useOutletContext();
+    const { textColor } = useOutletContext();
+    const { showSeconds } = useOutletContext();
 
     const textColors = {
         white: "text-neutral-100",
@@ -67,10 +67,10 @@ function Clock() {
     return () => clearInterval(interval);
   }, [timeFormat, showSeconds]);
 
-    const [hoursStr, minutesStr, secondsStr] = time.split(":");
-    const hours = parseInt(hoursStr, 10);
-    const minutes = parseInt(minutesStr, 10);
-    const seconds = secondsStr ? parseInt(secondsStr, 10) : 0;
+    const [hoursStr, minutesStr, secondsStr] = time ? time.split(":") : ["0", "0", "0"];
+    const hours = parseInt(hoursStr, 10) || 0;
+    const minutes = parseInt(minutesStr, 10) || 0;
+    const seconds = parseInt(secondsStr, 10) || 0;
 
 
 

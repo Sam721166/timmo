@@ -272,7 +272,7 @@ function PreviewClock() {
     const id = setInterval(update, 1000);
     return () => clearInterval(id);
   }, []);
-  const [pHours, pMinutes, pSeconds] = time.split(":").map(Number);
+  const [pHours, pMinutes, pSeconds] = time ? time.split(":").map(Number) : [0, 0, 0];
   return (
     <div className="flex h-[330px] flex-col items-center justify-center sm:h-auto sm:min-h-[640px]">
       <div className="flex items-baseline gap-1.5 sm:gap-4">
@@ -568,14 +568,6 @@ const Hero = () => {
       setRemainingSeconds(totalSeconds);
     }
   }, [isRunning, totalSeconds]);
-
-  const formatTime = (seconds) => {
-    const safeSeconds = Math.max(0, seconds);
-    const hrs = String(Math.floor(safeSeconds / 3600)).padStart(2, "0");
-    const mins = String(Math.floor((safeSeconds % 3600) / 60)).padStart(2, "0");
-    const secs = String(safeSeconds % 60).padStart(2, "0");
-    return `${hrs}:${mins}:${secs}`;
-  };
 
   const handleStart = () => {
     if (totalSeconds <= 0) return;

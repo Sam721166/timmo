@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 import Clock from './components/clock'
 import Sidebar from './components/sidebar'
