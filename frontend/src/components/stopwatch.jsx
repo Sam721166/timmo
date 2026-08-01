@@ -6,6 +6,7 @@ import { FaPlay } from "react-icons/fa";
 import axios from "axios"
 import toast from 'react-hot-toast';
 import { useOutletContext } from 'react-router';
+import NumberFlow from '@number-flow/react'
 
 function Stopwatch() {
 
@@ -75,9 +76,9 @@ const setElapsedTime = (value) =>
 
     const totalSeconds = Math.floor(displayTime / 1000);
 
-    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
-    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
-    const seconds = String(totalSeconds % 60).padStart(2, "0");
+    const hoursNum = Math.floor(totalSeconds / 3600);
+    const minutesNum = Math.floor((totalSeconds % 3600) / 60);
+    const secondsNum = totalSeconds % 60;
 
 
 
@@ -165,7 +166,7 @@ const setElapsedTime = (value) =>
     >
         
         <p className="text-[55px] sm:text-6xl md:text-8xl lg:text-9xl xl:text-[200px] font-gothic font-bold text-center tabular-nums">
-            {hours}:{minutes}:{seconds}
+            <NumberFlow value={hoursNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={minutesNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:<NumberFlow value={secondsNum} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 mt-8 sm:mt-10 justify-center flex-wrap px-2">

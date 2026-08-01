@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router';
 import { useOutletContext } from "react-router";
+import NumberFlow from '@number-flow/react'
 
 
 
@@ -11,10 +12,10 @@ function Clock() {
     const [ampm, setAmpm] = useState("");
 
     const { timeFormat } = useOutletContext();
-    const { timeDisplay,setTimeDisplay } = useOutletContext();
+    const { timeDisplay } = useOutletContext();
 
-    const { textColor, setTextColor } = useOutletContext();
-    const { showSeconds , setShowSeconds } = useOutletContext();
+    const { textColor } = useOutletContext();
+    const { showSeconds } = useOutletContext();
 
     const textColors = {
         white: "text-neutral-100",
@@ -66,7 +67,10 @@ function Clock() {
     return () => clearInterval(interval);
   }, [timeFormat, showSeconds]);
 
-    const [hours, minutes, seconds] = time.split(":");
+    const [hoursStr, minutesStr, secondsStr] = time ? time.split(":") : ["0", "0", "0"];
+    const hours = parseInt(hoursStr, 10) || 0;
+    const minutes = parseInt(minutesStr, 10) || 0;
+    const seconds = parseInt(secondsStr, 10) || 0;
 
 
 
@@ -91,14 +95,14 @@ function Clock() {
                 
                 <p className={` font-gothic leading-none  
                     ${showSeconds && timeDisplay ? " text-[37px] sm:text-[70px] md:text-[100px] lg:text-[150px] xl:text-[200px]" : " text-[57px] sm:text-[90px] md:text-[120px] lg:text-[200px] xl:text-[290px]"}
-                `}>{hours}:</p>
+                `}><NumberFlow value={hours} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />:</p>
                 <p className={` font-gothic leading-none 
                     ${showSeconds && timeDisplay ? " text-[37px] sm:text-[70px] md:text-[100px] lg:text-[150px] xl:text-[200px]" : " text-[57px] sm:text-[90px] md:text-[120px] lg:text-[200px] xl:text-[290px]"}
                 
-                `}>{minutes}</p>
+                `}><NumberFlow value={minutes} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} /></p>
                 {showSeconds && timeDisplay && (
                     <p className="font-gothic leading-none text-[37px] sm:text-[70px] md:text-[100px] lg:text-[150px] xl:text-[200px]">
-                    :{seconds}
+                    :<NumberFlow value={seconds} format={{ minimumIntegerDigits: 2 }} className="tabular-nums" willChange isolate style={{ display: "inline-block", width: "2ch", textAlign: "center" }} />
                     </p>
                 )}
 
