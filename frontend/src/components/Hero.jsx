@@ -695,14 +695,12 @@ const Hero = () => {
             {/* First Box */}
             <div className="bg-purple-100/60 border overflow-hidden grid border-purple-300/50 h-full rounded-4xl flex-col items-start justify-start">
               <div>
-                <video
-                  src="/firstbox.mp4"
+                <img
+                  src="/firstbox.webp"
+                  alt="14 days consistency streak"
                   className="h-4/5 w-full rounded-xl scale-110 object-cover -mt-7"
-                  preload="auto"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="px-8 py-5">
